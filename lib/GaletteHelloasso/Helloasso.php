@@ -332,15 +332,17 @@ class Helloasso
      */
     public function checkout(array $metadata, float $amount, ?bool $contains_donation = false): array|bool
     {
+        global $routeparser;
+
         try {
             $tokens = $this->getTokens();
             $data = [
                 'totalAmount' => (int)$amount,
                 'initialAmount' => (int)$amount,
                 'itemName' => $metadata['item_name'],
-                'backUrl' => $this->preferences->getURL() . '/plugins/helloasso/cancel',
-                'errorUrl' => $this->preferences->getURL() . '/plugins/helloasso/error',
-                'returnUrl' => $this->preferences->getURL() . '/plugins/helloasso/success',
+                'backUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_cancel'),
+                'errorUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_error'),
+                'returnUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_success'),
                 'containsDonation' => $contains_donation,
                 'payer' => [
                     'firstName' => array_key_exists('checkout_firstname', $metadata) ? $metadata['checkout_firstname'] : null,
