@@ -35,8 +35,6 @@ class Helloasso extends GaletteTestCase
 
     /**
      * Cleanup after each test method
-     *
-     * @return void
      */
     public function tearDown(): void
     {
@@ -47,8 +45,6 @@ class Helloasso extends GaletteTestCase
 
     /**
      * Test empty
-     *
-     * @return void
      */
     public function testEmpty(): void
     {
