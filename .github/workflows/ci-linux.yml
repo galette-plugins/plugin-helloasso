@@ -64,7 +64,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd galette-core/galette
+          cd galette-core
           composer install --ignore-platform-reqs
 
       - name: CS
@@ -91,7 +91,7 @@ jobs:
       - name: Headers checks
         run: |
           cd galette-core/galette/plugins/plugin-helloasso
-          ../../vendor/bin/docheader --docheader=.docheader check lib ./*.php
+          ../../vendor/bin/docheader --docheader=../../../.docheader check lib ./*.php
 
   unit-tests:
     runs-on: ubuntu-latest
