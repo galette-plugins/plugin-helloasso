@@ -89,7 +89,7 @@ class HelloassoHistory extends History
             $insert = $this->zdb->insert($this->getTableName());
             $insert->values($values);
             $this->zdb->execute($insert);
-            $this->id = (int) $this->zdb->driver->getLastGeneratedValue();
+            $this->id = (int)$this->zdb->driver->getLastGeneratedValue();
 
             Analog::log(
                 'An entry has been added in helloasso history',
@@ -109,9 +109,7 @@ class HelloassoHistory extends History
     /**
      * Get table's name
      *
-     * @param boolean $prefixed Whether table name should be prefixed
-     *
-     * @return string
+     * @param bool $prefixed Whether table name should be prefixed
      */
     protected function getTableName(bool $prefixed = false): string
     {
@@ -124,8 +122,6 @@ class HelloassoHistory extends History
 
     /**
      * Get table's PK
-     *
-     * @return string
      */
     protected function getPk(): string
     {
@@ -134,8 +130,6 @@ class HelloassoHistory extends History
 
     /**
      * Gets Helloasso history
-     *
-     * @return array
      */
     public function getHelloassoHistory(): array
     {
@@ -192,8 +186,6 @@ class HelloassoHistory extends History
      * Is payment already processed?
      *
      * @param array $request Verify sign helloasso parameter
-     *
-     * @return boolean
      */
     public function isProcessed(array $request): bool
     {
@@ -212,9 +204,7 @@ class HelloassoHistory extends History
     /**
      * Set payment state
      *
-     * @param integer $state State, one of self::STATE_ constants
-     *
-     * @return boolean
+     * @param int $state State, one of self::STATE_ constants
      */
     public function setState(int $state): bool
     {

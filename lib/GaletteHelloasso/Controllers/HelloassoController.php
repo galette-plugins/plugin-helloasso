@@ -54,13 +54,8 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Main form
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
-    public function form(Request $request, Response $response): Response
+    public function form(Response $response): Response
     {
         $helloasso = new Helloasso($this->zdb, $this->preferences);
 
@@ -100,18 +95,13 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Checkout form
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function formCheckout(Request $request, Response $response): Response
     {
         $helloasso_request = $request->getParsedBody();
         $helloasso = new Helloasso($this->zdb, $this->preferences);
         $adherent = new Adherent($this->zdb);
-        $contribution_type = new ContributionsTypes($this->zdb, (int) $helloasso_request['item_id']);
+        $contribution_type = new ContributionsTypes($this->zdb, (int)$helloasso_request['item_id']);
 
         $current_url = $this->preferences->getURL();
 
@@ -165,15 +155,10 @@ class HelloassoController extends AbstractPluginController
     /**
      * Logs page
      *
-     * @param Request         $request  PSR Request
-     * @param Response        $response PSR Response
-     * @param string|null     $option   Either order, reset or page
-     * @param string|int|null $value    Option value
-     *
-     * @return Response
+     * @param string|null     $option Either order, reset or page
+     * @param string|int|null $value  Option value
      */
     public function logs(
-        Request $request,
         Response $response,
         ?string $option = null,
         string|int|null $value = null
@@ -190,7 +175,7 @@ class HelloassoController extends AbstractPluginController
         if ($option !== null) {
             switch ($option) {
                 case 'page':
-                    $filters->current_page = (int) $value;
+                    $filters->current_page = (int)$value;
                     break;
                 case 'order':
                     $filters->orderby = $value;
@@ -229,11 +214,6 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Filter
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function filter(Request $request, Response $response): Response
     {
@@ -256,11 +236,6 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Preferences
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function preferences(Request $request, Response $response): Response
     {
@@ -294,11 +269,6 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Store Preferences
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function storePreferences(Request $request, Response $response): Response
     {
@@ -354,11 +324,6 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Webhook
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function webhook(Request $request, Response $response): Response
     {
@@ -487,13 +452,8 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Return URL
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
-    public function returnUrl(Request $request, Response $response): Response
+    public function returnUrl(Response $response): Response
     {
         $params = [
             'page_title'    => _T('Helloasso payment success', 'helloasso')
@@ -510,13 +470,8 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Cancel URL
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
-    public function cancelUrl(Request $request, Response $response): Response
+    public function cancelUrl(Response $response): Response
     {
         $this->flash->addMessage(
             'warning_detected',
@@ -529,11 +484,6 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Error URL
-     *
-     * @param Request  $request  PSR Request
-     * @param Response $response PSR Response
-     *
-     * @return Response
      */
     public function errorUrl(Request $request, Response $response): Response
     {

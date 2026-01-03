@@ -99,8 +99,6 @@ class Helloasso
 
     /**
      * Load preferences form the database and amounts from core contributions types
-     *
-     * @return void
      */
     public function load(): void
     {
@@ -157,8 +155,6 @@ class Helloasso
 
     /**
      * Load amounts from core contributions types
-     *
-     * @return void
      */
     private function loadContributionsTypes(): void
     {
@@ -180,8 +176,6 @@ class Helloasso
 
     /**
      * Store values in the database
-     *
-     * @return bool
      */
     public function store(): bool
     {
@@ -280,8 +274,6 @@ class Helloasso
 
     /**
      * Store tokens
-     *
-     * @return bool
      */
     private function storeTokens(): bool
     {
@@ -337,8 +329,6 @@ class Helloasso
      * @param array<string, mixed> $metadata          Array of metadata to transmit with payment
      * @param float                $amount            Amount of payment
      * @param ?bool                $contains_donation Does the checkout contain a donation?
-     *
-     * @return array|bool
      */
     public function checkout(array $metadata, float $amount, ?bool $contains_donation = false): array|bool
     {
@@ -391,8 +381,6 @@ class Helloasso
 
     /**
      * Setup Guzzle client
-     *
-     * @return Client
      */
     public function setupClient(): Client
     {
@@ -430,8 +418,6 @@ class Helloasso
 
     /**
      * Is access token expired ?
-     *
-     * @return bool
      */
     public function isAccessTokenExpired(): bool
     {
@@ -443,8 +429,6 @@ class Helloasso
 
     /**
      * Is refresh token expired ?
-     *
-     * @return bool
      */
     public function isRefreshTokenExpired(): bool
     {
@@ -456,8 +440,6 @@ class Helloasso
 
     /**
      * Get credentials
-     *
-     * @return bool
      */
     private function getCredentials(): bool
     {
@@ -470,8 +452,6 @@ class Helloasso
 
     /**
      * Refresh credentials
-     *
-     * @return bool
      */
     private function refreshCredentials(): bool
     {
@@ -486,8 +466,6 @@ class Helloasso
      * Get client credentials
      *
      * @param array $parameters Parameters required by API
-     *
-     * @return bool
      */
     private function getClientCredentials(array $parameters): bool
     {
@@ -523,8 +501,6 @@ class Helloasso
      * Get API route
      *
      * @param ?bool $auth Get authentification route if true
-     *
-     * @return string
      */
     public function getApiRoute(?bool $auth = null): string
     {
@@ -568,8 +544,6 @@ class Helloasso
 
     /**
      * Get test mode
-     *
-     * @return bool
      */
     public function getTestMode(): bool
     {
@@ -578,8 +552,6 @@ class Helloasso
 
     /**
      * Get Helloasso organization slug
-     *
-     * @return string
      */
     public function getOrganizationSlug(): ?string
     {
@@ -588,8 +560,6 @@ class Helloasso
 
     /**
      * Get Helloasso clientId
-     *
-     * @return string
      */
     public function getClientId(): ?string
     {
@@ -598,8 +568,6 @@ class Helloasso
 
     /**
      * Get Helloasso clientSecret
-     *
-     * @return string
      */
     public function getClientSecret(): ?string
     {
@@ -639,8 +607,6 @@ class Helloasso
 
     /**
      * Is the plugin loaded?
-     *
-     * @return boolean
      */
     public function isLoaded(): bool
     {
@@ -649,8 +615,6 @@ class Helloasso
 
     /**
      * Are amounts loaded?
-     *
-     * @return boolean
      */
     public function areAmountsLoaded(): bool
     {
@@ -661,8 +625,6 @@ class Helloasso
      * Set Test mode
      *
      * @param bool $enabled True to enable test mode
-     *
-     * @return void
      */
     public function setTestMode(bool $enabled): void
     {
@@ -673,8 +635,6 @@ class Helloasso
      * Set Helloasso organization slug
      *
      * @param string $organization_slug organization slug
-     *
-     * @return void
      */
     public function setOrganizationSlug(string $organization_slug): void
     {
@@ -685,8 +645,6 @@ class Helloasso
      * Set Helloasso clientId
      *
      * @param string $client_id clientId
-     *
-     * @return void
      */
     public function setClientId(string $client_id): void
     {
@@ -697,8 +655,6 @@ class Helloasso
      * Set Helloasso clientSecret
      *
      * @param string $client_secret clientSecret
-     *
-     * @return void
      */
     public function setClientSecret(string $client_secret): void
     {
@@ -710,8 +666,6 @@ class Helloasso
      *
      * @param array<int, string> $ids     array of identifier
      * @param array<int, string> $amounts array of amounts
-     *
-     * @return void
      */
     public function setPrices(array $ids, array $amounts): void
     {
@@ -725,8 +679,6 @@ class Helloasso
      * Check if the specified contribution is active
      *
      * @param int $id type identifier
-     *
-     * @return boolean
      */
     public function isInactive(int $id): bool
     {
@@ -737,8 +689,6 @@ class Helloasso
      * Set inactives types
      *
      * @param array<int, string> $inactives array of inactives types
-     *
-     * @return void
      */
     public function setInactives(array $inactives): void
     {
@@ -747,8 +697,6 @@ class Helloasso
 
     /**
      * Unset inactives types
-     *
-     * @return void
      */
     public function unsetInactives(): void
     {
