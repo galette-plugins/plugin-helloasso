@@ -13,3 +13,10 @@ em[data-emoji=":helloasso:"]::before,
 em[data-emoji="helloasso"]::before {
   background-image: url(./images/helloasso.svg);
 }
+
+.secured-payment {
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+  margin-top: 1em;
+}

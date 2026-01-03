@@ -64,13 +64,13 @@
                         {{ _T("Pay with HelloAsso", "helloasso") }}
                     </button>
                     <br/>
-                    <span class="ui small text">
+                    <span class="ui small text secured-payment">
                         <i class="lock icon"></i>
                         {{ _T("Secured payment", "helloasso") }}
-                        <img src="{{ url_for("plugin_res", {"plugin": "plugin-helloasso", "path": "images/logo-visa.svg"}) }}" alt="Logo Visa" />
-                        <img src="{{ url_for("plugin_res", {"plugin": "plugin-helloasso", "path": "images/logo-mastercard.svg"}) }}" alt="Logo Mastercard" />
-                        <img src="{{ url_for("plugin_res", {"plugin": "plugin-helloasso", "path": "images/logo-cb.svg"}) }}" alt="Logo CB" />
-                        <img src="{{ url_for("plugin_res", {"plugin": "plugin-helloasso", "path": "images/logo-pci.svg"}) }}" alt="Logo PCI" />
+                        <img src="{{ url_for("plugin_res", {"plugin": module_id, "path": "images/logo-visa.svg"}) }}" alt="Logo Visa" />
+                        <img src="{{ url_for("plugin_res", {"plugin": module_id, "path": "images/logo-mastercard.svg"}) }}" alt="Logo Mastercard" />
+                        <img src="{{ url_for("plugin_res", {"plugin": module_id, "path": "images/logo-cb.svg"}) }}" alt="Logo CB" />
+                        <img src="{{ url_for("plugin_res", {"plugin": module_id, "path": "images/logo-pci.svg"}) }}" alt="Logo PCI" />
                     </span>
                     {% include "components/forms/csrf.html.twig" %}
                 </div>

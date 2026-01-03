@@ -67,6 +67,7 @@ class HelloassoController extends AbstractPluginController
             'page_title'    => _T('HelloAsso payment', 'helloasso'),
             'message'       => null,
             'current_url'   => rtrim($current_url, '/'),
+            'module_id'     => $this->getModuleId()
         ];
 
         if (!$helloasso->isLoaded()) {
