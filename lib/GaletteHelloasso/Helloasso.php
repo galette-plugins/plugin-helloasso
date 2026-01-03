@@ -193,7 +193,7 @@ class Helloasso
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store Helloasso organization slug
             $values = [
@@ -208,7 +208,7 @@ class Helloasso
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store Helloasso clientId
             $values = [
@@ -223,7 +223,7 @@ class Helloasso
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store Helloasso clientSecret
             $values = [
@@ -238,7 +238,7 @@ class Helloasso
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             //store inactives
             $values = [
@@ -253,7 +253,7 @@ class Helloasso
                     ]
                 );
 
-            $edit = $this->zdb->execute($update);
+            $this->zdb->execute($update);
 
             Analog::log(
                 '[' . get_class($this)
