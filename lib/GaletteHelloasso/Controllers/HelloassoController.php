@@ -103,8 +103,6 @@ class HelloassoController extends AbstractPluginController
         $adherent = new Adherent($this->zdb);
         $contribution_type = new ContributionsTypes($this->zdb, (int)$helloasso_request['item_id']);
 
-        $current_url = $this->preferences->getURL();
-
         // Check the amount
         $item_id = $helloasso_request['item_id'];
         $helloasso_amounts = $helloasso->getAmounts($this->login);
