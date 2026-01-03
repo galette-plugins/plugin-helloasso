@@ -21,7 +21,7 @@
 
 namespace GaletteHelloasso\tests\units;
 
-use Galette\GaletteTestCase;
+use Galette\Tests\GaletteTestCase;
 
 /**
  * Helloasso tests
