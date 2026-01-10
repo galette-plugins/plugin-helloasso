@@ -4,8 +4,6 @@
 
 **Note** : HelloAsso s'adresse principalement aux associations et organisations à but non lucratif *françaises*.
 
-**Important** : Ce plugin est actuellement en phase *release candidate*. Il nécessiterait d'être testé par des utilisateurs pour découvrir d'éventuels bugs résiduels, mais il devrait pouvoir être utilisé en production sans risques.
-
 Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations et de dons via [HelloAsso](https://www.helloasso.com/).
 
 * [site web](https://galette-community.github.io/plugin-helloasso)
@@ -20,8 +18,6 @@ Pour utiliser le plugin HelloAsso pour Galette, vous aurez besoin d'une version 
 ## English
 
 **Note**: HelloAsso primarily serves *French* associations and non-profit organizations.
-
-**Important**: This plugin is currently in *release candidate* stage. It would need to be tested by users to find potential residual bugs, but should be safe to use in production.
 
 A [Galette](https://galette.eu) plugin to handle membership fees and donations payments with [HelloAsso](https://www.helloasso.com/).
 

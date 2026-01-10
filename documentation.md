@@ -14,7 +14,7 @@ Ce plugin offre :
 
 Tout d’abord, téléchargez le plugin :
 
-[![Téléchargez la dernière version du plugin HelloAsso !](https://img.shields.io/badge/1.0.0-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0-rc2&color=ffb619)](https://github.com/galette-community/plugin-helloasso/releases/tag/1.0.0-rc2)
+[![Téléchargez la dernière version du plugin HelloAsso !](https://img.shields.io/badge/1.0.0-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0&color=ffb619)](https://github.com/galette-community/plugin-helloasso/releases/tag/1.0.0)
 
 Décompressez l'archive téléchargée dans le répertoire `plugins` de Galette. Par exemple, sous linux (en remplaçant *{url}* et *{version}* par les valeurs correspondantes):
 
