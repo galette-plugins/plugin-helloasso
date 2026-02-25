@@ -14,6 +14,10 @@ em[data-emoji="helloasso"]::before {
   background-image: url(./images/helloasso.svg);
 }
 
+.ui.message.amount-description {
+  margin-left:1.85714em;
+}
+
 .secured-payment {
   display: flex;
   justify-content: center;
