@@ -23,10 +23,16 @@ declare(strict_types=1);
 
 namespace GaletteHelloasso;
 
+use DI\Attribute\Inject;
+use Galette\Core\Db;
 use Galette\Core\Login;
+use Galette\Core\Plugins\DashboardProviderInterface;
+use Galette\Core\Plugins\MenuProviderInterface;
 use Galette\Core\Preferences;
 use Galette\Entity\Adherent;
 use Galette\Core\GalettePlugin;
+use GaletteHelloasso\Helloasso;
+use GaletteHelloasso\HelloassoHistory;
 
 /**
  * Galette HelloAsso plugin
@@ -35,14 +41,17 @@ use Galette\Core\GalettePlugin;
  * @author Guillaume AGNIERAY <dev@agnieray.net>
  */
 
-class PluginGaletteHelloasso extends GalettePlugin
+class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterface, DashboardProviderInterface
 {
+    #[Inject]
+    private readonly Db $zdb;
+
     /**
-     * Extra menus entries
+     * Get plugins menus
      *
      * @return array<string, string|array<string,mixed>>
      */
-    public static function getMenusContents(): array
+    public function getMenus(): array
     {
         /**
          * @var Login $login
@@ -76,11 +85,11 @@ class PluginGaletteHelloasso extends GalettePlugin
     }
 
     /**
-     * Extra public menus entries
+     * Get plugins public menus
      *
      * @return array<int, string|array<string,mixed>>
      */
-    public static function getPublicMenusItemsList(): array
+    public function getPublicMenus(): array
     {
         return [
             [
@@ -94,11 +103,11 @@ class PluginGaletteHelloasso extends GalettePlugin
     }
 
     /**
-     * Get dashboards contents
+     * Get plugins dashboards
      *
      * @return array<int, string|array<string,mixed>>
      */
-    public static function getDashboardsContents(): array
+    public function getDashboards(): array
     {
         /** @var Login $login */
         global $login;
@@ -119,46 +128,22 @@ class PluginGaletteHelloasso extends GalettePlugin
     }
 
     /**
-     * Get current logged-in user dashboards contents
+     * Get current logged-in user plugins dashboards
      *
      * @return array<int, string|array<string,mixed>>
      */
-    public static function getMyDashboardsContents(): array
+    public function getMyDashboards(): array
     {
         return [];
     }
 
     /**
-     * Get actions contents
-     *
-     * @param Adherent $member Member instance
-     *
-     * @return array<int, string|array<string,mixed>>
+     * Is the plugin fully installed (including database, extra configuration, etc.)?
      */
-    public static function getListActionsContents(Adherent $member): array
+    public function isInstalled(): bool
     {
-        return [];
-    }
-
-    /**
-     * Get detailed actions contents
-     *
-     * @param Adherent $member Member instance
-     *
-     * @return array<int, string|array<string,mixed>>
-     */
-    public static function getDetailedActionsContents(Adherent $member): array
-    {
-        return static::getListActionsContents($member);
-    }
-
-    /**
-     * Get batch actions contents
-     *
-     * @return array<int, string|array<string,mixed>>
-     */
-    public static function getBatchActionsContents(): array
-    {
-        return [];
+        return $this->zdb->tableExists(HELLOASSO_PREFIX . Helloasso::TABLE)
+            && $this->zdb->tableExists(HELLOASSO_PREFIX . Helloasso::TABLE_TOKENS)
+            && $this->zdb->tableExists(HELLOASSO_PREFIX . HelloassoHistory::TABLE);
     }
 }
