@@ -22,7 +22,8 @@ $this->register(
         'store_helloasso_preferences'  => 'staff',
         'helloasso_history'            => 'staff',
         'filter_helloasso_history'     => 'staff'
-    ]
+    ],
+    dbver: 1.00                    //DB version
 );
 
 $this->setCsrfExclusions(
