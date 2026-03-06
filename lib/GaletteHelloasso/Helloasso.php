@@ -329,6 +329,7 @@ class Helloasso
      * @param array<string, mixed> $metadata          Array of metadata to transmit with payment
      * @param float                $amount            Amount of payment
      * @param ?bool                $contains_donation Does the checkout contain a donation?
+     * @return                     array<string,mixed>|bool
      */
     public function checkout(array $metadata, float $amount, ?bool $contains_donation = false): array|bool
     {
@@ -467,7 +468,7 @@ class Helloasso
     /**
      * Get client credentials
      *
-     * @param array $parameters Parameters required by API
+     * @param array<string,mixed> $parameters Parameters required by API
      */
     private function getClientCredentials(array $parameters): bool
     {
