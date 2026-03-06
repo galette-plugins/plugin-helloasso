@@ -21,15 +21,16 @@
 
 declare(strict_types=1);
 
+/** @var \Galette\Core\Plugins $this */
 $this->register(
-    'Galette Helloasso',     //Name
-    'Helloasso integration', //Short description
-    'Guillaume AGNIERAY',    //Author
-    '1.0.0',                 //Version
-    '1.2.1',                 //Galette compatible version
-    'helloasso',             //routing name and translation domain
-    '2026-01-10',            //Release date
-    [   //Permissions needed
+    name: 'Galette Helloasso',     //Name
+    desc: 'Helloasso integration', //Short description
+    author: 'Guillaume AGNIERAY',  //Author
+    version: '1.0.0',              //Version
+    compver: '1.2.1',              //Galette compatible version
+    route: 'helloasso',            //Routing name and translation domain
+    date: '2026-01-10',            //Release date
+    acls: [                        //Permissions needed
         'helloasso_preferences'        => 'staff',
         'store_helloasso_preferences'  => 'staff',
         'helloasso_history'            => 'staff',
