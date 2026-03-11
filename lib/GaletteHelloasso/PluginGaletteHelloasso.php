@@ -29,10 +29,7 @@ use Galette\Core\Login;
 use Galette\Core\Plugins\DashboardProviderInterface;
 use Galette\Core\Plugins\MenuProviderInterface;
 use Galette\Core\Preferences;
-use Galette\Entity\Adherent;
 use Galette\Core\GalettePlugin;
-use GaletteHelloasso\Helloasso;
-use GaletteHelloasso\HelloassoHistory;
 
 /**
  * Galette HelloAsso plugin
@@ -44,7 +41,7 @@ use GaletteHelloasso\HelloassoHistory;
 class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterface, DashboardProviderInterface
 {
     #[Inject]
-    private readonly Db $zdb;
+    private readonly Db $zdb; //@phpstan-ignore-line injected from DI
 
     /**
      * Get plugins menus
