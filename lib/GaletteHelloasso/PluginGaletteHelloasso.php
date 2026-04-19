@@ -139,16 +139,10 @@ class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterf
      */
     public function isInstalled(): bool
     {
-        try {
-            $this->zdb->execute($this->zdb->select(HELLOASSO_PREFIX . Helloasso::TABLE)->limit(1));
-            $this->zdb->execute($this->zdb->select(HELLOASSO_PREFIX . Helloasso::TABLE_TOKENS)->limit(1));
-            $this->zdb->execute($this->zdb->select(HELLOASSO_PREFIX . HelloassoHistory::TABLE)->limit(1));
-            return true;
-        } catch (\Throwable $e) {
-            if (!$this->zdb->isMissingTableException($e)) {
-                throw $e;
-            }
-        }
-        return false;
+        return
+            $this->zdb->tableExists(HELLOASSO_PREFIX . Helloasso::TABLE)
+            && $this->zdb->tableExists(HELLOASSO_PREFIX . Helloasso::TABLE_TOKENS)
+            && $this->zdb->tableExists(HELLOASSO_PREFIX . HelloassoHistory::TABLE)
+        ;
     }
 }
