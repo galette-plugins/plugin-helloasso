@@ -39,14 +39,14 @@ use Galette\Filters\HistoryList;
  */
 class HelloassoHistory extends History
 {
-    public const TABLE = 'history';
-    public const PK = 'id_helloasso';
+    public const string TABLE = 'history';
+    public const string PK = 'id_helloasso';
 
-    public const STATE_NONE = 0;
-    public const STATE_PROCESSED = 1;
-    public const STATE_ERROR = 2;
-    public const STATE_INCOMPLETE = 3;
-    public const STATE_ALREADYDONE = 4;
+    public const int STATE_NONE = 0;
+    public const int STATE_PROCESSED = 1;
+    public const int STATE_ERROR = 2;
+    public const int STATE_INCOMPLETE = 3;
+    public const int STATE_ALREADYDONE = 4;
 
     private int $id;
 
