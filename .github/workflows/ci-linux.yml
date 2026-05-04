@@ -87,8 +87,12 @@ jobs:
 
       - name: Headers checks
         run: |
-          cd galette-core/galette/plugins/plugin-helloasso
-          ../../vendor/bin/docheader --docheader=.docheader check lib ./*.php
+          cd galette-core
+          ./bin/console galette:headers:check \
+            --project-name="Galette Helloasso plugin" \
+            --project-url="https://galette-community.github.io/plugin-helloasso" \
+            --start-year="2025" \
+            --directory="galette/plugins/plugin-helloasso"
 
   unit-tests:
     runs-on: ubuntu-latest

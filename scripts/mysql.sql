@@ -1,6 +1,9 @@
 --
--- Table structure for table `galette_helloasso_history`
+-- This file is part of Galette Helloasso plugin (https://galette-community.github.io/plugin-helloasso).
+-- SPDX-FileCopyrightText: Copyright © 2025-2026 The Galette Team
+-- SPDX-License-Identifier: GPL-3.0-or-later
 --
+
 DROP TABLE IF EXISTS galette_helloasso_history;
 CREATE TABLE galette_helloasso_history (
   id_helloasso int(11) NOT NULL auto_increment,
