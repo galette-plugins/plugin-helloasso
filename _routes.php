@@ -21,6 +21,7 @@
 
 declare(strict_types=1);
 
+use Galette\Middleware\Authenticate;
 use GaletteHelloasso\Controllers\HelloassoController;
 
 //Constants and classes from plugin
@@ -29,12 +30,12 @@ require_once $module['root'] . '/_config.inc.php';
 $app->get(
     '/preferences',
     [HelloassoController::class, 'preferences']
-)->setName('helloasso_preferences')->add($authenticate);
+)->setName('helloasso_preferences')->add(Authenticate::class);
 
 $app->post(
     '/preferences',
     [HelloassoController::class, 'storePreferences']
-)->setName('store_helloasso_preferences')->add($authenticate);
+)->setName('store_helloasso_preferences')->add(Authenticate::class);
 
 $app->get(
     '/form',
@@ -49,13 +50,13 @@ $app->post(
 $app->get(
     '/logs[/{option:order|reset|page}/{value}]',
     [HelloassoController::class, 'logs']
-)->setName('helloasso_history')->add($authenticate);
+)->setName('helloasso_history')->add(Authenticate::class);
 
 //history filtering
 $app->post(
     '/history/filter',
     [HelloassoController::class, 'filter']
-)->setName('filter_helloasso_history')->add($authenticate);
+)->setName('filter_helloasso_history')->add(Authenticate::class);
 
 $app->post(
     '/webhook',
