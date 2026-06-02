@@ -14,7 +14,7 @@ $this->register(
     desc: 'Helloasso integration', //Short description
     author: 'Guillaume AGNIERAY',  //Author
     version: '1.0.0',              //Version
-    compver: '1.2.1',              //Galette compatible version
+    compver: '1.3.0',              //Galette compatible version
     route: 'helloasso',            //Routing name and translation domain
     date: '2026-01-10',            //Release date
     acls: [                        //Permissions needed
