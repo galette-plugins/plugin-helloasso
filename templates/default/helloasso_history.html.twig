@@ -85,12 +85,6 @@
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Payment nb.", "helloasso") }}">
                 {{ log.checkout_id }}
-                {% if log.duplicate is defined %}
-                    <i class="exclamation circle red icon tooltip" data-html="{{ _T("Duplicate", "helloasso") }}"></i>
-                    <span class="visually-hidden">
-                        {{ _T("Duplicate", "helloasso") }}
-                    </span>
-                {% endif %}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Payer name", "helloasso") }}">
         {% if log.request is iterable %}

@@ -123,7 +123,6 @@ class HelloassoHistory extends History
     {
         $orig = $this->getHistory();
         $new = [];
-        $dedup = [];
         if (count($orig) > 0) {
             foreach ($orig as $o) {
                 try {
@@ -135,11 +134,6 @@ class HelloassoHistory extends History
 
                     $o['raw_request'] = print_r($oa, true);
                     $o['request'] = $oa;
-                    if (in_array($o['checkout_id'], $dedup)) {
-                        $o['duplicate'] = true;
-                    } else {
-                        $dedup[] = $o['checkout_id'];
-                    }
 
                     $new[] = $o;
                 } catch (\Exception $e) {
