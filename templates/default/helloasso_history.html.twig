@@ -156,14 +156,12 @@
                 {% endif %}
             </td>
             <td class="left" data-col-label="{{ _T("Actions") }}">
-                <details class="ui basic styled accordion">
-                    <summary class="title">
-                        <i class="caret down icon" aria-hidden="true"></i> {{ _T("Show/hide full request", "helloasso") }}
-                    </summary>
-                    <div class="content">
-                        <pre>{{ log.raw_request }}</pre>
-                    </div>
-                </details>
+                <a href="#" class="icon-only view-request" data-modal="modal-{{ loop.index }}">
+                    <i class="info circle blue icon" aria-hidden="true"></i>
+                    <span class="visually-hidden">
+                        {{ _T("View full request of payment nb. %1$s", "helloasso")|replace({"%1$s":log.checkout_id}) }}
+                    </span>
+                </a>
             </td>
         </tr>
     {% else %}
@@ -171,10 +169,41 @@
     {% endfor %}
 {% endblock %}
 
+{% block content %}
+    {{ parent() }}
+
+    {% for log in logs %}
+        <div id="modal-{{ loop.index }}" class="ui large modal">
+            <div class="header">
+                {{ _T('Full request of payment nb. %1$s', 'helloasso')|replace({'%1$s':log.checkout_id}) }}
+            </div>
+            <div class="scrolling content">
+                <pre>{{ log.raw_request }}</pre>
+            </div>
+            <div class="actions">
+                <div class="ui labeled icon deny button">
+                    <i class="times icon" aria-hidden="true"></i>
+                    {{ _T('Close') }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
 {% block javascripts %}
         <script type="text/javascript">
             $('#nbshow').change(function() {
                 this.form.submit();
+            });
+
+            document.addEventListener('click', (e) => {
+                const trigger = e.target.closest('.view-request');
+                if (!trigger) return;
+
+                e.preventDefault();
+
+                const modalSelector = '#' + trigger.dataset.modal;
+                $(modalSelector).modal('show');
             });
         </script>
 {% endblock %}
