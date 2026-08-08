@@ -340,7 +340,7 @@ class Helloasso
                 ],
                 'metadata' => $metadata,
                 'paymentOptions' => [
-                    'enableSepa' => false
+                    'enableSepa' => true
                 ]
             ];
 
