@@ -352,7 +352,7 @@ class HelloassoController extends AbstractPluginController
 
             if ($hh->isProcessed($post)) {
                 Analog::log(
-                    'A helloasso payment notification has been received, but it is already processed!',
+                    'A Helloasso payment notification has been received, but it has already been processed!',
                     Analog::WARNING
                 );
                 $hh->setState(HelloassoHistory::STATE_ALREADYDONE);
@@ -391,7 +391,7 @@ class HelloassoController extends AbstractPluginController
                     $valid = $contrib->setNoCheckLogin()->check($check_contrib_args, [], []);
                     if ($valid !== true) {
                         Analog::log(
-                            'Cannot create invalid contribution from Helloasso payment:'
+                            'Checking values before storing a new contribution from a Helloasso payment failed:'
                             . implode("\n   ", $valid),
                             Analog::ERROR
                         );
@@ -402,14 +402,14 @@ class HelloassoController extends AbstractPluginController
                     if ($contrib->store()) {
                         // contribution has been stored :)
                         Analog::log(
-                            'Helloasso payment has been successfully registered as a contribution',
+                            'A Helloasso payment has been successfully stored as a contribution',
                             Analog::DEBUG
                         );
                         $hh->setState(HelloassoHistory::STATE_PROCESSED);
                     } else {
                         // something went wrong :'(
                         Analog::log(
-                            'An error occured while storing a new contribution from Helloasso payment',
+                            'An error occured while storing a new contribution from a Helloasso payment',
                             Analog::ERROR
                         );
                         $hh->setState(HelloassoHistory::STATE_ERROR);
