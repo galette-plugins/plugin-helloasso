@@ -416,6 +416,12 @@ class HelloassoController extends AbstractPluginController
                         return $response->withStatus(500, 'Internal error');
                     }
                     return $response->withStatus(200);
+                } else {
+                    Analog::log(
+                        'A Helloasso payment has been successfully stored as a public donation',
+                        Analog::DEBUG
+                    );
+                    $hh->setState(HelloassoHistory::STATE_PUBLIC);
                 }
             }
             return $response->withStatus(200);
