@@ -29,9 +29,6 @@ class Helloasso
     public const string TABLE = 'preferences';
     public const string TABLE_TOKENS = 'tokens';
 
-    public const string PAYMENT_PENDING = 'Pending';
-    public const string PAYMENT_COMPLETE = 'Complete';
-
     public const string API_ROUTE = 'https://api.helloasso.com/';
     public const string TEST_API_ROUTE = 'https://api.helloasso-sandbox.com/';
 
