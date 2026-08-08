@@ -36,18 +36,37 @@
             'collapse': true
         },
         {
-            'label': _T("Name"),
+            'label': _T("Payment nb.", "helloasso"),
             'collapse': true
         },
         {
-            'label': _T("Subject"),
+            'label': _T("Payer name", "helloasso"),
+            'collapse': true
+        },
+        {
+            'label': _T("Member"),
+            'collapse': true
+        },
+        {
+            'label': _T("Contribution type"),
             'collapse': true
         },
         {
             'label': _T("Amount"),
             'collapse': true
         },
-        {'label': _T("Request", "helloasso")}
+        {
+            'label': _T("Method", "helloasso"),
+            'collapse': true
+        },
+        {
+            'label': _T("Status", "helloasso"),
+            'collapse': true
+        },
+        {
+            'label': _T("Actions"),
+            'collapse': true
+        }
     ] %}
     {{ parent() }}
 {% endblock %}
@@ -63,6 +82,9 @@
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Date") }}">
                 {{ log.history_date|date(_T("Y-m-d H:i:s")) }}
+            </td>
+            <td class="left collapsing" data-col-label="{{ _T("Payment nb.", "helloasso") }}">
+                {{ log.checkout_id }}
                 {% if log.duplicate is defined %}
                     <i class="exclamation circle red icon tooltip" data-html="{{ _T("Duplicate", "helloasso") }}"></i>
                     <span class="visually-hidden">
@@ -70,34 +92,70 @@
                     </span>
                 {% endif %}
             </td>
-            <td class="left collapsing" data-col-label="{{ _T("Name") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Payer name", "helloasso") }}">
+        {% if log.request is iterable %}
+                {{ log.request.data.payer.lastName|upper }} {{ log.request.data.payer.firstName }}
+        {% else %}
+                {{ _T("No request or unable to read request.", "helloasso") }}
+        {% endif %}
+            </td>
+            <td class="left collapsing" data-col-label="{{ _T("Member") }}">
         {% if log.request is iterable %}
             {% if log.request.metadata.member_id is defined %}
                 <a href="{{ url_for("member", {"id": log.request.metadata.member_id}) }}">
-            {% endif %}
-                {{ log.request.data.payer.lastName|upper }} {{ log.request.data.payer.firstName }}
-            {% if log.request.metadata.member_id is defined %}
+                {{ log.request.metadata.member_id }}
                 </a>
             {% endif %}
         {% else %}
                 {{ _T("No request or unable to read request.", "helloasso") }}
         {% endif %}
             </td>
-            <td class="left collapsing" data-col-label="{{ _T("Subject") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Contribution type") }}">
         {% if log.request is iterable %}
             {% if log.request.metadata.item_name is defined %}
-                <span class="ui green small label">
-                    {{ _T("Payment nb.", "helloasso") }}
-                    {{ log.checkout_id }}
-                </span>
-                | {{ log.request.metadata.item_name }}
+                {{ log.request.metadata.item_name }}
             {% endif %}
+        {% else %}
+                {{ _T("No request or unable to read request.", "helloasso") }}
         {% endif %}
             </td>
             <td class="right collapsing" data-col-label="{{ _T("Amount") }}">
                 {{ log.amount }}
             </td>
-            <td class="left" data-col-label="{{ _T("Request", "helloasso") }}">
+            <td class="left collapsing" data-col-label="{{ _T("Method", "helloasso") }}">
+        {% if log.request is iterable %}
+            {% if log.request.data.paymentMeans is defined %}
+                {{ log.request.data.paymentMeans }}
+            {% endif %}
+        {% else %}
+                {{ _T("No request or unable to read request.", "helloasso") }}
+        {% endif %}
+            </td>
+            <td class="left collapsing" data-col-label="{{ _T("Status", "helloasso") }}">
+                {% if log.state == constant('GaletteHelloasso\\HelloassoHistory::STATE_NONE') or log.state == constant('GaletteHelloasso\\HelloassoHistory::STATE_PROCESSED') %}
+                    <span class="icon-only">
+                        <i class="check green icon" aria-hidden="true"></i>
+                        <span class="visually-hidden">
+                            {{ _T("Payment properly processed", "helloasso") }}
+                        </span>
+                    </span>
+                {% elseif log.state == constant('GaletteHelloasso\\HelloassoHistory::STATE_ERROR') %}
+                    <span class="icon-only">
+                        <i class="times red icon" aria-hidden="true"></i>
+                        <span class="visually-hidden">
+                            {{ _T("An error occurred and the corresponding contribution has not been created", "helloasso") }}
+                        </span>
+                    </span>
+                {% elseif log.state == constant('GaletteHelloasso\\HelloassoHistory::STATE_ALREADYDONE') %}
+                    <span class="icon-only">
+                        <i class="exclamation triangle orange icon" aria-hidden="true"></i>
+                        <span class="visually-hidden">
+                            {{ _T("Duplicate", "helloasso") }}
+                        </span>
+                    </span>
+                {% endif %}
+            </td>
+            <td class="left" data-col-label="{{ _T("Actions") }}">
                 <details class="ui basic styled accordion">
                     <summary class="title">
                         <i class="caret down icon" aria-hidden="true"></i> {{ _T("Show/hide full request", "helloasso") }}
