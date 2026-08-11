@@ -152,6 +152,16 @@
                 {% endif %}
             </td>
             <td class="left" data-col-label="{{ _T("Actions") }}">
+                {% if log.request is iterable %}
+                    {% if log.request.data.paymentReceiptUrl is defined %}
+                        <a href="{{ log.request.data.paymentReceiptUrl }}" class="icon-only" target="_blank">
+                            <i class="file pdf green icon" aria-hidden="true"></i>
+                            <span class="visually-hidden">
+                                {{ _T("Download HelloAsso payment confirmation of payment nb. %1$s", "helloasso")|replace({"%1$s": log.checkout_id}) }}
+                            </span>
+                        </a>
+                    {% endif %}
+                {% endif %}
                 <a href="#" class="icon-only view-request" data-modal="modal-{{ loop.index }}">
                     <i class="info circle blue icon" aria-hidden="true"></i>
                     <span class="visually-hidden">
