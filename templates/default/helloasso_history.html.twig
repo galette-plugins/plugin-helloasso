@@ -97,7 +97,9 @@
         {% if log.request is iterable %}
             {% if log.request.metadata.member_id is defined %}
                 <a href="{{ url_for("member", {"id": log.request.metadata.member_id}) }}">
-                {{ log.request.metadata.member_id }}
+            {% endif %}
+                {{ log.member_fullname }}
+            {% if log.request.metadata.member_id is defined %}
                 </a>
             {% endif %}
         {% else %}
