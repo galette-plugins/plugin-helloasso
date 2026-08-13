@@ -46,6 +46,7 @@ CREATE TABLE galette_helloasso_preferences (
 CREATE UNIQUE INDEX galette_helloasso_preferences_unique_idx ON galette_helloasso_preferences (nom_pref);
 
 INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_test_mode', '');
+INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_sepa_option', '');
 INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_organization_slug', '');
 INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_client_id', '');
 INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_client_secret', '');

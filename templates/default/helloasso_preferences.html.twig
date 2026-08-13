@@ -60,6 +60,13 @@
                         label: _T("Your clientSecret", "helloasso"),
                         required: true
                     } %}
+
+                    {% include "components/forms/checkbox.html.twig" with {
+                        id: 'helloasso_sepa_option',
+                        value: '1',
+                        checked: helloasso.getSepaOption() ? true : false,
+                        label: _T("Accept SEPA transfers", "helloasso")
+                    } %}
                 {% endif %}
                 {% if helloasso.isLoaded() and amounts|length > 0 %}
                     <table class="listing ui celled helloassod table">
