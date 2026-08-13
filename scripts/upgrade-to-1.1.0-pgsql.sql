@@ -5,3 +5,4 @@
 --
 
 UPDATE galette_helloasso_history SET state = 3 WHERE state = 0;
+INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_sepa_option', '');

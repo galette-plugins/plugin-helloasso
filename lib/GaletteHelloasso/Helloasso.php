@@ -38,6 +38,7 @@ class Helloasso
     /** @var array<int, array<string,mixed>> */
     private array $prices;
     private bool $test_mode;
+    private bool $sepa_option;
     private ?string $organization_slug;
     private ?string $client_id;
     private ?string $client_secret;
@@ -74,6 +75,7 @@ class Helloasso
         $this->prices = [];
         $this->inactives = [];
         $this->test_mode = false;
+        $this->sepa_option = false;
         $this->organization_slug = null;
         $this->client_id = null;
         $this->client_secret = null;
@@ -94,6 +96,9 @@ class Helloasso
                 switch ($row->nom_pref) {
                     case 'helloasso_test_mode':
                         $this->test_mode = $row->val_pref === '1' ? true : false;
+                        break;
+                    case 'helloasso_sepa_option':
+                        $this->sepa_option = $row->val_pref === '1' ? true : false;
                         break;
                     case 'helloasso_organization_slug':
                         $this->organization_slug = $row->val_pref;
@@ -174,6 +179,21 @@ class Helloasso
                 ->where(
                     [
                         'nom_pref' => 'helloasso_test_mode'
+                    ]
+                );
+
+            $this->zdb->execute($update);
+
+            //store SEPA transfers option
+            $values = [
+                'nom_pref' => 'helloasso_sepa_option',
+                'val_pref' => $this->sepa_option ? '1' : ''
+            ];
+            $update = $this->zdb->update(HELLOASSO_PREFIX . self::TABLE);
+            $update->set($values)
+                ->where(
+                    [
+                        'nom_pref' => 'helloasso_sepa_option'
                     ]
                 );
 
@@ -340,7 +360,7 @@ class Helloasso
                 ],
                 'metadata' => $metadata,
                 'paymentOptions' => [
-                    'enableSepa' => true
+                    'enableSepa' => $this->getSepaOption()
                 ]
             ];
 
@@ -538,6 +558,14 @@ class Helloasso
     }
 
     /**
+     * Get SEPA transfers option
+     */
+    public function getSepaOption(): bool
+    {
+        return $this->sepa_option;
+    }
+
+    /**
      * Get Helloasso organization slug
      */
     public function getOrganizationSlug(): ?string
@@ -616,6 +644,16 @@ class Helloasso
     public function setTestMode(bool $enabled): void
     {
         $this->test_mode = $enabled;
+    }
+
+    /**
+     * Set SEPA transfers option
+     *
+     * @param bool $enabled True to enable SEPA transfers option
+     */
+    public function setSepaOption(bool $enabled): void
+    {
+        $this->sepa_option = $enabled;
     }
 
     /**

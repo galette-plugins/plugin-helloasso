@@ -29,6 +29,7 @@ CREATE TABLE galette_helloasso_preferences (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_test_mode', '');
+INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_sepa_option', '');
 INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_organization_slug', '');
 INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_client_id', '');
 INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloasso_client_secret', '');

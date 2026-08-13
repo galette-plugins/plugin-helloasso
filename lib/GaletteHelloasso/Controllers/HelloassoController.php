@@ -150,6 +150,12 @@ class HelloassoController extends AbstractPluginController
         string|int|null $value = null
     ): Response {
         $helloasso_history = new HelloassoHistory($this->zdb, $this->login, $this->preferences);
+        if ($this->session->helloasso !== null) {
+            $helloasso = $this->session->helloasso;
+            $this->session->helloasso = null;
+        } else {
+            $helloasso = new Helloasso($this->zdb, $this->preferences);
+        }
 
         $filters = [];
         if (isset($this->session->filter_helloasso_history)) {
@@ -182,6 +188,7 @@ class HelloassoController extends AbstractPluginController
         $params = [
             'page_title'        => _T("Helloasso History", "helloasso"),
             'helloasso_history' => $helloasso_history,
+            'helloasso'         => $helloasso,
             'logs'              => $logs,
             'nb'                => $logs_count,
             'module_id'         => $this->getModuleId()
@@ -266,6 +273,11 @@ class HelloassoController extends AbstractPluginController
                 $helloasso->setTestMode(true);
             } else {
                 $helloasso->setTestMode(false);
+            }
+            if (array_key_exists('helloasso_sepa_option', $post)) {
+                $helloasso->setSepaOption(true);
+            } else {
+                $helloasso->setSepaOption(false);
             }
             if (isset($post['helloasso_organization_slug'])) {
                 $helloasso->setOrganizationSlug($post['helloasso_organization_slug']);
