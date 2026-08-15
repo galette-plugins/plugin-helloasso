@@ -56,9 +56,9 @@ $app->get(
 )->setName('helloasso_success');
 
 $app->get(
-    '/cancel',
-    [HelloassoController::class, 'cancelUrl']
-)->setName('helloasso_cancel');
+    '/back',
+    [HelloassoController::class, 'backUrl']
+)->setName('helloasso_back');
 
 $app->get(
     '/error',

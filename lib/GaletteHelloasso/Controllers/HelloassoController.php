@@ -466,13 +466,13 @@ class HelloassoController extends AbstractPluginController
     }
 
     /**
-     * Cancel URL
+     * Back URL
      */
-    public function cancelUrl(Response $response): Response
+    public function backUrl(Response $response): Response
     {
         $this->flash->addMessage(
-            'warning_detected',
-            _T('Your payment has been aborted!', 'helloasso')
+            'info_detected',
+            _T('You are back here after clicking a return link from a HelloAsso page. You can proceed with a new payment if you wish.', 'helloasso')
         );
         return $response
             ->withStatus(301)

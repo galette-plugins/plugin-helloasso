@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 22:55+0200\n"
+"POT-Creation-Date: 2026-08-15 13:52+0200\n"
 "PO-Revision-Date: 2025-07-03 15:53+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
@@ -55,7 +55,7 @@ msgid ""
 msgstr ""
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:103
-#: ../tempcache/helloasso_form.html.twig:295
+#: ../tempcache/helloasso_form.html.twig:291
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
 "option. Please choose another option or change the amount."
@@ -82,7 +82,9 @@ msgid "Helloasso payment success"
 msgstr ""
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:475
-msgid "Your payment has been aborted!"
+msgid ""
+"You are back here after clicking a return link from a HelloAsso page. You "
+"can proceed with a new payment if you wish."
 msgstr ""
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:490
@@ -100,57 +102,57 @@ msgid ""
 msgstr ""
 
 #: ../tempcache/helloasso_history.html.twig:91
-#: ../tempcache/helloasso_history.html.twig:163
+#: ../tempcache/helloasso_history.html.twig:151
 #: ../tempcache/helloasso_error.html.twig:72
 msgid "Payment nb."
 msgstr ""
 
 #: ../tempcache/helloasso_history.html.twig:91
-#: ../tempcache/helloasso_history.html.twig:172
+#: ../tempcache/helloasso_history.html.twig:160
 msgid "Payer name"
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:97
-#: ../tempcache/helloasso_history.html.twig:272
+#: ../tempcache/helloasso_history.html.twig:91
+#: ../tempcache/helloasso_history.html.twig:257
 msgid "Method"
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:103
-#: ../tempcache/helloasso_history.html.twig:301
+#: ../tempcache/helloasso_history.html.twig:91
+#: ../tempcache/helloasso_history.html.twig:284
 msgid "Status"
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:187
-#: ../tempcache/helloasso_history.html.twig:225
-#: ../tempcache/helloasso_history.html.twig:252
-#: ../tempcache/helloasso_history.html.twig:291
+#: ../tempcache/helloasso_history.html.twig:175
+#: ../tempcache/helloasso_history.html.twig:213
+#: ../tempcache/helloasso_history.html.twig:240
+#: ../tempcache/helloasso_history.html.twig:276
 msgid "No request or unable to read request."
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:312
+#: ../tempcache/helloasso_history.html.twig:295
 msgid "Payment properly processed"
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:325
+#: ../tempcache/helloasso_history.html.twig:308
 msgid ""
 "An error occurred and the corresponding contribution has not been created"
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:338
+#: ../tempcache/helloasso_history.html.twig:321
 msgid "Duplicate"
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:364
+#: ../tempcache/helloasso_history.html.twig:347
 #, php-format
 msgid "Download HelloAsso payment confirmation of payment nb. %1$s"
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:381
+#: ../tempcache/helloasso_history.html.twig:364
 #, php-format
 msgid "View full request of payment nb. %1$s"
 msgstr ""
 
-#: ../tempcache/helloasso_history.html.twig:456
+#: ../tempcache/helloasso_history.html.twig:433
 #, php-format
 msgid "Full request of payment nb. %1$s"
 msgstr ""
@@ -274,7 +276,7 @@ msgstr ""
 msgid "Secured payment"
 msgstr ""
 
-#: ../tempcache/helloasso_form.html.twig:227
+#: ../tempcache/helloasso_form.html.twig:223
 #, php-format
 msgid ""
 "We have chosen HelloAsso to process your payment. HelloAsso guarantees that "
@@ -283,14 +285,14 @@ msgid ""
 "contribution to HelloAsso at the time of your payment."
 msgstr ""
 
-#: ../tempcache/helloasso_form.html.twig:238
+#: ../tempcache/helloasso_form.html.twig:234
 msgid "No payment reasons are available."
 msgstr ""
 
-#: ../tempcache/helloasso_form.html.twig:280
+#: ../tempcache/helloasso_form.html.twig:276
 msgid "You have to select an option."
 msgstr ""
 
-#: ../tempcache/helloasso_form.html.twig:289
+#: ../tempcache/helloasso_form.html.twig:285
 msgid "Please enter an amount."
 msgstr ""

@@ -345,7 +345,7 @@ class Helloasso
                 'totalAmount' => (int)$amount,
                 'initialAmount' => (int)$amount,
                 'itemName' => $metadata['item_name'],
-                'backUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_cancel'),
+                'backUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_back'),
                 'errorUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_error'),
                 'returnUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_success'),
                 'containsDonation' => $contains_donation,
