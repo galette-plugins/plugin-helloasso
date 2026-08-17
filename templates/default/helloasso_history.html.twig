@@ -87,45 +87,25 @@
                 {{ log.checkout_id }}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Payer name", "helloasso") }}">
-        {% if log.request is iterable %}
-                {{ log.request.data.payer.lastName|upper }} {{ log.request.data.payer.firstName }}
-        {% else %}
-                {{ _T("No request or unable to read request.", "helloasso") }}
-        {% endif %}
+                {{ log.payer_name }}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Member") }}">
-        {% if log.request is iterable %}
-            {% if log.request.metadata.member_id is defined %}
-                <a href="{{ url_for("member", {"id": log.request.metadata.member_id}) }}">
-            {% endif %}
-                {{ log.member_fullname }}
-            {% if log.request.metadata.member_id is defined %}
-                </a>
-            {% endif %}
-        {% else %}
-                {{ _T("No request or unable to read request.", "helloasso") }}
-        {% endif %}
+                {% if log.member_id != 0 %}
+                    <a href="{{ url_for("member", {"id": log.member_id}) }}">
+                {% endif %}
+                    {{ log.member_fullname }}
+                {% if log.member_id != 0 %}
+                    </a>
+                {% endif %}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Contribution type") }}">
-        {% if log.request is iterable %}
-            {% if log.request.metadata.item_name is defined %}
-                {{ log.request.metadata.item_name }}
-            {% endif %}
-        {% else %}
-                {{ _T("No request or unable to read request.", "helloasso") }}
-        {% endif %}
+                {{ log.comments }}
             </td>
             <td class="right collapsing" data-col-label="{{ _T("Amount") }}">
                 {{ log.amount }}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Method", "helloasso") }}">
-        {% if log.request is iterable %}
-            {% if log.request.data.paymentMeans is defined %}
-                {{ log.request.data.paymentMeans }}
-            {% endif %}
-        {% else %}
-                {{ _T("No request or unable to read request.", "helloasso") }}
-        {% endif %}
+                {{ log.method }}
             </td>
             <td class="left collapsing" data-col-label="{{ _T("Status", "helloasso") }}">
                 {% if log.state == constant('GaletteHelloasso\\HelloassoHistory::STATE_PUBLIC') or log.state == constant('GaletteHelloasso\\HelloassoHistory::STATE_PROCESSED') %}
@@ -152,16 +132,12 @@
                 {% endif %}
             </td>
             <td class="left" data-col-label="{{ _T("Actions") }}">
-                {% if log.request is iterable %}
-                    {% if log.request.data.paymentReceiptUrl is defined %}
-                        <a href="{{ log.request.data.paymentReceiptUrl }}" class="icon-only" target="_blank">
-                            <i class="file pdf green icon" aria-hidden="true"></i>
-                            <span class="visually-hidden">
-                                {{ _T("Download HelloAsso payment confirmation of payment nb. %1$s", "helloasso")|replace({"%1$s": log.checkout_id}) }}
-                            </span>
-                        </a>
-                    {% endif %}
-                {% endif %}
+                <a href="{{ log.receipt_url }}" class="icon-only" target="_blank">
+                    <i class="file pdf green icon" aria-hidden="true"></i>
+                    <span class="visually-hidden">
+                        {{ _T("Download HelloAsso payment confirmation of payment nb. %1$s", "helloasso")|replace({"%1$s": log.checkout_id}) }}
+                    </span>
+                </a>
                 <a href="#" class="icon-only view-request" data-modal="modal-{{ loop.index }}">
                     <i class="info circle blue icon" aria-hidden="true"></i>
                     <span class="visually-hidden">

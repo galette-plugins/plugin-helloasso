@@ -68,10 +68,14 @@ class HelloassoHistory extends History
             $values = [
                 'history_date'  => date('Y-m-d H:i:s'),
                 'checkout_id'   => $request['data']['id'],
-                'amount'        => $request['data']['amount'] / 100,
+                'payer_name'    => mb_strtoupper($request['data']['payer']['lastName'], 'UTF-8') . ' ' . $request['data']['payer']['firstName'],
+                'member_id'     => $request['metadata']['member_id'] ?? 0,
                 'comments'      => $request['metadata']['item_name'],
-                'request'       => Galette::jsonEncode($request),
-                'state'         => self::STATE_NONE
+                'amount'        => $request['data']['amount'] / 100,
+                'method'        => $request['data']['paymentMeans'],
+                'state'         => self::STATE_NONE,
+                'receipt_url'   => $request['data']['paymentReceiptUrl'],
+                'request'       => Galette::jsonEncode($request)
             ];
 
             $insert = $this->zdb->insert($this->getTableName());
@@ -134,9 +138,7 @@ class HelloassoHistory extends History
                         $oa = Galette::jsonDecode($o['request']);
                     }
 
-                    $member_id = $oa['metadata']['member_id'] ?? 0;
-
-                    $o['member_fullname'] = $this->getMemberFullName($member_id);
+                    $o['member_fullname'] = $this->getMemberFullName($o['member_id']);
                     $o['raw_request'] = print_r($oa, true);
                     $o['request'] = $oa;
 
@@ -169,7 +171,7 @@ class HelloassoHistory extends History
         $row = $result->current();
 
         if ($row) {
-            $fullname = mb_strtoupper($row['nom_adh']) . ' ' . $row['prenom_adh'];
+            $fullname = mb_strtoupper($row['nom_adh'], 'UTF-8') . ' ' . $row['prenom_adh'];
         }
 
         return $fullname;

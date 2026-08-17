@@ -8,11 +8,15 @@ DROP TABLE IF EXISTS galette_helloasso_history;
 CREATE TABLE galette_helloasso_history (
   id_helloasso int(11) NOT NULL auto_increment,
   history_date datetime NOT NULL,
-  checkout_id varchar(255) COLLATE utf8_unicode_ci,
+  checkout_id varchar(255),
   amount double NOT NULL,
-  comments varchar(255)  COLLATE utf8_unicode_ci,
-  request text COLLATE utf8_unicode_ci,
+  comments varchar(255),
+  request text,
   state tinyint(4) NOT NULL DEFAULT 0,
+  payer_name varchar(255) NOT NULL,
+  member_id int(10) NOT NULL,
+  method varchar(10) NOT NULL,
+  receipt_url varchar(255) NOT NULL,
   PRIMARY KEY (`id_helloasso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 

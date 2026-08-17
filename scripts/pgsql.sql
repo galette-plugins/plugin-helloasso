@@ -6,11 +6,11 @@
 
 DROP SEQUENCE IF EXISTS galette_helloasso_history_id_seq;
 CREATE SEQUENCE galette_helloasso_history_id_seq
-    START 1
-    INCREMENT 1
-    MAXVALUE 2147483647
-    MINVALUE 1
-    CACHE 1;
+  START 1
+  INCREMENT 1
+  MAXVALUE 2147483647
+  MINVALUE 1
+  CACHE 1;
 
 DROP TABLE IF EXISTS galette_helloasso_history;
 CREATE TABLE galette_helloasso_history (
@@ -21,6 +21,10 @@ CREATE TABLE galette_helloasso_history (
   comments character varying(255),
   request text,
   state smallint DEFAULT 0 NOT NULL,
+  payer_name character varying(255) NOT NULL,
+  member_id integer NOT NULL,
+  method character varying(10) NOT NULL,
+  receipt_url character varying(255) NOT NULL,
   PRIMARY KEY (id_helloasso)
 );
 
@@ -29,18 +33,18 @@ CREATE TABLE galette_helloasso_history (
 --
 DROP SEQUENCE IF EXISTS galette_helloasso_preferences_id_seq;
 CREATE SEQUENCE galette_helloasso_preferences_id_seq
-    START 1
-    INCREMENT 1
-    MAXVALUE 2147483647
-    MINVALUE 1
-    CACHE 1;
+  START 1
+  INCREMENT 1
+  MAXVALUE 2147483647
+  MINVALUE 1
+  CACHE 1;
 
 DROP TABLE IF EXISTS galette_helloasso_preferences;
 CREATE TABLE galette_helloasso_preferences (
   id_pref integer DEFAULT nextval('galette_helloasso_preferences_id_seq'::text) NOT NULL,
   nom_pref character varying(100) NOT NULL default '',
   val_pref character varying(200) NOT NULL default '',
-  PRIMARY KEY  (id_pref)
+  PRIMARY KEY (id_pref)
 );
 
 CREATE UNIQUE INDEX galette_helloasso_preferences_unique_idx ON galette_helloasso_preferences (nom_pref);
@@ -57,11 +61,11 @@ INSERT INTO galette_helloasso_preferences (nom_pref, val_pref) VALUES ('helloass
 --
 DROP SEQUENCE IF EXISTS galette_helloasso_tokens_id_seq;
 CREATE SEQUENCE galette_helloasso_tokens_id_seq
-    START 1
-    INCREMENT 1
-    MAXVALUE 2147483647
-    MINVALUE 1
-    CACHE 1;
+  START 1
+  INCREMENT 1
+  MAXVALUE 2147483647
+  MINVALUE 1
+  CACHE 1;
 
 DROP TABLE IF EXISTS galette_helloasso_tokens;
 CREATE TABLE galette_helloasso_tokens (
