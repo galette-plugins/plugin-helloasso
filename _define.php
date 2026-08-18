@@ -25,9 +25,3 @@ $this->register(
     ],
     dbver: 1.10                    //DB version
 );
-
-$this->setCsrfExclusions(
-    [
-    '/helloasso_(webhook|success|cancel|error)/',
-    ]
-);
