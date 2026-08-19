@@ -21,8 +21,11 @@ use Galette\Entity\PaymentType;
 use Galette\Filters\HistoryList;
 use GaletteHelloasso\Helloasso;
 use GaletteHelloasso\HelloassoHistory;
+use Slim\Exception\HttpNotFoundException;
+use Slim\Exception\HttpForbiddenException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use Throwable;
 
 /**
  * Galette Helloasso plugin controller
@@ -449,20 +452,71 @@ class HelloassoController extends AbstractPluginController
 
     /**
      * Return URL
+     *
+     * @param Request  $request  PSR Request
+     * @param Response $response PSR Response
      */
-    public function returnUrl(Response $response): Response
+    public function returnUrl(Request $request, Response $response): Response
     {
-        $params = [
-            'page_title'    => _T('Helloasso payment success', 'helloasso')
-        ];
+        $query_params = $request->getQueryParams();
+        $checkout_id = $query_params['checkoutIntentId'] ?? null;
+        $order_id = $query_params['orderId'] ?? null;
+        $code = $query_params['code'] ?? null;
+        $details = [];
 
-        // display page
-        $this->view->render(
-            $response,
-            $this->getTemplate('helloasso_success'),
-            $params
-        );
-        return $response;
+        if (!$checkout_id && !$order_id && !$code) {
+            throw new HttpNotFoundException($request);
+        }
+
+        try {
+            $helloasso = new Helloasso($this->zdb, $this->preferences);
+            $tokens = $helloasso->getTokens();
+
+            $client = $helloasso->setupClient();
+            $headers = [
+                'headers' => [
+                    'accept' => 'application/json',
+                    'authorization' => 'Bearer ' . $tokens['access_token']
+                ]
+            ];
+
+            $request = $client->get(
+                $helloasso->getApiRoute()
+                . 'v5/organizations/'
+                . $helloasso->getOrganizationSlug()
+                . '/checkout-intents/'
+                . $checkout_id,
+                $headers
+            );
+            $checkout = json_decode($request->getBody()->getContents(), true);
+
+            $details = [
+                'amount' => $checkout['order']['amount']['total'] / 100,
+                'date' => $checkout['order']['date'],
+                'method' => $checkout['order']['payments'][0]['paymentMeans'],
+                'reason' => $checkout['metadata']['item_name']
+            ];
+
+            $params = [
+                'page_title' => _T('HelloAsso payment done', 'helloasso'),
+                'details' => $details
+            ];
+
+            // display page
+            $this->view->render(
+                $response,
+                $this->getTemplate('helloasso_success'),
+                $params
+            );
+            return $response;
+        } catch (Throwable $e) {
+            Analog::log(
+                'HelloAsso payment details could not be retrieved and displayed on the confirmation page: '
+                . $e->getMessage(),
+                Analog::WARNING
+            );
+            throw new HttpForbiddenException($request);
+        }
     }
 
     /**

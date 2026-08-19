@@ -7,10 +7,36 @@
 {% extends not login.isLogged() ? "public_page.html.twig" : "page.html.twig" %}
 
 {% block content %}
-    <div class="ui info visible icon message">
-        <i class="check icon"></i>
-        <div class="content">
-            {{ _T("Your Helloasso payment has succeeded. You will receive an email from Helloasso with details.", "helloasso") }}
+    {% if details is not empty %}
+        <div class="ui info visible icon attached message">
+            <i class="check icon"></i>
+            <div class="content">
+                <div class="header">
+                    {{ _T('Your HelloAsso payment has succeeded', "helloasso") }}
+                </div>
+                <p>{{ _T('You will receive an email from HelloAsso with the following details', 'helloasso') }}</p>
+            </div>
         </div>
-    </div>
+        <table class="ui helloassod definition attached table">
+            <tr>
+                <th class="collapsing">{{ _T('Amount paid', 'helloasso') }}</th>
+                <td>
+                    {{ details.amount|format_currency('EUR', {}, galette_lang) }}
+                    <em>({{ _T('This amount does not include the voluntary contribution you could have made to HelloAsso during payment', 'helloasso') }})</em>
+                </td>
+            </tr>
+            <tr>
+                <th class="collapsing">{{ _T('Payment date', 'helloasso') }}</th>
+                <td>{# details.date #}{{ details.date|date("Y-m-d H:i") }}</td>
+            </tr>
+            <tr>
+                <th class="collapsing">{{ _T('Payment method', 'helloasso') }}</th>
+                <td>{{ details.method }}</td>
+            </tr>
+            <tr>
+                <th class="collapsing">{{ _T('Payment reason', 'helloasso') }}</th>
+                <td>{{ details.reason }}</td>
+            </tr>
+        </table>
+    {% endif %}
 {% endblock %}
