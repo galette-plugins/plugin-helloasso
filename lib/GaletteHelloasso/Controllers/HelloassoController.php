@@ -18,9 +18,9 @@ use Galette\Entity\Adherent;
 use Galette\Entity\Contribution;
 use Galette\Entity\ContributionsTypes;
 use Galette\Entity\PaymentType;
-use Galette\Filters\HistoryList;
 use GaletteHelloasso\Helloasso;
 use GaletteHelloasso\HelloassoHistory;
+use GaletteHelloasso\Filters\HelloassoHistoryList;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Exception\HttpForbiddenException;
 use Slim\Psr7\Request;
@@ -148,6 +148,7 @@ class HelloassoController extends AbstractPluginController
      * @param string|int|null $value  Option value
      */
     public function logs(
+        Request $request,
         Response $response,
         ?string $option = null,
         string|int|null $value = null
@@ -164,7 +165,11 @@ class HelloassoController extends AbstractPluginController
         if (isset($this->session->filter_helloasso_history)) {
             $filters = $this->session->filter_helloasso_history;
         } else {
-            $filters = new HistoryList();
+            $filters = new HelloassoHistoryList();
+        }
+
+        if (isset($request->getQueryParams()['nbshow'])) {
+            $filters->show = $request->getQueryParams()['nbshow'];
         }
 
         if ($option !== null) {
@@ -175,17 +180,18 @@ class HelloassoController extends AbstractPluginController
                 case 'order':
                     $filters->orderby = $value;
                     break;
-                case 'reset':
-                    $filters = new HistoryList();
+                default:
                     break;
             }
         }
+
         $this->session->filter_helloasso_history = $filters;
 
-        //assign pagination variables to the template and add pagination links
         $helloasso_history->setFilters($filters);
         $logs = $helloasso_history->getHelloassoHistory();
         $logs_count = $helloasso_history->getCount();
+
+        //assign pagination variables to the template and add pagination links
         $filters->setViewPagination($this->routeparser, $this->view);
 
         $params = [
@@ -196,8 +202,6 @@ class HelloassoController extends AbstractPluginController
             'nb'                => $logs_count,
             'module_id'         => $this->getModuleId()
         ];
-
-        $this->session->filter_helloasso_history = $filters;
 
         // display page
         $this->view->render(
@@ -215,12 +219,39 @@ class HelloassoController extends AbstractPluginController
     {
         $post = $request->getParsedBody();
 
-        //reset history
-        $filters = $this->session->filter_helloasso_history ?? new HistoryList();
-        if (isset($post['reset']) && isset($post['nbshow'])) {
+        $filters = $this->session->filter_helloasso_history ?? new HelloassoHistoryList();
+
+        if (isset($post['clear_filter'])) {
+            $filters->reinit();
         } else {
-            //number of rows to show
-            $filters->show = $post['nbshow'];
+            if (isset($post['nbshow']) && is_numeric($post['nbshow'])) {
+                $filters->show = (int)$post['nbshow'];
+            }
+
+            if (isset($post['end_date_filter']) || isset($post['start_date_filter'])) {
+                if (isset($post['start_date_filter'])) {
+                    $filters->start_date_filter = $post['start_date_filter'];
+                }
+                if (isset($post['end_date_filter'])) {
+                    $filters->end_date_filter = $post['end_date_filter'];
+                }
+            }
+
+            if (isset($post['payment_filter'])) {
+                $filters->payment_filter = $post['payment_filter'];
+            }
+
+            if (isset($post['payer_filter'])) {
+                $filters->payer_filter = $post['payer_filter'];
+            }
+
+            if (isset($post['reason_filter'])) {
+                $filters->reason_filter = $post['reason_filter'];
+            }
+
+            if (isset($post['method_filter'])) {
+                $filters->method_filter = $post['method_filter'];
+            }
         }
 
         $this->session->filter_helloasso_history = $filters;

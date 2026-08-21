@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-19 14:54+0200\n"
-"PO-Revision-Date: 2026-08-19 15:00+0200\n"
+"POT-Creation-Date: 2026-08-21 22:39+0200\n"
+"PO-Revision-Date: 2026-08-21 22:40+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -23,7 +23,7 @@ msgid "Helloasso"
 msgstr "Helloasso"
 
 #: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:53
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:190
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:198
 msgid "Helloasso History"
 msgstr "Historique Helloasso"
 
@@ -32,11 +32,11 @@ msgstr "Historique Helloasso"
 msgid "Payment form"
 msgstr "Formulaire de paiement"
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:55
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:57
 msgid "HelloAsso payment"
 msgstr "Paiement HelloAsso"
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:64
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:66
 msgid ""
 "<strong>Payment could not work</strong>: An error occurred (that has been "
 "logged) while loading Helloasso settings from the database.<br/>Please "
@@ -47,11 +47,11 @@ msgstr ""
 "depuis la base de données.<br/>Merci de rapporter ce problème aux membres du "
 "bureau."
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:65
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:67
 msgid "Our apologies for the annoyance."
 msgstr "Toutes nos excuses pour le désagrément."
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:72
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:74
 msgid ""
 "Helloasso details have not been defined. Please ask an administrator to add "
 "them in the plugin's settings."
@@ -59,7 +59,7 @@ msgstr ""
 "Les informations Helloasso n'ont pas été renseignées. Veuillez demander à un "
 "administrateur de les ajouter dans les préférences du plugin."
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:104
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:106
 #: ../tempcache/helloasso_form.html.twig:291
 msgid ""
 "The amount you've entered is lower than the minimum amount for the selected "
@@ -68,30 +68,30 @@ msgstr ""
 "Le montant que vous avez entré est inférieur au montant minimum de l'option "
 "sélectionnée. Veuillez choisir une autre option ou entrer un nouveau montant."
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:128
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:130
 msgid "An error occured redirecting to the checkout form."
 msgstr ""
 "Une erreur est survenue lors de la redirection vers le formulaire de "
 "paiement."
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:247
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:280
 msgid "Helloasso Settings"
 msgstr "Préférences Helloasso"
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:303
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:336
 msgid "Helloasso settings have been saved."
 msgstr "Les préférences Helloasso ont été sauvegardées."
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:309
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:342
 msgid "An error occured saving helloasso settings."
 msgstr ""
 "Une erreur est survenue lors de l'enregistrement des préférences helloasso."
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:499
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:532
 msgid "HelloAsso payment done"
 msgstr "Paiement HelloAsso effectué"
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:527
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:560
 msgid ""
 "You are back here after clicking a return link from a HelloAsso page. You "
 "can proceed with a new payment if you wish."
@@ -100,11 +100,11 @@ msgstr ""
 "page HelloAsso. Vous pouvez procéder à un nouveau paiement si vous le "
 "souhaitez."
 
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:542
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:575
 msgid "Helloasso payment failure"
 msgstr "Échec du paiement Helloasso"
 
-#: ../lib/GaletteHelloasso/HelloassoHistory.php:165
+#: ../lib/GaletteHelloasso/HelloassoHistory.php:175
 msgid "None"
 msgstr "Aucun"
 
@@ -141,53 +141,75 @@ msgstr "Moyen de paiement"
 msgid "Payment reason"
 msgstr "Motif de paiement"
 
-#: ../tempcache/helloasso_history.html.twig:91
-#: ../tempcache/helloasso_history.html.twig:151
+#: ../tempcache/helloasso_history.html.twig:92
+#: ../tempcache/helloasso_history.html.twig:153
+#: ../tempcache/helloasso_history.html.twig:336
 #: ../tempcache/helloasso_error.html.twig:72
 msgid "Payment nb."
 msgstr "Paiement n°"
 
-#: ../tempcache/helloasso_history.html.twig:91
-#: ../tempcache/helloasso_history.html.twig:160
+#: ../tempcache/helloasso_history.html.twig:92
+#: ../tempcache/helloasso_history.html.twig:163
+#: ../tempcache/helloasso_history.html.twig:345
 msgid "Payer name"
 msgstr "Nom du payeur"
 
-#: ../tempcache/helloasso_history.html.twig:91
-#: ../tempcache/helloasso_history.html.twig:213
+#: ../tempcache/helloasso_history.html.twig:92
+#: ../tempcache/helloasso_history.html.twig:179
+#: ../tempcache/helloasso_history.html.twig:380
+msgid "Reason"
+msgstr "Motif"
+
+#: ../tempcache/helloasso_history.html.twig:92
+#: ../tempcache/helloasso_history.html.twig:222
+#: ../tempcache/helloasso_history.html.twig:398
 msgid "Method"
 msgstr "Méthode"
 
-#: ../tempcache/helloasso_history.html.twig:91
-#: ../tempcache/helloasso_history.html.twig:222
-msgid "Status"
-msgstr "Statut"
+#: ../tempcache/helloasso_history.html.twig:92
+#: ../tempcache/helloasso_history.html.twig:407
+msgid "State"
+msgstr "État"
 
-#: ../tempcache/helloasso_history.html.twig:233
+#: ../tempcache/helloasso_history.html.twig:184
+#: ../tempcache/helloasso_form.html.twig:79
+msgid "Select a payment reason"
+msgstr "Sélectionnez un motif de paiement"
+
+#: ../tempcache/helloasso_history.html.twig:227
+msgid "Select a payment method"
+msgstr "Sélectionnez un moyen de paiement"
+
+#: ../tempcache/helloasso_history.html.twig:418
 msgid "Payment properly processed"
 msgstr "Paiement traité correctement"
 
-#: ../tempcache/helloasso_history.html.twig:246
+#: ../tempcache/helloasso_history.html.twig:431
 msgid ""
 "An error occurred and the corresponding contribution has not been created"
 msgstr ""
 "Une erreur est survenue et la contribution correspondante n'a pas pu être "
 "créée"
 
-#: ../tempcache/helloasso_history.html.twig:259
+#: ../tempcache/helloasso_history.html.twig:444
 msgid "Duplicate"
 msgstr "Doublon"
 
-#: ../tempcache/helloasso_history.html.twig:279
+#: ../tempcache/helloasso_history.html.twig:464
 #, php-format
 msgid "Download HelloAsso payment confirmation of payment nb. %1$s"
 msgstr "Télécharger l'attestion de paiement HelloAsso pour le paiment n° %1$s"
 
-#: ../tempcache/helloasso_history.html.twig:291
+#: ../tempcache/helloasso_history.html.twig:476
 #, php-format
 msgid "View full request of payment nb. %1$s"
 msgstr "Voir la requête complète du paiement n° %1$s"
 
-#: ../tempcache/helloasso_history.html.twig:360
+#: ../tempcache/helloasso_history.html.twig:497
+msgid "No results"
+msgstr "Aucun résultat"
+
+#: ../tempcache/helloasso_history.html.twig:545
 #, php-format
 msgid "Full request of payment nb. %1$s"
 msgstr "Requête complète du paiement n° %1$s"
@@ -309,10 +331,6 @@ msgstr ""
 "transaction pour que vous puissiez bénéficier de la totalité des sommes "
 "versées par vos publics, sans frais. Les contributions volontaires laissées "
 "par ces derniers sont leur unique source de revenus."
-
-#: ../tempcache/helloasso_form.html.twig:79
-msgid "Select a payment reason"
-msgstr "Sélectionnez un motif de paiement"
 
 #: ../tempcache/helloasso_form.html.twig:191
 msgid "Pay with HelloAsso"

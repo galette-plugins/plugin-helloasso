@@ -17,7 +17,10 @@ use Galette\Core\Login;
 use Galette\Core\History;
 use Galette\Core\Preferences;
 use Galette\Entity\Adherent;
-use Galette\Filters\HistoryList;
+use GaletteHelloasso\Filters\HelloassoHistoryList;
+use Laminas\Db\Sql\Select;
+use Safe\DateTime;
+use Throwable;
 
 /**
  * This class stores and serve the Helloasso History.
@@ -37,16 +40,20 @@ class HelloassoHistory extends History
     public const int STATE_ALREADYDONE = 4;
 
     private int $id;
+    /** @var array<int, string> */
+    private array $methods;
+    /** @var array<int, string> */
+    private array $reasons;
 
     /**
      * Default constructor.
      *
-     * @param Db           $zdb         Database
-     * @param Login        $login       Login
-     * @param Preferences  $preferences Preferences
-     * @param ?HistoryList $filters     Filtering
+     * @param Db                    $zdb         Database
+     * @param Login                 $login       Login
+     * @param Preferences           $preferences Preferences
+     * @param ?HelloassoHistoryList $filters     Filtering
      */
-    public function __construct(Db $zdb, Login $login, Preferences $preferences, ?HistoryList $filters = null)
+    public function __construct(Db $zdb, Login $login, Preferences $preferences, ?HelloassoHistoryList $filters = null)
     {
         $this->with_lists = false;
         parent::__construct($zdb, $login, $preferences, $filters);
@@ -127,6 +134,9 @@ class HelloassoHistory extends History
      */
     public function getHelloassoHistory(): array
     {
+        $select = $this->zdb->select($this->getTableName());
+        $this->buildLists($select);
+
         $orig = $this->getHistory();
         $new = [];
         if (count($orig) > 0) {
@@ -160,7 +170,7 @@ class HelloassoHistory extends History
      *
      * @param int $id ID of the member to retrieve
      */
-    protected function getMemberFullName(int $id): string
+    private function getMemberFullName(int $id): string
     {
         $fullname = _T('None', 'helloasso');
 
@@ -178,19 +188,165 @@ class HelloassoHistory extends History
     }
 
     /**
+     * Builds payment reasons and methods lists
+     *
+     * @param Select $select Original select
+     */
+    protected function buildLists(Select $select): void
+    {
+        $this->reasons = [];
+        try {
+            $reasonsSelect = clone $select;
+            $reasonsSelect->reset($reasonsSelect::COLUMNS);
+            $reasonsSelect->reset($reasonsSelect::ORDER);
+            $reasonsSelect->quantifier('DISTINCT')->columns(['comments']);
+            $reasonsSelect->order(['comments ASC']);
+
+            $results = $this->zdb->execute($reasonsSelect);
+
+            foreach ($results as $result) {
+                $rlabel = $result->comments;
+                if ($rlabel === '') {
+                    $rlabel = _T('None');
+                }
+                $this->reasons[] = $rlabel;
+            }
+        } catch (Throwable $e) {
+            Analog::log(
+                'Cannot list payment reasons from history! | ' . $e->getMessage(),
+                Analog::WARNING
+            );
+        }
+
+        $this->methods = [];
+        try {
+            $methodsSelect = clone $select;
+            $methodsSelect->reset($methodsSelect::COLUMNS);
+            $methodsSelect->reset($methodsSelect::ORDER);
+            $methodsSelect->quantifier('DISTINCT')->columns(['method']);
+            $methodsSelect->order(['method ASC']);
+
+            $results = $this->zdb->execute($methodsSelect);
+
+            foreach ($results as $result) {
+                $mlabel = $result->method;
+                if ($mlabel === '') {
+                    $mlabel = _T('None');
+                }
+                $this->methods[] = $mlabel;
+            }
+        } catch (Throwable $e) {
+            Analog::log(
+                'Cannot list payment methods from history! | ' . $e->getMessage(),
+                Analog::WARNING
+            );
+        }
+    }
+
+    /**
      * Builds the order clause
      *
      * @return array<int, string> SQL ORDER clause
      */
     protected function buildOrderClause(): array
     {
+        /** @var HelloassoHistoryList $filters */
+        $filters = $this->filters;
         $order = [];
 
-        if ($this->filters->orderby == HistoryList::ORDERBY_DATE) {
-            $order[] = 'history_date ' . $this->filters->getDirection();
+        switch ($this->filters->orderby) {
+            case HelloassoHistoryList::ORDERBY_DATE:
+                $order[] = 'history_date ' . $filters->getDirection();
+                break;
+            case HelloassoHistoryList::ORDERBY_PAYMENT:
+                $order[] = 'checkout_id ' . $filters->getDirection();
+                break;
+            case HelloassoHistoryList::ORDERBY_PAYER:
+                $order[] = 'payer_name ' . $filters->getDirection();
+                break;
+            case HelloassoHistoryList::ORDERBY_MEMBER:
+                $order[] = 'member_id ' . $filters->getDirection();
+                break;
+            case HelloassoHistoryList::ORDERBY_REASON:
+                $order[] = 'comments ' . $filters->getDirection();
+                break;
+            case HelloassoHistoryList::ORDERBY_AMOUNT:
+                $order[] = 'amount ' . $filters->getDirection();
+                break;
+            case HelloassoHistoryList::ORDERBY_METHOD:
+                $order[] = 'method ' . $filters->getDirection();
+                break;
+            case HelloassoHistoryList::ORDERBY_STATE:
+                $order[] = 'state ' . $filters->getDirection();
+                break;
         }
 
         return $order;
+    }
+
+    /**
+     * Builds where clause, for filtering on simple list mode
+     *
+     * @param Select $select Original select
+     */
+    protected function buildWhereClause(Select $select): void
+    {
+        try {
+            /** @var HelloassoHistoryList $filters */
+            $filters = $this->filters;
+
+            if ($filters->start_date_filter !== null) {
+                $d = new DateTime($filters->raw_start_date_filter);
+                $d->setTime(0, 0, 0);
+                $select->where->greaterThanOrEqualTo(
+                    'history_date',
+                    $d->format('Y-m-d H:i:s')
+                );
+            }
+
+            if ($filters->end_date_filter !== null) {
+                $d = new DateTime($filters->raw_end_date_filter);
+                $d->setTime(23, 59, 59);
+                $select->where->lessThanOrEqualTo(
+                    'history_date',
+                    $d->format('Y-m-d H:i:s')
+                );
+            }
+
+            if ($filters->payment_filter !== null) {
+                $select->where->like(
+                    'checkout_id',
+                    '%' . $filters->payment_filter . '%'
+                );
+            }
+
+            if ($filters->payer_filter !== null) {
+                $select->where->like(
+                    'payer_name',
+                    '%' . $filters->payer_filter . '%'
+                );
+            }
+
+            if ($filters->reason_filter !== null && $filters->reason_filter != '0') {
+                $select->where->equalTo(
+                    'comments',
+                    $filters->reason_filter
+                );
+            }
+
+            if ($filters->method_filter !== null && $filters->method_filter != '0') {
+                $select->where->equalTo(
+                    'method',
+                    $filters->method_filter
+                );
+            }
+        } catch (Throwable $e) {
+            Analog::log(
+                __METHOD__ . ' | ' . $e->getMessage(),
+                Analog::WARNING
+            );
+            throw $e;
+        }
     }
 
     /**
@@ -233,5 +389,25 @@ class HelloassoHistory extends History
             );
         }
         return false;
+    }
+
+    /**
+     * Get payment reasons list
+     *
+     * @return array<int, string>
+     */
+    public function getPaymentReasonsList(): array
+    {
+        return $this->reasons;
+    }
+
+    /**
+     * Get payment methods list
+     *
+     * @return array<int, string>
+     */
+    public function getPaymentMethodsList(): array
+    {
+        return $this->methods;
     }
 }
