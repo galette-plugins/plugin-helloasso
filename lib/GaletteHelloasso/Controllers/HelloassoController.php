@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is part of Galette Helloasso plugin (https://galette-community.github.io/plugin-helloasso).
+ * This file is part of Galette Helloasso plugin (https://galette-plugins.github.io/plugin-helloasso).
  * SPDX-FileCopyrightText: Copyright © 2025-2026 The Galette Team
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -282,7 +282,7 @@ class HelloassoController extends AbstractPluginController
             'webhook_url'   => $this->preferences->getURL() . $this->routeparser->urlFor('helloasso_webhook'),
             'amounts'       => $amounts,
             'tab'           => $tab,
-            'documentation' => 'https://galette-community.github.io/plugin-helloasso/documentation.html#pr%C3%A9f%C3%A9rences'
+            'documentation' => 'https://galette-plugins.github.io/plugin-helloasso/documentation.html#pr%C3%A9f%C3%A9rences'
         ];
 
         // display page
