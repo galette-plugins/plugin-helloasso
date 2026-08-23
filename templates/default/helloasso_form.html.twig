@@ -27,7 +27,7 @@
                                         <div class="ui radio checkbox">
                                             <input type="radio" name="item_id" id="in{{ k }}" value="{{ k }}"{% if loop.index0 == 0 %} checked="checked"{% endif %}/>
                                             <label for="in{{ k }}"><span id="in{{ k }}_name" data-amount="{{ amount['amount'] }}">{{ amount['name'] }}</span>
-                                                ({{ amount['amount']|format_currency('EUR', {}, galette_lang) }})
+                                                ({{ amount['amount']|format_currency('EUR', {}, i18n.getWebID()) }})
                                             </label>
                                         </div>
                                         {% if amount['description'] is defined and amount['description'] is not empty %}

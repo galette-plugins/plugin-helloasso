@@ -21,7 +21,7 @@
             <tr>
                 <th class="collapsing">{{ _T('Amount paid', 'helloasso') }}</th>
                 <td>
-                    {{ details.amount|format_currency('EUR', {}, galette_lang) }}
+                    {{ details.amount|format_currency('EUR', {}, i18n.getWebID()) }}
                     <em>({{ _T('This amount does not include the voluntary contribution you could have made to HelloAsso during payment', 'helloasso') }})</em>
                 </td>
             </tr>
