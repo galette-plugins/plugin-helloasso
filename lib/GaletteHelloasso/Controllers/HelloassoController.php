@@ -366,7 +366,9 @@ class HelloassoController extends AbstractPluginController
         // Verify notification authenticity
         // https://dev.helloasso.com/docs/secure-webhook
         $legit_ip_address = $helloasso->getTestMode() ? '4.233.135.234' : '51.138.206.200';
-        $notification_ip_address = History::findUserIPAddress();
+        //the preferences say how many proxies sit in front, if any; without
+        //them an instance behind one would see its proxy address here
+        $notification_ip_address = History::findUserIPAddress($this->preferences);
         if ($notification_ip_address != $legit_ip_address) {
             Analog::log(
                 'Unauthorized Helloasso notification detected!',
