@@ -1,3 +1,10 @@
-theme: jekyll-theme-cayman
+remote_theme: galette/theme-ghpages
 title: Galette HelloAsso
 description: Plugin pour gérer les paiements de cotisations et de dons via HelloAsso.
+maintainer: community
+plugin:
+  archive: galette-plugin-helloasso
+  min_galette: "1.2.1"
+defaults:
+  - scope: {path: ""}
+    values: {layout: default, lang: en}
