@@ -1,10 +1,18 @@
 remote_theme: galette/theme-ghpages
 title: Galette HelloAsso
-description: Plugin pour gérer les paiements de cotisations et de dons via HelloAsso.
+description: Plugin pour gérer les paiements de cotisations et de dons via HelloAsso
 maintainer: community
 plugin:
   archive: galette-plugin-helloasso
   min_galette: "1.2.1"
 defaults:
   - scope: {path: ""}
-    values: {layout: default, lang: en}
+    values: {layout: default, lang: fr}
+# Without this, README.md would be copied into the published site. It used to be
+# the index page; index.md is now, which is what gives the theme a `ref: home`
+# to build the menu and the language selector from.
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
