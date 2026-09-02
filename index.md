@@ -10,11 +10,9 @@ Ce plugin offre :
 * un historique des paiements,
 * la création automatique de contributions une fois les paiements validés.
 
-**Note** : ce plugin nécessite la **version 1.2.1 ou ultérieure de Galette**.
-
 ![Écran du formulaire de paiement visible par un utilisateur *non connecté* à son compte](images/form-public.jpg)
 
-**Important** : Pour fonctionner, ce plugin nécessite que votre instance de Galette soit accessible publiquement et servie avec un certificat SSL valide.
+{% include alert.html type="note" content="Pour fonctionner, ce plugin nécessite que votre instance de Galette soit accessible publiquement et servie avec un certificat SSL valide." %}
 
 ## Installation
 
