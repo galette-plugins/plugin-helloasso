@@ -67,8 +67,8 @@ msgstr ""
 "option. Please choose another option or change the amount."
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:130
-msgid "An error occured redirecting to the checkout form."
-msgstr "An error occured redirecting to the checkout form."
+msgid "An error occurred redirecting to the checkout form."
+msgstr "An error occurred redirecting to the checkout form."
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:280
 msgid "Helloasso Settings"
@@ -79,8 +79,8 @@ msgid "Helloasso settings have been saved."
 msgstr "Helloasso settings have been saved."
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:342
-msgid "An error occured saving helloasso settings."
-msgstr "An error occured saving helloasso settings."
+msgid "An error occurred saving helloasso settings."
+msgstr "An error occurred saving helloasso settings."
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:532
 msgid "HelloAsso payment done"
@@ -220,8 +220,8 @@ msgid "Cannot load the settings"
 msgstr "Cannot load the settings"
 
 #: ../tempcache/helloasso_preferences.html.twig:79
-msgid "An error occured while loading the settings from the database."
-msgstr "An error occured while loading the settings from the database."
+msgid "An error occurred while loading the settings from the database."
+msgstr "An error occurred while loading the settings from the database."
 
 #: ../tempcache/helloasso_preferences.html.twig:83
 msgid "Please, check if the plugin's database has been properly initialized."

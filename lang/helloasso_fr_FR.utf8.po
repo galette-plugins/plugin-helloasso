@@ -69,7 +69,7 @@ msgstr ""
 "sélectionnée. Veuillez choisir une autre option ou entrer un nouveau montant."
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:130
-msgid "An error occured redirecting to the checkout form."
+msgid "An error occurred redirecting to the checkout form."
 msgstr ""
 "Une erreur est survenue lors de la redirection vers le formulaire de "
 "paiement."
@@ -83,7 +83,7 @@ msgid "Helloasso settings have been saved."
 msgstr "Les préférences Helloasso ont été sauvegardées."
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:342
-msgid "An error occured saving helloasso settings."
+msgid "An error occurred saving helloasso settings."
 msgstr ""
 "Une erreur est survenue lors de l'enregistrement des préférences helloasso."
 
@@ -227,7 +227,7 @@ msgid "Cannot load the settings"
 msgstr "Impossible de charger les préférences"
 
 #: ../tempcache/helloasso_preferences.html.twig:79
-msgid "An error occured while loading the settings from the database."
+msgid "An error occurred while loading the settings from the database."
 msgstr ""
 "Une erreur est survenue lors du chargement des préférences depuis la base de "
 "données."
