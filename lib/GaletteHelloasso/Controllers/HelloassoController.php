@@ -127,7 +127,7 @@ class HelloassoController extends AbstractPluginController
             if (!$checkout) {
                 $this->flash->addMessage(
                     'error_detected',
-                    _T('An error occured redirecting to the checkout form.', 'helloasso')
+                    _T('An error occurred redirecting to the checkout form.', 'helloasso')
                 );
 
                 return $response
@@ -339,7 +339,7 @@ class HelloassoController extends AbstractPluginController
             $this->session->helloasso = $helloasso;
             $this->flash->addMessage(
                 'error_detected',
-                _T('An error occured saving helloasso settings.', 'helloasso')
+                _T('An error occurred saving helloasso settings.', 'helloasso')
             );
         }
 
@@ -457,7 +457,7 @@ class HelloassoController extends AbstractPluginController
                     } else {
                         // something went wrong :'(
                         Analog::log(
-                            'An error occured while storing a new contribution from a Helloasso payment',
+                            'An error occurred while storing a new contribution from a Helloasso payment',
                             Analog::ERROR
                         );
                         $hh->setState(HelloassoHistory::STATE_ERROR);

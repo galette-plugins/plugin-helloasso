@@ -60,7 +60,7 @@ msgid ""
 msgstr ""
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:130
-msgid "An error occured redirecting to the checkout form."
+msgid "An error occurred redirecting to the checkout form."
 msgstr ""
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:280
@@ -72,7 +72,7 @@ msgid "Helloasso settings have been saved."
 msgstr ""
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:342
-msgid "An error occured saving helloasso settings."
+msgid "An error occurred saving helloasso settings."
 msgstr ""
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:532
@@ -208,7 +208,7 @@ msgid "Cannot load the settings"
 msgstr ""
 
 #: ../tempcache/helloasso_preferences.html.twig:79
-msgid "An error occured while loading the settings from the database."
+msgid "An error occurred while loading the settings from the database."
 msgstr ""
 
 #: ../tempcache/helloasso_preferences.html.twig:83
