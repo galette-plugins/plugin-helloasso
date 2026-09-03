@@ -12,7 +12,7 @@ Ce plugin offre :
 
 ![Écran du formulaire de paiement visible par un utilisateur *non connecté* à son compte](images/form-public.jpg)
 
-{% include alert.html type="note" content="Pour fonctionner, ce plugin nécessite que votre instance de Galette soit accessible publiquement et servie avec un certificat SSL valide." %}
+> **Note** — Pour fonctionner, ce plugin nécessite que votre instance de Galette soit accessible publiquement et servie avec un certificat SSL valide.
 
 ## Installation
 
