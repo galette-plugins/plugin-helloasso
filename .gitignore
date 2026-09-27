@@ -3,3 +3,6 @@
 dist/
 tempcache/
 lang/*.po~
+
+# compiled translations, built by bin/console galette:compile-locales
+lang/*/LC_MESSAGES/*.mo
