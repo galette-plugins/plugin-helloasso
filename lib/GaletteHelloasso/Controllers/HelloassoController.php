@@ -555,7 +555,7 @@ class HelloassoController extends AbstractPluginController
                 ]
             ];
 
-            $request = $client->request(
+            $api_response = $client->request(
                 'GET',
                 $helloasso->getApiRoute()
                 . 'v5/organizations/'
@@ -564,7 +564,7 @@ class HelloassoController extends AbstractPluginController
                 . $checkout_id,
                 $headers
             );
-            $checkout = json_decode($request->getBody()->getContents(), true);
+            $checkout = json_decode($api_response->getBody()->getContents(), true);
 
             $details = [
                 'amount' => $checkout['order']['amount']['total'] / 100,
