@@ -368,4 +368,19 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->assertStringContainsString('Card', $body);
         $this->assertCount(3, $this->api_calls);
     }
+
+    /**
+     * Return page refuses to display unexpected checkout details
+     */
+    public function testReturnPageWithUnexpectedDetails(): void
+    {
+        $this->configure();
+        $this->fakeApi([$this->getTokenResponse(), ['id' => 1234]]);
+        $this->session->helloasso_checkouts = ['1234'];
+
+        $test_response = $this->getReturnPage(['checkoutIntentId' => '1234']);
+        $this->assertSame(403, $test_response->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::WARNING, 'payment details could not be retrieved');
+        $this->expectNoLogEntry();
+    }
 }
