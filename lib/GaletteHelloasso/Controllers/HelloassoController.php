@@ -426,7 +426,10 @@ class HelloassoController extends AbstractPluginController
             && $post['metadata']['item_id']
         ) {
             $hh = new HelloassoHistory($this->zdb, $this->login, $this->preferences);
-            $hh->add($post);
+            if (!$hh->add($post)) {
+                //HelloAsso will send it again
+                return $response->withStatus(500, 'Internal error');
+            }
 
             // are we working on a real contribution?
             $real_contrib = false;
