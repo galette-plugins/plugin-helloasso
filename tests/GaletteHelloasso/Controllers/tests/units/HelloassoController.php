@@ -13,6 +13,11 @@ namespace GaletteHelloasso\Controllers\tests\units;
 use Galette\Entity\ContributionsTypes;
 use Galette\Tests\GaletteRoutingTestCase;
 use GaletteHelloasso\Helloasso;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -24,6 +29,13 @@ class HelloassoController extends GaletteRoutingTestCase
 {
     protected int $seed = 20260928061512;
     protected bool $load_plugins = true;
+
+    /**
+     * Requests sent to the (fake) HelloAsso API
+     *
+     * @var array<int, array<string, mixed>>
+     */
+    private array $api_calls = [];
 
     /**
      * Set up tests
@@ -66,6 +78,37 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->setHelloassoPref('helloasso_organization_slug', 'galette-tests');
         $this->setHelloassoPref('helloasso_client_id', 'client-for-tests');
         $this->setHelloassoPref('helloasso_client_secret', 'secret-for-tests');
+    }
+
+    /**
+     * Answer HelloAsso API calls with given responses, in order
+     *
+     * Plugin settings must be set before: they are loaded here.
+     *
+     * @param array<int, array<string, mixed>> $responses JSON responses
+     */
+    private function fakeApi(array $responses): void
+    {
+        $this->api_calls = [];
+        $stack = HandlerStack::create(new MockHandler(array_map(
+            fn(array $body) => new Response(200, ['Content-Type' => 'application/json'], (string)json_encode($body)),
+            $responses
+        )));
+        $stack->push(Middleware::history($this->api_calls));
+        $this->container->set(
+            Helloasso::class,
+            new Helloasso($this->zdb, $this->preferences, new Client(['handler' => $stack]))
+        );
+    }
+
+    /**
+     * Token response of the API
+     *
+     * @return array<string, mixed>
+     */
+    private function getTokenResponse(): array
+    {
+        return ['access_token' => 'access-for-tests', 'expires_in' => 1800, 'refresh_token' => 'refresh-for-tests'];
     }
 
     /**
@@ -276,5 +319,53 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->postPreferences(['helloasso_client_secret' => 'new-secret']);
         $this->assertSame('new-secret', $this->getHelloassoPref('helloasso_client_secret'));
         $this->expectNoLogEntry();
+    }
+
+    /**
+     * A checkout is created on HelloAsso, and its details displayed on return
+     */
+    public function testCheckout(): void
+    {
+        $this->configure();
+        $this->setTypeAmount(5, 10);
+        $member = $this->getMemberOne();
+        $this->logMember($this->dataAdherentOne());
+        $this->fakeApi([
+            $this->getTokenResponse(),
+            ['id' => 1234, 'redirectUrl' => 'https://www.helloasso-sandbox.com/checkout/1234'],
+            [
+                'id' => 1234,
+                'metadata' => ['item_id' => 5, 'item_name' => 'donation in money', 'member_id' => $member->id],
+                'order' => [
+                    'amount' => ['total' => 1250],
+                    'date' => '2026-09-28T10:15:00+02:00',
+                    'payments' => [['paymentMeans' => 'Card']]
+                ]
+            ]
+        ]);
+
+        $test_response = $this->postCheckout(['item_id' => '5', 'amount' => '12,50']);
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->assertSame(['https://www.helloasso-sandbox.com/checkout/1234'], $test_response->getHeader('Location'));
+        $this->expectNoLogEntry();
+        $this->assertSame(['1234'], $this->session->helloasso_checkouts);
+
+        $this->assertCount(2, $this->api_calls);
+        $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), true);
+        $this->assertSame(1250, $checkout['totalAmount']);
+        $this->assertSame(['member_id' => $member->id, 'item_id' => 5, 'item_name' => 'donation in money'], $checkout['metadata']);
+
+        //tokens are kept for next calls
+        $select = $this->zdb->select(HELLOASSO_PREFIX . Helloasso::TABLE_TOKENS);
+        $select->where(['type' => 'access_token']);
+        $this->assertSame('access-for-tests', $this->zdb->execute($select)->current()->value);
+
+        $test_response = $this->getReturnPage(['checkoutIntentId' => '1234', 'code' => 'succeeded']);
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('donation in money', $body);
+        $this->assertStringContainsString('Card', $body);
+        $this->assertCount(3, $this->api_calls);
     }
 }
