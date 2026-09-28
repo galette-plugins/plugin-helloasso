@@ -146,7 +146,8 @@ class HelloassoHistory extends History
             foreach ($orig as $o) {
                 try {
                     if (Galette::isSerialized($o['request'])) {
-                        $oa = unserialize($o['request']);
+                        //legacy entries: only plain data is expected
+                        $oa = unserialize($o['request'], ['allowed_classes' => false]);
                     } else {
                         $oa = Galette::jsonDecode($o['request']);
                     }
