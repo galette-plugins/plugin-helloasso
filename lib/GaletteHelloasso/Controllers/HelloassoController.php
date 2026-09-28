@@ -157,6 +157,13 @@ class HelloassoController extends AbstractPluginController
                     ->withStatus(301)
                     ->withHeader('Location', $this->routeparser->urlFor('helloasso_form'));
             } else {
+                //the return page will only display checkouts started here
+                if (isset($checkout['id'])) {
+                    $checkouts = $this->session->helloasso_checkouts ?? [];
+                    $checkouts[] = (string)$checkout['id'];
+                    $this->session->helloasso_checkouts = array_slice($checkouts, -10);
+                }
+
                 return $response
                     ->withStatus(301)
                     ->withHeader('Location', $checkout['redirectUrl']);
@@ -522,6 +529,14 @@ class HelloassoController extends AbstractPluginController
 
         if (!$checkout_id && !$order_id && !$code) {
             throw new HttpNotFoundException($request);
+        }
+
+        if (!in_array((string)$checkout_id, $this->session->helloasso_checkouts ?? [], true)) {
+            Analog::log(
+                'HelloAsso checkout #' . $checkout_id . ' has not been started from this session, its details are not displayed.',
+                Analog::WARNING
+            );
+            throw new HttpForbiddenException($request);
         }
 
         try {
