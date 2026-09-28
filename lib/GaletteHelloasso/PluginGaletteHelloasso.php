@@ -17,6 +17,7 @@ use Galette\Core\Plugins\DashboardProviderInterface;
 use Galette\Core\Plugins\MenuProviderInterface;
 use Galette\Core\Preferences;
 use Galette\Core\GalettePlugin;
+use Laminas\Db\Metadata\Source\Factory;
 
 /**
  * Galette HelloAsso plugin
@@ -131,5 +132,17 @@ class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterf
             && $this->zdb->tableExists(HELLOASSO_PREFIX . Helloasso::TABLE_TOKENS)
             && $this->zdb->tableExists(HELLOASSO_PREFIX . HelloassoHistory::TABLE)
         ;
+    }
+
+    /**
+     * Database version of tables installed before versions tracking
+     *
+     * Payer, member, method and receipt are history columns since 1.1.0.
+     */
+    public function getLegacyDbVersion(): ?float
+    {
+        $metadata = Factory::createSourceFromAdapter($this->zdb->db);
+        $columns = $metadata->getColumnNames(PREFIX_DB . HELLOASSO_PREFIX . HelloassoHistory::TABLE);
+        return in_array('payer_name', $columns, true) ? null : 1.0;
     }
 }
