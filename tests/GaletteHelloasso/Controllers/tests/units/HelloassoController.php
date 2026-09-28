@@ -538,4 +538,32 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->expectNoLogEntry();
         $this->assertCount(2, $this->getHistory());
     }
+
+    /**
+     * No contribution is stored when the payment cannot be added to history
+     */
+    public function testWebhookHistoryFailure(): void
+    {
+        $member = $this->getMemberOne();
+        $notification = $this->getPaymentNotification($member->id, 5, 1250);
+        //too long for its column
+        $notification['data']['payer']['lastName'] = str_repeat('Doe', 100);
+
+        //on PostgreSQL, an error aborts the whole test transaction
+        $savepoint = $this->zdb->isPostgres();
+        if ($savepoint) {
+            $this->zdb->db->query('SAVEPOINT history_failure', \Laminas\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        }
+        $test_response = $this->postWebhook($notification);
+        if ($savepoint) {
+            $this->zdb->db->query('ROLLBACK TO SAVEPOINT history_failure', \Laminas\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        }
+
+        $this->assertSame(500, $test_response->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Query error');
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'An error occurred trying to add log entry.');
+        $this->expectNoLogEntry();
+        $this->assertCount(0, $this->getHistory());
+        $this->assertSame(0, $this->countContributions($member->id));
+    }
 }
