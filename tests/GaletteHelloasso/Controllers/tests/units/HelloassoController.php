@@ -187,4 +187,39 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->expectLogEntry(\Analog\Analog::ERROR, 'Cannot create Helloasso checkout');
         $this->expectNoLogEntry();
     }
+
+    /**
+     * Get the return page of a checkout
+     *
+     * @param array<string, string> $query Query parameters
+     */
+    private function getReturnPage(array $query): ResponseInterface
+    {
+        $request = $this->createRequest('helloasso_success', [], 'GET', 'text/html', $query);
+        return $this->app->handle($request);
+    }
+
+    /**
+     * Return page only displays checkouts started from the current session
+     */
+    public function testReturnPageOnlyShowsOwnCheckouts(): void
+    {
+        $this->configure();
+
+        foreach ([['checkoutIntentId' => '42'], ['orderId' => '42'], ['code' => 'succeeded']] as $query) {
+            $test_response = $this->getReturnPage($query);
+            $this->assertSame(403, $test_response->getStatusCode());
+            $this->expectLogEntry(\Analog\Analog::WARNING, 'has not been started from this session');
+            //HelloAsso has not been called
+            $this->expectNoLogEntry();
+        }
+
+        //a checkout started from this session is looked for on HelloAsso
+        $this->session->helloasso_checkouts = ['41', '42'];
+        $test_response = $this->getReturnPage(['checkoutIntentId' => '42']);
+        $this->assertSame(403, $test_response->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Error while connecting to Helloasso');
+        $this->expectLogEntry(\Analog\Analog::WARNING, 'payment details could not be retrieved');
+        $this->expectNoLogEntry();
+    }
 }
