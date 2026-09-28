@@ -15,9 +15,9 @@ CREATE SEQUENCE galette_helloasso_history_id_seq
 DROP TABLE IF EXISTS galette_helloasso_history;
 CREATE TABLE galette_helloasso_history (
   id_helloasso integer DEFAULT nextval('galette_helloasso_history_id_seq'::text) NOT NULL,
-  history_date date NOT NULL,
+  history_date timestamp NOT NULL,
   checkout_id character varying(255),
-  amount real NOT NULL,
+  amount numeric(15,2) NOT NULL,
   comments character varying(255),
   request text,
   state smallint DEFAULT 0 NOT NULL,
