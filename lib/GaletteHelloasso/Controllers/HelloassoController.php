@@ -42,12 +42,15 @@ class HelloassoController extends AbstractPluginController
     #[Inject("Plugin Galette Helloasso")]
     protected array $module_info;
 
+    #[Inject]
+    protected Helloasso $helloasso;
+
     /**
      * Main form
      */
     public function form(Response $response): Response
     {
-        $helloasso = new Helloasso($this->zdb, $this->preferences);
+        $helloasso = $this->helloasso;
 
         $current_url = $this->preferences->getURL();
 
@@ -90,7 +93,7 @@ class HelloassoController extends AbstractPluginController
     public function formCheckout(Request $request, Response $response): Response
     {
         $helloasso_request = $request->getParsedBody();
-        $helloasso = new Helloasso($this->zdb, $this->preferences);
+        $helloasso = $this->helloasso;
         $adherent = new Adherent($this->zdb);
 
         // Only reasons proposed to the current user can be paid
@@ -188,7 +191,7 @@ class HelloassoController extends AbstractPluginController
             $helloasso = $this->session->helloasso;
             $this->session->helloasso = null;
         } else {
-            $helloasso = new Helloasso($this->zdb, $this->preferences);
+            $helloasso = $this->helloasso;
         }
 
         $filters = [];
@@ -300,7 +303,7 @@ class HelloassoController extends AbstractPluginController
             $helloasso = $this->session->helloasso;
             $this->session->helloasso = null;
         } else {
-            $helloasso = new Helloasso($this->zdb, $this->preferences);
+            $helloasso = $this->helloasso;
         }
 
         $amounts = $helloasso->getAllAmounts();
@@ -330,7 +333,7 @@ class HelloassoController extends AbstractPluginController
     public function storePreferences(Request $request, Response $response): Response
     {
         $post = $request->getParsedBody();
-        $helloasso = new Helloasso($this->zdb, $this->preferences);
+        $helloasso = $this->helloasso;
 
         if ($this->login->isAdmin()) {
             if (array_key_exists('helloasso_test_mode', $post)) {
@@ -392,7 +395,7 @@ class HelloassoController extends AbstractPluginController
     {
         $body = $request->getBody();
         $post = json_decode($body->getContents(), true);
-        $helloasso = new Helloasso($this->zdb, $this->preferences);
+        $helloasso = $this->helloasso;
 
         // Verify notification authenticity
         // https://dev.helloasso.com/docs/secure-webhook
@@ -541,7 +544,7 @@ class HelloassoController extends AbstractPluginController
         }
 
         try {
-            $helloasso = new Helloasso($this->zdb, $this->preferences);
+            $helloasso = $this->helloasso;
             $tokens = $helloasso->getTokens();
 
             $client = $helloasso->setupClient();
@@ -552,7 +555,8 @@ class HelloassoController extends AbstractPluginController
                 ]
             ];
 
-            $request = $client->get(
+            $request = $client->request(
+                'GET',
                 $helloasso->getApiRoute()
                 . 'v5/organizations/'
                 . $helloasso->getOrganizationSlug()
