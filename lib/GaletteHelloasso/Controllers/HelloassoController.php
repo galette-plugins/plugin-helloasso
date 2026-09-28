@@ -315,6 +315,8 @@ class HelloassoController extends AbstractPluginController
             'webhook_url'   => $this->preferences->getURL() . $this->routeparser->urlFor('helloasso_webhook'),
             'amounts'       => $amounts,
             'tab'           => $tab,
+            //one call to HelloAsso for the whole page
+            'organization'  => $helloasso->getOrganization(),
             'documentation' => 'https://galette-plugins.github.io/plugin-helloasso/documentation.html#pr%C3%A9f%C3%A9rences'
         ];
 

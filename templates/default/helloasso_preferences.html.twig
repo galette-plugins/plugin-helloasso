@@ -110,7 +110,7 @@
             <div class="ui{{ tab == 'status' ? ' active' }} tab segment" data-tab="status">
                 <div class="ui list">
                     <div class="item">
-                        {% if helloasso.getOrganization() is not empty %}
+                        {% if organization is not empty %}
                             <div class="ui fluid centered large green label">{{ _T("Connected to HelloAsso", "helloasso") }}</div>
                         {% else %}
                             <div class="ui fluid centered large red label">{{ _T("Not connected to HelloAsso", "helloasso") }}</div>
@@ -123,39 +123,39 @@
                     {% endif %}
                 </div>
 
-                {% if helloasso.getOrganization() is not empty %}
+                {% if organization is not empty %}
                         <div class="ui relaxed divided list">
                             <div class="item">
                                 <div class="content">
                                     <div class="header">{{ _T("Name", "helloasso") }}</div>
-                                    <div class="description">{{ helloasso.getOrganization().name }}</div>
+                                    <div class="description">{{ organization.name }}</div>
                                 </div>
                             </div>
-                        {% if helloasso.getOrganization().description is defined %}
+                        {% if organization.description is defined %}
                             <div class="item">
                                 <div class="content">
                                     <div class="header">{{ _T("Description", "helloasso") }}</div>
-                                    <div class="description">{{ helloasso.getOrganization().description }}</div>
+                                    <div class="description">{{ organization.description }}</div>
                                 </div>
                             </div>
                         {% endif %}
                             <div class="item">
                                 <div class="content">
                                     <div class="header">{{ _T("Type", "helloasso") }}</div>
-                                    <div class="description">{{ helloasso.getOrganization().type }}</div>
+                                    <div class="description">{{ organization.type }}</div>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="content">
                                     <div class="header">{{ _T("Category", "helloasso") }}</div>
-                                    <div class="description">{{ helloasso.getOrganization().category }}</div>
+                                    <div class="description">{{ organization.category }}</div>
                                 </div>
                             </div>
-                        {% if helloasso.getOrganization().rnaNumber is defined %}
+                        {% if organization.rnaNumber is defined %}
                             <div class="item">
                                 <div class="content">
                                     <div class="header">{{ _T("RNA Number", "helloasso") }}</div>
-                                    <div class="description">{{ helloasso.getOrganization().rnaNumber }}</div>
+                                    <div class="description">{{ organization.rnaNumber }}</div>
                                 </div>
                             </div>
                         {% endif %}
