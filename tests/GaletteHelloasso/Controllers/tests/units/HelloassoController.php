@@ -383,4 +383,25 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->expectLogEntry(\Analog\Analog::WARNING, 'payment details could not be retrieved');
         $this->expectNoLogEntry();
     }
+
+    /**
+     * Settings ask HelloAsso about the organization only once
+     */
+    public function testPreferencesOrganization(): void
+    {
+        $this->configure();
+        $this->fakeApi([
+            $this->getTokenResponse(),
+            ['name' => 'Galette tests organization', 'type' => 'Association1901', 'category' => 'Other']
+        ]);
+        $this->logSuperAdmin();
+
+        $test_response = $this->app->handle($this->createRequest('helloasso_preferences'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('Galette tests organization', $body);
+        $this->assertStringContainsString('Association1901', $body);
+        $this->assertCount(2, $this->api_calls);
+    }
 }
