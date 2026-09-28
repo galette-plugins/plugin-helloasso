@@ -566,4 +566,22 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->assertCount(0, $this->getHistory());
         $this->assertSame(0, $this->countContributions($member->id));
     }
+
+    /**
+     * History lists stored payments
+     */
+    public function testHistory(): void
+    {
+        $member = $this->getMemberOne();
+        $this->assertSame(200, $this->postWebhook($this->getPaymentNotification($member->id, 5, 1250))->getStatusCode());
+        $this->logSuperAdmin();
+
+        $test_response = $this->app->handle($this->createRequest('helloasso_history'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('98765', $body);
+        $this->assertStringContainsString('DOE Jane', $body);
+        $this->assertStringContainsString(mb_strtoupper($member->name) . ' ' . $member->surname, $body);
+    }
 }
