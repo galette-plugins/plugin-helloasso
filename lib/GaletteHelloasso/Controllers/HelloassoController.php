@@ -108,11 +108,22 @@ class HelloassoController extends AbstractPluginController
         }
         $contribution_type = new ContributionsTypes($this->zdb, $item_id);
 
-        // Check the amount
-        $amount = $helloasso_request['amount'];
+        // Check the amount, accepting a decimal comma
+        $amount = $helloasso_request['amount'] ?? '';
+        $amount = is_string($amount) ? str_replace(',', '.', trim($amount)) : '';
+        if (!is_numeric($amount)) {
+            $this->flash->addMessage(
+                'error_detected',
+                _T("Please enter an amount.", "helloasso")
+            );
+
+            return $response
+                ->withStatus(301)
+                ->withHeader('Location', $this->routeparser->urlFor('helloasso_form'));
+        }
         $amount_check = $helloasso_amounts[$item_id]['amount'];
 
-        if ($amount < $amount_check) {
+        if ((float)$amount < (float)$amount_check) {
             $this->flash->addMessage(
                 'error_detected',
                 _T("The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.", "helloasso")
@@ -134,7 +145,7 @@ class HelloassoController extends AbstractPluginController
 
             $contains_donation = $contribution_type->isExtension() ? false : true;
 
-            $checkout = $helloasso->checkout($metadata, $amount * 100, $contains_donation);
+            $checkout = $helloasso->checkout($metadata, (float)$amount * 100, $contains_donation);
 
             if (!$checkout) {
                 $this->flash->addMessage(

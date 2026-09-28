@@ -152,4 +152,39 @@ class HelloassoController extends GaletteRoutingTestCase
             _T("You have to select an option.", "helloasso")
         );
     }
+
+    /**
+     * Amount must be a number, at least the one of the payment reason
+     */
+    public function testCheckoutChecksAmount(): void
+    {
+        $this->configure();
+        $this->setTypeAmount(5, 10);
+        $this->getMemberOne();
+        $this->logMember($this->dataAdherentOne());
+
+        foreach (['', 'abc', '12abc', ['12']] as $amount) {
+            $this->expectCheckoutRefused(
+                $this->postCheckout(['item_id' => '5', 'amount' => $amount]),
+                _T("Please enter an amount.", "helloasso")
+            );
+        }
+        foreach (['9.99', '-20', '0'] as $amount) {
+            $this->expectCheckoutRefused(
+                $this->postCheckout(['item_id' => '5', 'amount' => $amount]),
+                _T(
+                    "The amount you've entered is lower than the minimum amount for the selected option. Please choose another option or change the amount.",
+                    "helloasso"
+                )
+            );
+        }
+
+        //decimal comma is accepted: the checkout is requested, HelloAsso cannot be reached
+        $test_response = $this->postCheckout(['item_id' => '5', 'amount' => '12,50']);
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->expectFlashData(['error_detected' => [_T('An error occurred redirecting to the checkout form.', 'helloasso')]]);
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Error while connecting to Helloasso');
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Cannot create Helloasso checkout');
+        $this->expectNoLogEntry();
+    }
 }
