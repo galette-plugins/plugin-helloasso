@@ -517,6 +517,9 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->assertCount(1, $history);
         $this->assertSame(HelloassoHistory::STATE_PROCESSED, (int)$history[0]->state);
         $this->assertSame('DOE Jane', $history[0]->payer_name);
+        //time is kept
+        $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $history[0]->history_date);
+        $this->assertEquals(12.5, $history[0]->amount);
 
         //notified again
         $test_response = $this->postWebhook($this->getPaymentNotification($member->id, 5, 1250));
