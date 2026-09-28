@@ -345,9 +345,11 @@ class Helloasso
 
         try {
             $tokens = $this->getTokens();
+            //19.99 * 100 is 1998.9999999999998
+            $amount = (int)round($amount);
             $data = [
-                'totalAmount' => (int)$amount,
-                'initialAmount' => (int)$amount,
+                'totalAmount' => $amount,
+                'initialAmount' => $amount,
                 'itemName' => $metadata['item_name'],
                 'backUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_back'),
                 'errorUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_error'),

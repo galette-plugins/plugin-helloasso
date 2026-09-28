@@ -404,4 +404,25 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->assertStringContainsString('Association1901', $body);
         $this->assertCount(2, $this->api_calls);
     }
+
+    /**
+     * Checkout amount is rounded to the cent, not truncated
+     */
+    public function testCheckoutRoundsAmount(): void
+    {
+        $this->configure();
+        $this->setTypeAmount(5, 10);
+        $this->getMemberOne();
+        $this->logMember($this->dataAdherentOne());
+        $this->fakeApi([
+            $this->getTokenResponse(),
+            ['id' => 1234, 'redirectUrl' => 'https://www.helloasso-sandbox.com/checkout/1234']
+        ]);
+
+        $this->assertSame(301, $this->postCheckout(['item_id' => '5', 'amount' => '19.99'])->getStatusCode());
+        $this->expectNoLogEntry();
+        $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), true);
+        $this->assertSame(1999, $checkout['totalAmount']);
+        $this->assertSame(1999, $checkout['initialAmount']);
+    }
 }
