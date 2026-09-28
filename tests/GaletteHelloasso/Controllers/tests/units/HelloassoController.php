@@ -10,9 +10,11 @@ declare(strict_types=1);
 
 namespace GaletteHelloasso\Controllers\tests\units;
 
+use Galette\Entity\Contribution;
 use Galette\Entity\ContributionsTypes;
 use Galette\Tests\GaletteRoutingTestCase;
 use GaletteHelloasso\Helloasso;
+use GaletteHelloasso\HelloassoHistory;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -53,6 +55,7 @@ class HelloassoController extends GaletteRoutingTestCase
     public function tearDown(): void
     {
         putenv('HTTPS_PROXY');
+        unset($_SERVER['REMOTE_ADDR']);
         $this->login->logout();
         parent::tearDown();
     }
@@ -424,5 +427,115 @@ class HelloassoController extends GaletteRoutingTestCase
         $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), true);
         $this->assertSame(1999, $checkout['totalAmount']);
         $this->assertSame(1999, $checkout['initialAmount']);
+    }
+
+    /**
+     * Build a payment notification
+     *
+     * @param int $id_adh  Member ID
+     * @param int $id_type Contribution type ID
+     * @param int $amount  Amount, in cents
+     *
+     * @return array<string, mixed>
+     */
+    private function getPaymentNotification(int $id_adh, int $id_type, int $amount): array
+    {
+        return [
+            'eventType' => 'Payment',
+            'data' => [
+                'id' => 98765,
+                'amount' => $amount,
+                'state' => 'Authorized',
+                'cashOutState' => 'Transfered',
+                'paymentMeans' => 'Card',
+                'paymentReceiptUrl' => 'https://www.helloasso-sandbox.com/paiement/98765',
+                'payer' => ['firstName' => 'Jane', 'lastName' => 'Doe']
+            ],
+            'metadata' => [
+                'member_id' => $id_adh,
+                'item_id' => $id_type,
+                'item_name' => 'donation in money'
+            ]
+        ];
+    }
+
+    /**
+     * Post a notification to the webhook, from HelloAsso address
+     *
+     * @param array<string, mixed> $notification Notification
+     */
+    private function postWebhook(array $notification): ResponseInterface
+    {
+        //HelloAsso production address
+        $_SERVER['REMOTE_ADDR'] = '51.138.206.200';
+        $sfactory = new \Slim\Psr7\Factory\StreamFactory();
+        $request = $this->createRequest('helloasso_webhook', [], 'POST', 'application/json')
+            ->withBody($sfactory->createStream(json_encode($notification, JSON_THROW_ON_ERROR)));
+        return $this->app->handle($request);
+    }
+
+    /**
+     * Count contributions of a member
+     *
+     * @param int $id_adh Member ID
+     */
+    private function countContributions(int $id_adh): int
+    {
+        $select = $this->zdb->select(Contribution::TABLE);
+        $select->where([\Galette\Entity\Adherent::PK => $id_adh]);
+        return $this->zdb->execute($select)->count();
+    }
+
+    /**
+     * Get history entries, latest first
+     *
+     * @return array<int, \ArrayObject<string, mixed>>
+     */
+    private function getHistory(): array
+    {
+        $select = $this->zdb->select(HELLOASSO_PREFIX . HelloassoHistory::TABLE);
+        $select->order(HelloassoHistory::PK . ' DESC');
+        $entries = [];
+        foreach ($this->zdb->execute($select) as $entry) {
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
+    /**
+     * Webhook stores the contribution once, even when notified again
+     */
+    public function testWebhook(): void
+    {
+        $member = $this->getMemberOne();
+
+        $test_response = $this->postWebhook($this->getPaymentNotification($member->id, 5, 1250));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $this->assertSame(1, $this->countContributions($member->id));
+        $history = $this->getHistory();
+        $this->assertCount(1, $history);
+        $this->assertSame(HelloassoHistory::STATE_PROCESSED, (int)$history[0]->state);
+        $this->assertSame('DOE Jane', $history[0]->payer_name);
+
+        //notified again
+        $test_response = $this->postWebhook($this->getPaymentNotification($member->id, 5, 1250));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::WARNING, 'has already been processed');
+        $this->expectNoLogEntry();
+        $this->assertSame(1, $this->countContributions($member->id));
+        $history = $this->getHistory();
+        $this->assertCount(2, $history);
+        $this->assertSame(HelloassoHistory::STATE_ALREADYDONE, (int)$history[0]->state);
+
+        //from another address
+        $_SERVER['REMOTE_ADDR'] = '192.0.2.1';
+        $sfactory = new \Slim\Psr7\Factory\StreamFactory();
+        $request = $this->createRequest('helloasso_webhook', [], 'POST', 'application/json')
+            ->withBody($sfactory->createStream(json_encode($this->getPaymentNotification($member->id, 5, 1250))));
+        $this->assertSame(403, $this->app->handle($request)->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Unauthorized Helloasso notification');
+        $this->expectNoLogEntry();
+        $this->assertCount(2, $this->getHistory());
     }
 }
