@@ -13,7 +13,9 @@
             {{ _T("Your Helloasso payment has failed for technical reasons.", "helloasso") }}
             {% if error %}
                 <ul class="list">
-                    <li>{{ _T("Payment nb.", "helloasso") }} : <code>{{ error.checkoutIntentId }}</code></li>
+                    {% if error.checkoutIntentId is defined %}
+                        <li>{{ _T("Payment nb.", "helloasso") }} : <code>{{ error.checkoutIntentId }}</code></li>
+                    {% endif %}
                     {% if error.error is defined %}
                         <li>{{ _T("Error", "helloasso") }} : <code>{{ error.error }}</code></li>
                     {% endif %}
