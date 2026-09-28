@@ -54,11 +54,14 @@
                         required: true
                     } %}
 
-                    {% include "components/forms/text.html.twig" with {
+                    {% include "components/forms/input.html.twig" with {
+                        type: 'password',
                         id: 'helloasso_client_secret',
-                        value: helloasso.getClientSecret(),
+                        value: null,
                         label: _T("Your clientSecret", "helloasso"),
-                        required: true
+                        required: helloasso.getClientSecret() == '',
+                        autocomplete: 'off',
+                        placeholder: helloasso.getClientSecret() != '' ? _T("Leave empty to keep the current one") : ''
                     } %}
 
                     {% include "components/forms/checkbox.html.twig" with {

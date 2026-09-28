@@ -222,4 +222,59 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->expectLogEntry(\Analog\Analog::WARNING, 'payment details could not be retrieved');
         $this->expectNoLogEntry();
     }
+
+    /**
+     * Get a plugin preference, as stored
+     *
+     * @param string $name Preference name
+     */
+    private function getHelloassoPref(string $name): string
+    {
+        $select = $this->zdb->select(HELLOASSO_PREFIX . Helloasso::TABLE);
+        $select->where(['nom_pref' => $name]);
+        return $this->zdb->execute($select)->current()->val_pref;
+    }
+
+    /**
+     * Post preferences
+     *
+     * @param array<string, string> $data Posted data
+     */
+    private function postPreferences(array $data): void
+    {
+        $request = $this->createRequest('store_helloasso_preferences', [], 'POST')->withParsedBody(
+            $data + ['helloasso_organization_slug' => 'galette-tests', 'helloasso_client_id' => 'client-for-tests']
+        );
+        $test_response = $this->app->handle($request);
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->expectFlashData(['success_detected' => [_T('Helloasso settings have been saved.', 'helloasso')]]);
+    }
+
+    /**
+     * Client secret is never sent back to the browser, and kept when left empty
+     */
+    public function testPreferencesSecret(): void
+    {
+        $this->configure();
+        $this->logSuperAdmin();
+
+        $test_response = $this->app->handle($this->createRequest('helloasso_preferences'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        //organization cannot be retrieved from HelloAsso
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Error while connecting to Helloasso');
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Exception when calling OrganisationApi');
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('client-for-tests', $body);
+        $this->assertStringNotContainsString('secret-for-tests', $body);
+        $this->assertMatchesRegularExpression('/<input\s+type="password"\s+name="helloasso_client_secret"/', $body);
+
+        //empty secret keeps the stored one
+        $this->postPreferences(['helloasso_client_secret' => ' ']);
+        $this->assertSame('secret-for-tests', $this->getHelloassoPref('helloasso_client_secret'));
+
+        $this->postPreferences(['helloasso_client_secret' => 'new-secret']);
+        $this->assertSame('new-secret', $this->getHelloassoPref('helloasso_client_secret'));
+        $this->expectNoLogEntry();
+    }
 }

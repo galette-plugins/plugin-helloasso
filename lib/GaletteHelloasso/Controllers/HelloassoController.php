@@ -349,8 +349,9 @@ class HelloassoController extends AbstractPluginController
             if (isset($post['helloasso_client_id'])) {
                 $helloasso->setClientId($post['helloasso_client_id']);
             }
-            if (isset($post['helloasso_client_secret'])) {
-                $helloasso->setClientSecret($post['helloasso_client_secret']);
+            //secret is never displayed, an empty value keeps the current one
+            if (isset($post['helloasso_client_secret']) && trim($post['helloasso_client_secret']) !== '') {
+                $helloasso->setClientSecret(trim($post['helloasso_client_secret']));
             }
         }
         if (isset($post['inactives'])) {
