@@ -92,11 +92,23 @@ class HelloassoController extends AbstractPluginController
         $helloasso_request = $request->getParsedBody();
         $helloasso = new Helloasso($this->zdb, $this->preferences);
         $adherent = new Adherent($this->zdb);
-        $contribution_type = new ContributionsTypes($this->zdb, (int)$helloasso_request['item_id']);
+
+        // Only reasons proposed to the current user can be paid
+        $item_id = (int)($helloasso_request['item_id'] ?? 0);
+        $helloasso_amounts = $helloasso->getAmounts($this->login);
+        if (!isset($helloasso_amounts[$item_id])) {
+            $this->flash->addMessage(
+                'error_detected',
+                _T("You have to select an option.", "helloasso")
+            );
+
+            return $response
+                ->withStatus(301)
+                ->withHeader('Location', $this->routeparser->urlFor('helloasso_form'));
+        }
+        $contribution_type = new ContributionsTypes($this->zdb, $item_id);
 
         // Check the amount
-        $item_id = $helloasso_request['item_id'];
-        $helloasso_amounts = $helloasso->getAmounts($this->login);
         $amount = $helloasso_request['amount'];
         $amount_check = $helloasso_amounts[$item_id]['amount'];
 
