@@ -1,14 +1,18 @@
+---
+ref: home
+title: Galette HelloAsso
+description: Plugin pour gérer les paiements de cotisations et de dons via HelloAsso
+---
+
 Ce plugin offre :
 
 * un formulaire de paiement en ligne,
 * un historique des paiements,
 * la création automatique de contributions une fois les paiements validés.
 
-**Note** : ce plugin nécessite la **version 1.2.1 ou ultérieure de Galette**.
-
 ![Écran du formulaire de paiement visible par un utilisateur *non connecté* à son compte](images/form-public.jpg)
 
-**Important** : Pour fonctionner, ce plugin nécessite que votre instance de Galette soit accessible publiquement et servie avec un certificat SSL valide.
+> **Note** — Pour fonctionner, ce plugin nécessite que votre instance de Galette soit accessible publiquement et servie avec un certificat SSL valide.
 
 ## Installation
 
@@ -37,7 +41,7 @@ Une fois le plugin installé, un groupe *Helloasso* est ajouté au menu de Galet
 
 ![Menu du plugin](images/menu.jpg)
 
-Le formulaire de paiement est accessible depuis les pages publiques de Galette. 
+Le formulaire de paiement est accessible depuis les pages publiques de Galette.
 
 Seuls les utilisateurs *connectés* à leur compte peuvent payer des contributions *avec extension d'adhésion* (ou cotisations).
 
@@ -61,8 +65,8 @@ Les simples visiteurs (utilisateurs *non connectés* à leur compte) peuvent uni
 
 ![Section "Intégrations et API" du compte HelloAsso](images/helloasso-account.jpg)
 
-* **Types de contribution** : dans ce tableau vous pouvez désactiver les [types de contribution configurés dans Galette](https://doc.galette.eu/fr/master/usermanual/contributions.html#contributions-types) que vous ne souhaitez pas voir proposés comme motif de paiement sur le formulaire de paiement en ligne. 
-  
+* **Types de contribution** : dans ce tableau vous pouvez désactiver les [types de contribution configurés dans Galette](https://doc.galette.eu/fr/master/usermanual/contributions.html#contributions-types) que vous ne souhaitez pas voir proposés comme motif de paiement sur le formulaire de paiement en ligne.
+
   *Les types de contribution dont le montant est nul, ou dont le montant n'est pas configuré, ne seront pas proposés comme motifs de paiement sur le formulaire, même ci ceux-ci ne sont pas marqués comme inactifs dans le tableau.*
 
 ### État de la connexion

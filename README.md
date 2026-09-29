@@ -1,31 +1,7 @@
-[![GitHub license](https://img.shields.io/github/license/galette-plugins/plugin-helloasso)](https://github.com/galette-plugins/plugin-helloasso/blob/master/COPYING)
+# plugin-helloasso website
 
-## Français
+This branch holds the website published at
+<https://galette-plugins.github.io/plugin-helloasso/>.
 
-**Note** : HelloAsso s'adresse principalement aux associations et organisations à but non lucratif *françaises*.
-
-Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations et de dons via [HelloAsso](https://www.helloasso.com/).
-
-* [site web](https://galette-plugins.github.io/plugin-helloasso)
-* [bogues et fonctionnalités](https://github.com/galette-plugins/plugin-helloasso/issues)
-* [documentation](https://galette-plugins.github.io/plugin-helloasso/documentation.html)
-
-Pour utiliser le plugin HelloAsso pour Galette, vous aurez besoin d'une version adéquate de Galette, ainsi que du plugin lui même :
-
-* télécharger la dernière version stable depuis la [page du plugin HelloAsso pour Galette](https://github.com/galette-plugins/plugin-helloasso/releases)
-* utiliser [le code source du plugin HelloAsso pour Galette depuis le dépôt](https://github.com/galette-plugins/plugin-helloasso), cette solution requiert quelques compétences techniques
-
-## English
-
-**Note**: HelloAsso primarily serves *French* associations and non-profit organizations.
-
-A [Galette](https://galette.eu) plugin to handle membership fees and donations payments with [HelloAsso](https://www.helloasso.com/).
-
-* [website](https://galette-plugins.github.io/plugin-helloasso)
-* [bugs and features](https://github.com/galette-plugins/plugin-helloasso/issues)
-* [documentation](https://galette-plugins.github.io/plugin-helloasso/documentation.html)
-
-To use Galette HelloAsso plugin, you'll need a reliable Galette version, and of course the plugin itself by either:
-
-* download latest stable version available from the [Galette HelloAsso plugin page](https://github.com/galette-plugins/plugin-helloasso/releases)
-* use [Galette HelloAsso plugin source code from repository](https://github.com/galette-plugins/plugin-helloasso), this solution requires some technical skills
+It uses the shared [Galette theme](https://github.com/galette/theme-ghpages);
+the page content lives in `index.md`.
