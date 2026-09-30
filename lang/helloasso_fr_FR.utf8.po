@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 22:39+0200\n"
+"Report-Msgid-Bugs-To: translations@galette.eu\n"
+"POT-Creation-Date: 2026-08-21 22:41+0200\n"
 "PO-Revision-Date: 2026-08-21 22:40+0200\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: \n"
@@ -341,7 +341,7 @@ msgid "Secured payment"
 msgstr "Paiement sécurisé"
 
 #: ../tempcache/helloasso_form.html.twig:223
-#, no-php-format
+#, php-format
 msgid ""
 "We have chosen HelloAsso to process your payment. HelloAsso guarantees that "
 "100% of your payment will be donated to our organization. You can support "
