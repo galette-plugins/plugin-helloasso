@@ -3,7 +3,7 @@ title: Galette HelloAsso
 description: Plugin pour gérer les paiements de cotisations et de dons via HelloAsso
 ---
 
-Ce plugin offre :
+Ce plugin fournit :
 
 * un formulaire de paiement en ligne,
 * un historique des paiements,
