@@ -26,7 +26,7 @@ Tout d’abord, téléchargez le plugin :
 
 Décompressez l'archive téléchargée dans le répertoire `plugins` de Galette. Par
 exemple, sous linux (en remplaçant *{url}* et *{version}* par les valeurs
-correspondantes):
+correspondantes) :
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -90,7 +90,7 @@ paiement figure seulement dans l'historique des paiements du plugin.
   HelloAsso. Il s'agit de la première partie du chemin d'accès de l'URL de votre
   compte. Par exemple, dans l'URL
   `https://admin.helloasso.com/{organizationSlug}/accueil` il s'agit de
-  *{organizationSlug}*
+  *{organizationSlug}*.
 * **Votre clientId** : vous trouverez cette information dans le champ *"Mon
   clientID"* dans la section "Intégrations et API" du compte de votre
   association sur HelloAsso.
