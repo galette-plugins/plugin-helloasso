@@ -1,28 +1,28 @@
 ---
 title: Galette HelloAsso
-description: Plugin to handle membership fees and donations payments with HelloAsso
+description: Vtičnik za upravljanje plačil članarin in donacij prek storitve HelloAsso
 ---
 
-This plugin provides:
+Ta vtičnik omogoča:
 
-* an online payment form,
-* a payment history,
-* automatic creation of contributions once payments are validated.
+* spletni obrazec za plačilo,
+* zgodovina plačil,
+* samodejno ustvarjanje prispevkov po potrditvi plačil.
 
-![Payment form as seen by a user *not logged in* to their
-account](images/form-public.jpg)
+![Obrazec za plačilo, kot ga vidi uporabnik, ki *ni prijavljen* v svoj
+račun](images/form-public.jpg)
 
-> **Note** — This plugin requires your Galette instance to be publicly reachable
-> and served with a valid SSL certificate.
+> **Opomba** — Ta vtičnik zahteva, da je vaša namestitev sistema Galette javno
+> dostopna in deluje z veljavnim potrdilom SSL.
 
-## Installation
+## Namestitev
 
-First, download the plugin:
+Najprej prenesite vtičnik:
 
-[![Download the latest HelloAsso plugin
-release!](https://img.shields.io/badge/1.0.0-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0&color=ffb619)](https://github.com/galette-plugins/plugin-helloasso/releases/tag/1.0.0)
-[![Get the HelloAsso plugin
-nightly!](https://img.shields.io/badge/Nightly-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619)](https://galette.eu/download/plugins/galette-plugin-helloasso-dev.tar.bz2)
+[![Prenesite najnovejšo različico vtičnika
+HelloAsso!](https://img.shields.io/badge/1.0.0-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0&color=ffb619)](https://github.com/galette-plugins/plugin-helloasso/releases/tag/1.0.0)
+[![Pridobite nočno različico vtičnika
+HelloAsso!](https://img.shields.io/badge/Nightly-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619)](https://galette.eu/download/plugins/galette-plugin-helloasso-dev.tar.bz2)
 
 Extract the downloaded archive into the Galette `plugins` directory. For
 example, on Linux (replacing *{url}* and *{version}* with the matching values):
