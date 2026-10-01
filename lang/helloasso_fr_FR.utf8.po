@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-09-30 21:59+0200\n"
-"PO-Revision-Date: 2026-09-30 19:03+0000\n"
+"PO-Revision-Date: 2026-10-01 12:38+0000\n"
 "Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/galette/plugins-"
 "helloasso/fr/>\n"
@@ -170,7 +170,7 @@ msgstr "Accepter les virements SEPA"
 #: ../templates/default/helloasso_preferences.html.twig:81
 msgid "Amounts can be defined in the contributions types settings."
 msgstr ""
-"Les montants peuvent être définis dans les paramètres des types de "
+"Les montants peuvent être définis depuis la configuration des types de "
 "contributions."
 
 #: ../templates/default/helloasso_preferences.html.twig:96
@@ -280,8 +280,6 @@ msgstr ""
 "créée"
 
 #: ../templates/default/helloasso_history.html.twig:208
-#, fuzzy
-#| msgid "Duplicate"
 msgid "Duplicate entry"
 msgstr "Doublon"
 
