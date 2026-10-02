@@ -70,8 +70,8 @@ plačil vtičnika.
 
 ### Nastavitve
 
-* **Povratni URL za nastavitev v HelloAsso**: ta URL vnesite v polje »Mon URL de
-  callback« v razdelku »Intégrations et API« v računu vašega društva na
+* **Povratni URL za nastavitev v HelloAsso**: ta URL vnesite v polje *Mon URL de
+  callback* v razdelku »Intégrations et API« v računu vašega društva na
   platformi HelloAsso.
 * **Omogočite testni način**: za uporabo testnega načina najprej ustvarite
   testni račun na [helloasso-sandbox.com](https://www.helloasso-sandbox.com).
@@ -87,25 +87,25 @@ plačil vtičnika.
   URL-naslovu vašega računa. Na primer, v URL-naslovu
   `https://admin.helloasso.com/{organizationSlug}/accueil` je to
   *{organizationSlug}*.
-* **Vaš clientId**: našli ga boste v polju »Mon clientID« v razdelku
+* **Vaš clientId**: našli ga boste v polju *Mon clientID* v razdelku
   »Intégrations et API« v računu vašega društva na platformi HelloAsso.
-* **Vaš clientSecret**: našli ga boste v polju »Mon clientSecret« v razdelku
-  »Intégrations et API« v računu vašega društva na platformi HelloAsso.
+* **Vaš clientSecret**: našli ga boste v polju *Mon clientSecret* v razdelku
+  *Intégrations et API* v računu vašega društva na platformi HelloAsso.
 
 ![Razdelek »Intégrations et API« računa HelloAsso](images/helloasso-account.jpg)
 
-* **Contribution types**: in this table, you can disable the [contribution types
-  configured in
-  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  that you do not want to offer as a payment purpose on the online payment form.
+* **Vrste prispevkov**: v tej tabeli lahko onemogočite [vrste prispevkov,
+  konfigurirane v
+  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types),
+  ki jih ne želite ponuditi kot namen plačila na spletnem obrazcu za plačilo.
 
-  *Contribution types with a zero amount, or no amount set, are never offered as
-  payment purposes on the form, even if they are not marked as inactive in the
-  table.*
+  *Vrste prispevkov z zneskom nič ali brez določenega zneska se na obrazcu
+  nikoli ne ponudijo kot nameni plačila, tudi če v tabeli niso označene kot
+  neaktivne.*
 
-### Connection status
+### Stanje povezave
 
-This screen shows whether the plugin is correctly set up and connected to
+Ta zaslon prikazuje, ali je vtičnik pravilno nastavljen in povezan s storitvijo
 HelloAsso.
 
-![HelloAsso connection status](images/status.jpg)
+![Stanje povezave s HelloAsso](images/status.jpg)
