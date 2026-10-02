@@ -24,8 +24,8 @@ HelloAsso!](https://img.shields.io/badge/1.0.0-HelloAsso-ffb619?style=for-the-ba
 [![Pridobite nočno različico vtičnika
 HelloAsso!](https://img.shields.io/badge/Nightly-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619)](https://galette.eu/download/plugins/galette-plugin-helloasso-dev.tar.bz2)
 
-Extract the downloaded archive into the Galette `plugins` directory. For
-example, on Linux (replacing *{url}* and *{version}* with the matching values):
+Razširite preneseni arhiv v mapo `plugins` programa Galette. Na primer v sistemu
+Linux (pri čemer *{url}* in *{version}* nadomestite z ustreznimi vrednostmi):
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -33,64 +33,66 @@ $ wget {url}
 $ tar xjvf galette-plugin-helloasso-{version}.tar.bz2
 ```
 
-## Database initialization
+## Inicializacija podatkovne baze
 
-This plugin needs several tables in the database. See [Galette's plugins
-management
-interface](https://doc.galette.eu/en/master/plugins/#plugins-management-interface).
+Ta vtičnik potrebuje več tabel v podatkovni bazi. Glejte [vmesnik za upravljanje
+vtičnikov v
+Galette](https://doc.galette.eu/en/master/plugins/#plugins-management-interface).
 
-And that's it, the *HelloAsso* plugin is installed. :)
+In to je to, vtičnik *HelloAsso* je nameščen. :)
 
-## Using the plugin
+## Uporaba vtičnika
 
-Once the plugin is installed, a *Helloasso* group is added to the Galette menu
-when a user is logged in. It lets administrators and staff members set the
-plugin preferences and browse the payment history.
+Ko je vtičnik nameščen, se v meniju programa Galette – ob prijavi uporabnika –
+prikaže skupina *Helloasso*. Ta skrbnikom in osebju omogoča nastavljanje
+parametrov vtičnika ter pregledovanje zgodovine plačil.
 
-![Plugin menu](images/menu.jpg)
+![Meni vtičnika](images/menu.jpg)
 
-The payment form is available from Galette's public pages.
+Obrazec za plačilo je na voljo na javnih straneh Galette.
 
-Only users *logged in* to their account can pay contributions *with membership
-extension* (membership fees).
+Samo uporabniki, ki so *prijavljeni* v svoj račun, lahko plačajo prispevke *s
+podaljšanjem članstva* (članarino).
 
-![Payment form as seen by a user logged in to their account](images/form.jpg)
+![Obrazec za plačilo, kot ga vidi uporabnik, prijavljen v svoj
+račun](images/form.jpg)
 
-Visitors (users *not logged in* to their account) can only pay contributions
-*without membership extension* (donations). In that case, no contribution is
-created in Galette: the payment only appears in the plugin's payment history.
+Obiskovalci (uporabniki, ki *niso prijavljeni* v svoj račun) lahko plačajo
+prispevke le *brez podaljšanja članstva* (kot donacije). V tem primeru se v
+sistemu Galette ne ustvari zapis o prispevku: plačilo je vidno le v zgodovini
+plačil vtičnika.
 
-![Payment history](images/history.jpg)
+![Zgodovina plačil](images/history.jpg)
 
-## Preferences
+## Nastavitve
 
-![Preferences](images/settings.jpg)
+![Nastavitve](images/settings.jpg)
 
-### Settings
+### Nastavitve
 
-* **Callback URL to set in HelloAsso**: enter this URL in the *"Mon URL de
-  callback"* field, in the "Intégrations et API" section of your association's
-  HelloAsso account.
-* **Enable test mode**: to use test mode, first create a test account on
-  [helloasso-sandbox.com](https://www.helloasso-sandbox.com). You can then check
-  how the plugin works without making real online payments. **WARNING** *in this
-  mode, never use real credit card numbers, only test cards (see the test cards
-  list from
+* **Povratni URL za nastavitev v HelloAsso**: ta URL vnesite v polje »Mon URL de
+  callback« v razdelku »Intégrations et API« v računu vašega društva na
+  platformi HelloAsso.
+* **Omogočite testni način**: za uporabo testnega načina najprej ustvarite
+  testni račun na [helloasso-sandbox.com](https://www.helloasso-sandbox.com).
+  Tako lahko preverite delovanje vtičnika, ne da bi izvajali dejanska spletna
+  plačila. **OPOZORILO**: *v tem načinu nikoli ne uporabljajte pravih številk
+  kreditnih kartic, temveč le testne kartice (glejte seznam testnih kartic
+  ponudnikov
   [Stripe](https://docs.stripe.com/testing?numbers-or-method-or-token=card-numbers#visa)
-  or from
+  ali
   [Worldline](https://docs.sips.worldline-solutions.com/fr/cartes-de-test.html)).*
-* **Your organizationSlug**: you will find it in your browser's address bar
-  while logged in to your association's HelloAsso account. It is the first part
-  of your account URL path. For example, in the URL
-  `https://admin.helloasso.com/{organizationSlug}/accueil` it is
+* **Vaš organizationSlug**: najdete ga v naslovni vrstici brskalnika, ko ste
+  prijavljeni v račun HelloAsso svojega društva. Gre za prvi del poti v
+  URL-naslovu vašega računa. Na primer, v URL-naslovu
+  `https://admin.helloasso.com/{organizationSlug}/accueil` je to
   *{organizationSlug}*.
-* **Your clientId**: you will find it in the *"Mon clientID"* field, in the
-  "Intégrations et API" section of your association's HelloAsso account.
-* **Your clientSecret**: you will find it in the *"Mon clientSecret"* field, in
-  the "Intégrations et API" section of your association's HelloAsso account.
+* **Vaš clientId**: našli ga boste v polju »Mon clientID« v razdelku
+  »Intégrations et API« v računu vašega društva na platformi HelloAsso.
+* **Vaš clientSecret**: našli ga boste v polju »Mon clientSecret« v razdelku
+  »Intégrations et API« v računu vašega društva na platformi HelloAsso.
 
-![The "Intégrations et API" section of the HelloAsso
-account](images/helloasso-account.jpg)
+![Razdelek »Intégrations et API« računa HelloAsso](images/helloasso-account.jpg)
 
 * **Contribution types**: in this table, you can disable the [contribution types
   configured in
