@@ -42,12 +42,15 @@ class HelloassoController extends AbstractPluginController
     #[Inject("Plugin Galette Helloasso")]
     protected array $module_info;
 
+    #[Inject]
+    protected Helloasso $helloasso;
+
     /**
      * Main form
      */
     public function form(Response $response): Response
     {
-        $helloasso = new Helloasso($this->zdb, $this->preferences);
+        $helloasso = $this->helloasso;
 
         $current_url = $this->preferences->getURL();
 
@@ -90,7 +93,7 @@ class HelloassoController extends AbstractPluginController
     public function formCheckout(Request $request, Response $response): Response
     {
         $helloasso_request = $request->getParsedBody();
-        $helloasso = new Helloasso($this->zdb, $this->preferences);
+        $helloasso = $this->helloasso;
         $adherent = new Adherent($this->zdb);
 
         // Only reasons proposed to the current user can be paid
@@ -188,7 +191,7 @@ class HelloassoController extends AbstractPluginController
             $helloasso = $this->session->helloasso;
             $this->session->helloasso = null;
         } else {
-            $helloasso = new Helloasso($this->zdb, $this->preferences);
+            $helloasso = $this->helloasso;
         }
 
         $filters = [];
@@ -300,7 +303,7 @@ class HelloassoController extends AbstractPluginController
             $helloasso = $this->session->helloasso;
             $this->session->helloasso = null;
         } else {
-            $helloasso = new Helloasso($this->zdb, $this->preferences);
+            $helloasso = $this->helloasso;
         }
 
         $amounts = $helloasso->getAllAmounts();
@@ -312,6 +315,8 @@ class HelloassoController extends AbstractPluginController
             'webhook_url'   => $this->preferences->getURL() . $this->routeparser->urlFor('helloasso_webhook'),
             'amounts'       => $amounts,
             'tab'           => $tab,
+            //one call to HelloAsso for the whole page
+            'organization'  => $helloasso->getOrganization(),
             'documentation' => 'https://galette-plugins.github.io/plugin-helloasso/documentation.html#pr%C3%A9f%C3%A9rences'
         ];
 
@@ -330,7 +335,7 @@ class HelloassoController extends AbstractPluginController
     public function storePreferences(Request $request, Response $response): Response
     {
         $post = $request->getParsedBody();
-        $helloasso = new Helloasso($this->zdb, $this->preferences);
+        $helloasso = $this->helloasso;
 
         if ($this->login->isAdmin()) {
             if (array_key_exists('helloasso_test_mode', $post)) {
@@ -392,7 +397,7 @@ class HelloassoController extends AbstractPluginController
     {
         $body = $request->getBody();
         $post = json_decode($body->getContents(), true);
-        $helloasso = new Helloasso($this->zdb, $this->preferences);
+        $helloasso = $this->helloasso;
 
         // Verify notification authenticity
         // https://dev.helloasso.com/docs/secure-webhook
@@ -421,7 +426,10 @@ class HelloassoController extends AbstractPluginController
             && $post['metadata']['item_id']
         ) {
             $hh = new HelloassoHistory($this->zdb, $this->login, $this->preferences);
-            $hh->add($post);
+            if (!$hh->add($post)) {
+                //HelloAsso will send it again
+                return $response->withStatus(500, 'Internal error');
+            }
 
             // are we working on a real contribution?
             $real_contrib = false;
@@ -541,7 +549,7 @@ class HelloassoController extends AbstractPluginController
         }
 
         try {
-            $helloasso = new Helloasso($this->zdb, $this->preferences);
+            $helloasso = $this->helloasso;
             $tokens = $helloasso->getTokens();
 
             $client = $helloasso->setupClient();
@@ -552,7 +560,8 @@ class HelloassoController extends AbstractPluginController
                 ]
             ];
 
-            $request = $client->get(
+            $api_response = $client->request(
+                'GET',
                 $helloasso->getApiRoute()
                 . 'v5/organizations/'
                 . $helloasso->getOrganizationSlug()
@@ -560,7 +569,7 @@ class HelloassoController extends AbstractPluginController
                 . $checkout_id,
                 $headers
             );
-            $checkout = json_decode($request->getBody()->getContents(), true);
+            $checkout = json_decode($api_response->getBody()->getContents(), true);
 
             $details = [
                 'amount' => $checkout['order']['amount']['total'] / 100,

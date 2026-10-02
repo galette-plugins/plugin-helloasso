@@ -88,7 +88,10 @@ class HelloassoHistory extends History
             $insert = $this->zdb->insert($this->getTableName());
             $insert->values($values);
             $this->zdb->execute($insert);
-            $this->id = (int)$this->zdb->driver->getLastGeneratedValue();
+            //without the sequence name, pgsql gives no value
+            $this->id = (int)$this->zdb->connection->getLastGeneratedValue(
+                $this->zdb->isPostgres() ? $this->zdb->getSequenceName($this->getTableName(), 'id', prefixed: true) : null
+            );
 
             Analog::log(
                 'An entry has been added in helloasso history',
@@ -143,12 +146,13 @@ class HelloassoHistory extends History
             foreach ($orig as $o) {
                 try {
                     if (Galette::isSerialized($o['request'])) {
-                        $oa = unserialize($o['request']);
+                        //legacy entries: only plain data is expected
+                        $oa = unserialize($o['request'], ['allowed_classes' => false]);
                     } else {
                         $oa = Galette::jsonDecode($o['request']);
                     }
 
-                    $o['member_fullname'] = $this->getMemberFullName($o['member_id']);
+                    $o['member_fullname'] = $this->getMemberFullName((int)$o['member_id']);
                     $o['raw_request'] = print_r($oa, true);
                     $o['request'] = $oa;
 

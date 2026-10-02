@@ -16,6 +16,7 @@ use Galette\Core\Login;
 use Galette\Core\Preferences;
 use Galette\Entity\ContributionsTypes;
 use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 
 /**
  * Preferences for helloasso
@@ -34,6 +35,7 @@ class Helloasso
 
     private Db $zdb;
     private Preferences $preferences;
+    private ?ClientInterface $client;
 
     /** @var array<int, array<string,mixed>> */
     private array $prices;
@@ -64,13 +66,15 @@ class Helloasso
     /**
      * Default constructor
      *
-     * @param Db          $zdb         Database instance
-     * @param Preferences $preferences Preferences
+     * @param Db               $zdb         Database instance
+     * @param Preferences      $preferences Preferences
+     * @param ?ClientInterface $client      HTTP client, a default one is built if null
      */
-    public function __construct(Db $zdb, Preferences $preferences)
+    public function __construct(Db $zdb, Preferences $preferences, ?ClientInterface $client = null)
     {
         $this->zdb = $zdb;
         $this->preferences = $preferences;
+        $this->client = $client;
         $this->loaded = false;
         $this->prices = [];
         $this->inactives = [];
@@ -341,9 +345,11 @@ class Helloasso
 
         try {
             $tokens = $this->getTokens();
+            //19.99 * 100 is 1998.9999999999998
+            $amount = (int)round($amount);
             $data = [
-                'totalAmount' => (int)$amount,
-                'initialAmount' => (int)$amount,
+                'totalAmount' => $amount,
+                'initialAmount' => $amount,
                 'itemName' => $metadata['item_name'],
                 'backUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_back'),
                 'errorUrl' => $this->preferences->getURL() . $routeparser->urlFor('helloasso_error'),
@@ -372,7 +378,7 @@ class Helloasso
                 ],
                 'json' => $data,
             ];
-            $request = $client->post($this->getApiRoute() . 'v5/organizations/' . $this->getOrganizationSlug() . '/checkout-intents', $headers);
+            $request = $client->request('POST', $this->getApiRoute() . 'v5/organizations/' . $this->getOrganizationSlug() . '/checkout-intents', $headers);
             $contents = $request->getBody()->getContents();
 
             return json_decode($contents, true);
@@ -389,9 +395,9 @@ class Helloasso
     /**
      * Setup Guzzle client
      */
-    public function setupClient(): Client
+    public function setupClient(): ClientInterface
     {
-        return new Client(
+        return $this->client ??= new Client(
             $this->getClientOptions()
         );
     }

@@ -10,9 +10,16 @@ declare(strict_types=1);
 
 namespace GaletteHelloasso\Controllers\tests\units;
 
+use Galette\Entity\Contribution;
 use Galette\Entity\ContributionsTypes;
 use Galette\Tests\GaletteRoutingTestCase;
 use GaletteHelloasso\Helloasso;
+use GaletteHelloasso\HelloassoHistory;
+use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -24,6 +31,13 @@ class HelloassoController extends GaletteRoutingTestCase
 {
     protected int $seed = 20260928061512;
     protected bool $load_plugins = true;
+
+    /**
+     * Requests sent to the (fake) HelloAsso API
+     *
+     * @var array<int, array<string, mixed>>
+     */
+    private array $api_calls = [];
 
     /**
      * Set up tests
@@ -41,6 +55,7 @@ class HelloassoController extends GaletteRoutingTestCase
     public function tearDown(): void
     {
         putenv('HTTPS_PROXY');
+        unset($_SERVER['REMOTE_ADDR']);
         $this->login->logout();
         parent::tearDown();
     }
@@ -66,6 +81,37 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->setHelloassoPref('helloasso_organization_slug', 'galette-tests');
         $this->setHelloassoPref('helloasso_client_id', 'client-for-tests');
         $this->setHelloassoPref('helloasso_client_secret', 'secret-for-tests');
+    }
+
+    /**
+     * Answer HelloAsso API calls with given responses, in order
+     *
+     * Plugin settings must be set before: they are loaded here.
+     *
+     * @param array<int, array<string, mixed>> $responses JSON responses
+     */
+    private function fakeApi(array $responses): void
+    {
+        $this->api_calls = [];
+        $stack = HandlerStack::create(new MockHandler(array_map(
+            fn(array $body) => new Response(200, ['Content-Type' => 'application/json'], (string)json_encode($body)),
+            $responses
+        )));
+        $stack->push(Middleware::history($this->api_calls));
+        $this->container->set(
+            Helloasso::class,
+            new Helloasso($this->zdb, $this->preferences, new Client(['handler' => $stack]))
+        );
+    }
+
+    /**
+     * Token response of the API
+     *
+     * @return array<string, mixed>
+     */
+    private function getTokenResponse(): array
+    {
+        return ['access_token' => 'access-for-tests', 'expires_in' => 1800, 'refresh_token' => 'refresh-for-tests'];
     }
 
     /**
@@ -276,5 +322,269 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->postPreferences(['helloasso_client_secret' => 'new-secret']);
         $this->assertSame('new-secret', $this->getHelloassoPref('helloasso_client_secret'));
         $this->expectNoLogEntry();
+    }
+
+    /**
+     * A checkout is created on HelloAsso, and its details displayed on return
+     */
+    public function testCheckout(): void
+    {
+        $this->configure();
+        $this->setTypeAmount(5, 10);
+        $member = $this->getMemberOne();
+        $this->logMember($this->dataAdherentOne());
+        $this->fakeApi([
+            $this->getTokenResponse(),
+            ['id' => 1234, 'redirectUrl' => 'https://www.helloasso-sandbox.com/checkout/1234'],
+            [
+                'id' => 1234,
+                'metadata' => ['item_id' => 5, 'item_name' => 'donation in money', 'member_id' => $member->id],
+                'order' => [
+                    'amount' => ['total' => 1250],
+                    'date' => '2026-09-28T10:15:00+02:00',
+                    'payments' => [['paymentMeans' => 'Card']]
+                ]
+            ]
+        ]);
+
+        $test_response = $this->postCheckout(['item_id' => '5', 'amount' => '12,50']);
+        $this->assertSame(301, $test_response->getStatusCode());
+        $this->assertSame(['https://www.helloasso-sandbox.com/checkout/1234'], $test_response->getHeader('Location'));
+        $this->expectNoLogEntry();
+        $this->assertSame(['1234'], $this->session->helloasso_checkouts);
+
+        $this->assertCount(2, $this->api_calls);
+        $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), true);
+        $this->assertSame(1250, $checkout['totalAmount']);
+        $this->assertSame(['member_id' => $member->id, 'item_id' => 5, 'item_name' => 'donation in money'], $checkout['metadata']);
+
+        //tokens are kept for next calls
+        $select = $this->zdb->select(HELLOASSO_PREFIX . Helloasso::TABLE_TOKENS);
+        $select->where(['type' => 'access_token']);
+        $this->assertSame('access-for-tests', $this->zdb->execute($select)->current()->value);
+
+        $test_response = $this->getReturnPage(['checkoutIntentId' => '1234', 'code' => 'succeeded']);
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('donation in money', $body);
+        $this->assertStringContainsString('Card', $body);
+        $this->assertCount(3, $this->api_calls);
+    }
+
+    /**
+     * Return page refuses to display unexpected checkout details
+     */
+    public function testReturnPageWithUnexpectedDetails(): void
+    {
+        $this->configure();
+        $this->fakeApi([$this->getTokenResponse(), ['id' => 1234]]);
+        $this->session->helloasso_checkouts = ['1234'];
+
+        $test_response = $this->getReturnPage(['checkoutIntentId' => '1234']);
+        $this->assertSame(403, $test_response->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::WARNING, 'payment details could not be retrieved');
+        $this->expectNoLogEntry();
+    }
+
+    /**
+     * Settings ask HelloAsso about the organization only once
+     */
+    public function testPreferencesOrganization(): void
+    {
+        $this->configure();
+        $this->fakeApi([
+            $this->getTokenResponse(),
+            ['name' => 'Galette tests organization', 'type' => 'Association1901', 'category' => 'Other']
+        ]);
+        $this->logSuperAdmin();
+
+        $test_response = $this->app->handle($this->createRequest('helloasso_preferences'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('Galette tests organization', $body);
+        $this->assertStringContainsString('Association1901', $body);
+        $this->assertCount(2, $this->api_calls);
+    }
+
+    /**
+     * Checkout amount is rounded to the cent, not truncated
+     */
+    public function testCheckoutRoundsAmount(): void
+    {
+        $this->configure();
+        $this->setTypeAmount(5, 10);
+        $this->getMemberOne();
+        $this->logMember($this->dataAdherentOne());
+        $this->fakeApi([
+            $this->getTokenResponse(),
+            ['id' => 1234, 'redirectUrl' => 'https://www.helloasso-sandbox.com/checkout/1234']
+        ]);
+
+        $this->assertSame(301, $this->postCheckout(['item_id' => '5', 'amount' => '19.99'])->getStatusCode());
+        $this->expectNoLogEntry();
+        $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), true);
+        $this->assertSame(1999, $checkout['totalAmount']);
+        $this->assertSame(1999, $checkout['initialAmount']);
+    }
+
+    /**
+     * Build a payment notification
+     *
+     * @param int $id_adh  Member ID
+     * @param int $id_type Contribution type ID
+     * @param int $amount  Amount, in cents
+     *
+     * @return array<string, mixed>
+     */
+    private function getPaymentNotification(int $id_adh, int $id_type, int $amount): array
+    {
+        return [
+            'eventType' => 'Payment',
+            'data' => [
+                'id' => 98765,
+                'amount' => $amount,
+                'state' => 'Authorized',
+                'cashOutState' => 'Transfered',
+                'paymentMeans' => 'Card',
+                'paymentReceiptUrl' => 'https://www.helloasso-sandbox.com/paiement/98765',
+                'payer' => ['firstName' => 'Jane', 'lastName' => 'Doe']
+            ],
+            'metadata' => [
+                'member_id' => $id_adh,
+                'item_id' => $id_type,
+                'item_name' => 'donation in money'
+            ]
+        ];
+    }
+
+    /**
+     * Post a notification to the webhook, from HelloAsso address
+     *
+     * @param array<string, mixed> $notification Notification
+     */
+    private function postWebhook(array $notification): ResponseInterface
+    {
+        //HelloAsso production address
+        $_SERVER['REMOTE_ADDR'] = '51.138.206.200';
+        $sfactory = new \Slim\Psr7\Factory\StreamFactory();
+        $request = $this->createRequest('helloasso_webhook', [], 'POST', 'application/json')
+            ->withBody($sfactory->createStream(json_encode($notification, JSON_THROW_ON_ERROR)));
+        return $this->app->handle($request);
+    }
+
+    /**
+     * Count contributions of a member
+     *
+     * @param int $id_adh Member ID
+     */
+    private function countContributions(int $id_adh): int
+    {
+        $select = $this->zdb->select(Contribution::TABLE);
+        $select->where([\Galette\Entity\Adherent::PK => $id_adh]);
+        return $this->zdb->execute($select)->count();
+    }
+
+    /**
+     * Get history entries, latest first
+     *
+     * @return array<int, \ArrayObject<string, mixed>>
+     */
+    private function getHistory(): array
+    {
+        $select = $this->zdb->select(HELLOASSO_PREFIX . HelloassoHistory::TABLE);
+        $select->order(HelloassoHistory::PK . ' DESC');
+        $entries = [];
+        foreach ($this->zdb->execute($select) as $entry) {
+            $entries[] = $entry;
+        }
+        return $entries;
+    }
+
+    /**
+     * Webhook stores the contribution once, even when notified again
+     */
+    public function testWebhook(): void
+    {
+        $member = $this->getMemberOne();
+
+        $test_response = $this->postWebhook($this->getPaymentNotification($member->id, 5, 1250));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $this->assertSame(1, $this->countContributions($member->id));
+        $history = $this->getHistory();
+        $this->assertCount(1, $history);
+        $this->assertSame(HelloassoHistory::STATE_PROCESSED, (int)$history[0]->state);
+        $this->assertSame('DOE Jane', $history[0]->payer_name);
+        //time is kept
+        $this->assertMatchesRegularExpression('/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/', $history[0]->history_date);
+        $this->assertEquals(12.5, $history[0]->amount);
+
+        //notified again
+        $test_response = $this->postWebhook($this->getPaymentNotification($member->id, 5, 1250));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::WARNING, 'has already been processed');
+        $this->expectNoLogEntry();
+        $this->assertSame(1, $this->countContributions($member->id));
+        $history = $this->getHistory();
+        $this->assertCount(2, $history);
+        $this->assertSame(HelloassoHistory::STATE_ALREADYDONE, (int)$history[0]->state);
+
+        //from another address
+        $_SERVER['REMOTE_ADDR'] = '192.0.2.1';
+        $sfactory = new \Slim\Psr7\Factory\StreamFactory();
+        $request = $this->createRequest('helloasso_webhook', [], 'POST', 'application/json')
+            ->withBody($sfactory->createStream(json_encode($this->getPaymentNotification($member->id, 5, 1250))));
+        $this->assertSame(403, $this->app->handle($request)->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Unauthorized Helloasso notification');
+        $this->expectNoLogEntry();
+        $this->assertCount(2, $this->getHistory());
+    }
+
+    /**
+     * No contribution is stored when the payment cannot be added to history
+     */
+    public function testWebhookHistoryFailure(): void
+    {
+        $member = $this->getMemberOne();
+        $notification = $this->getPaymentNotification($member->id, 5, 1250);
+        //too long for its column
+        $notification['data']['payer']['lastName'] = str_repeat('Doe', 100);
+
+        //on PostgreSQL, an error aborts the whole test transaction
+        $savepoint = $this->zdb->isPostgres();
+        if ($savepoint) {
+            $this->zdb->db->query('SAVEPOINT history_failure', \Laminas\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        }
+        $test_response = $this->postWebhook($notification);
+        if ($savepoint) {
+            $this->zdb->db->query('ROLLBACK TO SAVEPOINT history_failure', \Laminas\Db\Adapter\Adapter::QUERY_MODE_EXECUTE);
+        }
+
+        $this->assertSame(500, $test_response->getStatusCode());
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'Query error');
+        $this->expectLogEntry(\Analog\Analog::ERROR, 'An error occurred trying to add log entry.');
+        $this->expectNoLogEntry();
+        $this->assertCount(0, $this->getHistory());
+        $this->assertSame(0, $this->countContributions($member->id));
+    }
+
+    /**
+     * History lists stored payments
+     */
+    public function testHistory(): void
+    {
+        $member = $this->getMemberOne();
+        $this->assertSame(200, $this->postWebhook($this->getPaymentNotification($member->id, 5, 1250))->getStatusCode());
+        $this->logSuperAdmin();
+
+        $test_response = $this->app->handle($this->createRequest('helloasso_history'));
+        $this->assertSame(200, $test_response->getStatusCode());
+        $this->expectNoLogEntry();
+        $body = (string)$test_response->getBody();
+        $this->assertStringContainsString('98765', $body);
+        $this->assertStringContainsString('DOE Jane', $body);
+        $this->assertStringContainsString(mb_strtoupper($member->name) . ' ' . $member->surname, $body);
     }
 }
