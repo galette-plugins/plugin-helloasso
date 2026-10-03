@@ -12,7 +12,7 @@ Ta vtičnik omogoča:
 ![Obrazec za plačilo, kot ga vidi uporabnik, ki *ni prijavljen* v svoj
 račun](images/form-public.jpg)
 
-> **Opomba** — Ta vtičnik zahteva, da je vaša namestitev sistema Galette javno
+> **Note** — Ta vtičnik zahteva, da je vaša namestitev sistema Galette javno
 > dostopna in deluje z veljavnim potrdilom SSL.
 
 ## Namestitev
