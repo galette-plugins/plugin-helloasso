@@ -11,7 +11,7 @@ Un plugin [Galette](https://galette.eu) pour gérer les paiements de cotisations
 
 * [site web](https://galette-plugins.github.io/plugin-helloasso)
 * [bogues et fonctionnalités](https://github.com/galette-plugins/plugin-helloasso/issues)
-* [documentation](https://galette-plugins.github.io/plugin-helloasso/documentation.html)
+* [documentation](https://galette-plugins.github.io/plugin-helloasso/)
 
 Pour utiliser le plugin HelloAsso pour Galette, vous aurez besoin d'une version adéquate de Galette, ainsi que du plugin lui-même :
 
@@ -27,7 +27,7 @@ A [Galette](https://galette.eu) plugin to handle membership fees and donations p
 
 * [website](https://galette-plugins.github.io/plugin-helloasso)
 * [bugs and features](https://github.com/galette-plugins/plugin-helloasso/issues)
-* [documentation](https://galette-plugins.github.io/plugin-helloasso/documentation.html)
+* [documentation](https://galette-plugins.github.io/plugin-helloasso/fr/)
 
 To use Galette HelloAsso plugin, you'll need a reliable Galette version, and of course the plugin itself by either:
 
