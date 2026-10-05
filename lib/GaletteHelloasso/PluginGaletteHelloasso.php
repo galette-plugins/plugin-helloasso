@@ -15,6 +15,7 @@ use Galette\Core\Db;
 use Galette\Core\Login;
 use Galette\Core\Plugins\DashboardProviderInterface;
 use Galette\Core\Plugins\MenuProviderInterface;
+use Galette\Core\Plugins\PublicPagesProviderInterface;
 use Galette\Core\Preferences;
 use Galette\Core\GalettePlugin;
 use Laminas\Db\Metadata\Source\Factory;
@@ -26,7 +27,7 @@ use Laminas\Db\Metadata\Source\Factory;
  * @author Guillaume AGNIERAY <dev@agnieray.net>
  */
 
-class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterface, DashboardProviderInterface
+class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterface, DashboardProviderInterface, PublicPagesProviderInterface
 {
     #[Inject]
     private readonly Db $zdb; //@phpstan-ignore-line injected from DI
@@ -85,6 +86,28 @@ class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterf
                 'icon' => 'helloasso'
             ]
         ];
+    }
+
+    /**
+     * Get the public pages the plugin declares
+     *
+     * @return array<string, array{routes: list<string>, default?: int}>
+     */
+    public function getPublicPages(): array
+    {
+        return [
+            'form' => ['routes' => ['helloasso_form']],
+        ];
+    }
+
+    /**
+     * Get the label of a declared public page
+     *
+     * @param string $id Page identifier
+     */
+    public function getPublicPageLabel(string $id): string
+    {
+        return _T("Payment form", "helloasso");
     }
 
     /**
