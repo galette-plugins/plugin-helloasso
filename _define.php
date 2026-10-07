@@ -13,10 +13,10 @@ $this->register(
     name: 'Galette Helloasso',     //Name
     desc: 'Helloasso integration', //Short description
     author: 'Guillaume AGNIERAY',  //Author
-    version: '1.1.0-dev',          //Version
+    version: '1.1.0',              //Version
     compver: '1.3.0',              //Galette compatible version
     route: 'helloasso',            //Routing name and translation domain
-    date: '2026-08-08',            //Release date
+    date: '2026-10-08',            //Release date
     acls: [                        //Permissions needed
         'helloasso_preferences'        => 'staff',
         'store_helloasso_preferences'  => 'staff',
