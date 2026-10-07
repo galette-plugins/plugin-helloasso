@@ -123,7 +123,7 @@ class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterf
         global $preferences;
         $contents = [];
 
-        if ($preferences->showPublicPage($login, 'pref_publicpages_visibility_generic')) {
+        if ($preferences->showPublicPage($login, 'pref_helloasso_publicpages_visibility_form')) {
             $contents[] = [
                 'label' => _T("Payment form", "helloasso"),
                 'route' => [
