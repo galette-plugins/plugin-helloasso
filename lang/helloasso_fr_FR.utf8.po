@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-10-07 14:40+0200\n"
-"PO-Revision-Date: 2026-10-01 12:38+0000\n"
+"PO-Revision-Date: 2026-10-07 19:31+0000\n"
 "Last-Translator: Johan Cwiklinski <trasher@x-tnd.be>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/galette/plugins-"
 "helloasso/fr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.10.1.dev0\n"
 
 #: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:47
 msgid "Helloasso"
@@ -121,14 +121,12 @@ msgid "None"
 msgstr "Aucun"
 
 #: ../templates/default/helloasso_success.html.twig:15
-#, fuzzy
-#| msgid "Your HelloAsso payment has succeeded"
 msgid "Your payment has succeeded"
-msgstr "Votre paiement HelloAsso a bien été effectué"
+msgstr "Votre paiement a bien été effectué"
 
 #: ../templates/default/helloasso_success.html.twig:17
 msgid "A receipt will be sent to you by email once it has been validated"
-msgstr ""
+msgstr "Un reçu vous sera envoyé par courriel une fois qu'il aura été validé"
 
 #: ../templates/default/helloasso_success.html.twig:22
 msgid "Amount paid"
