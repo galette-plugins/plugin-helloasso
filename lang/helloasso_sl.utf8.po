@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-10-07 14:40+0200\n"
-"PO-Revision-Date: 2026-10-03 12:34+0000\n"
-"Last-Translator: Jože Felicijan <joze@felicijan.com>\n"
+"PO-Revision-Date: 2026-10-08 07:05+0000\n"
+"Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/galette/"
 "plugins-helloasso/sl/>\n"
 "Language: sl\n"
@@ -117,14 +117,12 @@ msgid "None"
 msgstr "Noben"
 
 #: ../templates/default/helloasso_success.html.twig:15
-#, fuzzy
-#| msgid "Your HelloAsso payment has succeeded"
 msgid "Your payment has succeeded"
-msgstr "Vaše plačilo HelloAsso je uspelo"
+msgstr "Vaše plačilo je uspelo"
 
 #: ../templates/default/helloasso_success.html.twig:17
 msgid "A receipt will be sent to you by email once it has been validated"
-msgstr ""
+msgstr "Potrdilo vam bo poslano po e-pošti, ko bo potrjeno"
 
 #: ../templates/default/helloasso_success.html.twig:22
 msgid "Amount paid"
@@ -343,12 +341,7 @@ msgid "Secured payment"
 msgstr "Zagotovljeno plačilo"
 
 #: ../templates/default/helloasso_form.html.twig:67
-#, fuzzy, php-format
-#| msgid ""
-#| "We have chosen HelloAsso to process your payment. HelloAsso guarantees "
-#| "that 100% of your payment will be donated to our organization. You can "
-#| "support the assistance they provide to organizations by leaving a "
-#| "voluntary contribution to HelloAsso at the time of your payment."
+#, php-format
 msgid ""
 "We have chosen HelloAsso to process your payment. HelloAsso guarantees that "
 "100% of your payment will be donated to our organization. You can support "
