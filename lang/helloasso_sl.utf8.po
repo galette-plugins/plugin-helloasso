@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
-"POT-Creation-Date: 2026-10-07 14:40+0200\n"
+"POT-Creation-Date: 2026-10-08 09:02+0200\n"
 "PO-Revision-Date: 2026-10-08 07:05+0000\n"
 "Last-Translator: Guillaume AGNIERAY <dev@agnieray.net>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/galette/"
@@ -19,21 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3;\n"
 "X-Generator: Weblate 2026.10.1.dev0\n"
-
-#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:47
-msgid "Helloasso"
-msgstr "Hello asso"
-
-#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:55
-#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:231
-msgid "Helloasso History"
-msgstr "Zgodovina Helloasso"
-
-#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:82
-#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:110
-#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:128
-msgid "Payment form"
-msgstr "Plačilni obrazec"
 
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:60
 msgid "HelloAsso payment"
@@ -84,6 +69,11 @@ msgstr ""
 msgid "An error occurred redirecting to the checkout form."
 msgstr "Pri preusmeritvi na obrazec za odjavo je prišlo do napake."
 
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:231
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:55
+msgid "Helloasso History"
+msgstr "Zgodovina Helloasso"
+
 #: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:313
 msgid "Helloasso Settings"
 msgstr "Nastavitve Helloasso"
@@ -116,45 +106,65 @@ msgstr "Napaka pri plačilu Helloasso"
 msgid "None"
 msgstr "Noben"
 
-#: ../templates/default/helloasso_success.html.twig:15
-msgid "Your payment has succeeded"
-msgstr "Vaše plačilo je uspelo"
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:47
+msgid "Helloasso"
+msgstr "Hello asso"
 
-#: ../templates/default/helloasso_success.html.twig:17
-msgid "A receipt will be sent to you by email once it has been validated"
-msgstr "Potrdilo vam bo poslano po e-pošti, ko bo potrjeno"
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:82
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:110
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:128
+msgid "Payment form"
+msgstr "Plačilni obrazec"
 
-#: ../templates/default/helloasso_success.html.twig:22
-msgid "Amount paid"
-msgstr "Plačan znesek"
+#: ../templates/default/helloasso_error.html.twig:13
+msgid "Your Helloasso payment has failed for technical reasons."
+msgstr "Vaše plačilo Helloasso ni uspelo zaradi tehničnih razlogov."
 
-#: ../templates/default/helloasso_success.html.twig:25
-msgid ""
-"This amount does not include the voluntary contribution you could have made "
-"to HelloAsso during payment"
-msgstr ""
-"Ta znesek ne vključuje prostovoljnega prispevka, ki bi ga lahko plačali "
-"HelloAsso med plačilom"
-
-#: ../templates/default/helloasso_success.html.twig:29
-msgid "Payment date"
-msgstr "Datum plačila"
-
-#: ../templates/default/helloasso_success.html.twig:33
-msgid "Payment method"
-msgstr "Način plačila"
-
-#: ../templates/default/helloasso_success.html.twig:37
-#: ../templates/default/helloasso_form.html.twig:15
-msgid "Payment reason"
-msgstr "Razlog za plačilo"
-
+#: ../templates/default/helloasso_error.html.twig:17
 #: ../templates/default/helloasso_history.html.twig:29
 #: ../templates/default/helloasso_history.html.twig:107
 #: ../templates/default/helloasso_history.html.twig:165
-#: ../templates/default/helloasso_error.html.twig:17
 msgid "Payment nb."
 msgstr "Plačilo št."
+
+#: ../templates/default/helloasso_error.html.twig:20
+msgid "Error"
+msgstr "Napaka"
+
+#: ../templates/default/helloasso_form.html.twig:15
+#: ../templates/default/helloasso_success.html.twig:37
+msgid "Payment reason"
+msgstr "Razlog za plačilo"
+
+#: ../templates/default/helloasso_form.html.twig:17
+#: ../templates/default/helloasso_history.html.twig:119
+msgid "Select a payment reason"
+msgstr "Izberite razlog plačila"
+
+#: ../templates/default/helloasso_form.html.twig:53
+msgid "Pay with HelloAsso"
+msgstr "Plačajte s HelloAsso"
+
+#: ../templates/default/helloasso_form.html.twig:58
+msgid "Secured payment"
+msgstr "Zagotovljeno plačilo"
+
+#: ../templates/default/helloasso_form.html.twig:67
+#, php-format
+msgid ""
+"We have chosen HelloAsso to process your payment. HelloAsso guarantees that "
+"100% of your payment will be donated to our organization. You can support "
+"the assistance they provide to organizations by leaving a voluntary "
+"contribution to HelloAsso at the time of your payment."
+msgstr ""
+"Za obdelavo vašega plačila smo izbrali HelloAsso. HelloAsso zagotavlja, da "
+"bo 100 % vašega plačila donirano naši organizaciji. Pomoč, ki jo nudijo "
+"organizacijam, lahko podprete tako, da HelloAsso ob plačilu pustite "
+"prostovoljni prispevek."
+
+#: ../templates/default/helloasso_form.html.twig:73
+msgid "No payment reasons are available."
+msgstr "Razlogi za plačilo niso na voljo."
 
 #: ../templates/default/helloasso_history.html.twig:29
 #: ../templates/default/helloasso_history.html.twig:111
@@ -178,11 +188,6 @@ msgstr "Metoda"
 #: ../templates/default/helloasso_history.html.twig:189
 msgid "State"
 msgstr "Država"
-
-#: ../templates/default/helloasso_history.html.twig:119
-#: ../templates/default/helloasso_form.html.twig:17
-msgid "Select a payment reason"
-msgstr "Izberite razlog plačila"
 
 #: ../templates/default/helloasso_history.html.twig:131
 msgid "Select a payment method"
@@ -220,14 +225,6 @@ msgstr "Brez rezultatov"
 msgid "Full request of payment nb. %1$s"
 msgstr "Celoten zahtevek za plačilo št. %1$s"
 
-#: ../templates/default/helloasso_error.html.twig:13
-msgid "Your Helloasso payment has failed for technical reasons."
-msgstr "Vaše plačilo Helloasso ni uspelo zaradi tehničnih razlogov."
-
-#: ../templates/default/helloasso_error.html.twig:20
-msgid "Error"
-msgstr "Napaka"
-
 #: ../templates/default/helloasso_preferences.html.twig:16
 msgid "Cannot load the settings"
 msgstr "Nastaviteve ni mogoče naložiti"
@@ -247,7 +244,9 @@ msgid "Parameters"
 msgstr "Parametri"
 
 #: ../templates/default/helloasso_preferences.html.twig:27
-msgid "Connexion status"
+#, fuzzy
+#| msgid "Connexion status"
+msgid "Connection status"
 msgstr "Stanje povezave"
 
 #: ../templates/default/helloasso_preferences.html.twig:32
@@ -332,30 +331,33 @@ msgstr ""
 "brezplačno prejmete ves denar, ki ga prispeva vaše občinstvo. Prostovoljni "
 "prispevki, ki jih pustijo, so njihov edini vir dohodka."
 
-#: ../templates/default/helloasso_form.html.twig:53
-msgid "Pay with HelloAsso"
-msgstr "Plačajte s HelloAsso"
+#: ../templates/default/helloasso_success.html.twig:15
+msgid "Your payment has succeeded"
+msgstr "Vaše plačilo je uspelo"
 
-#: ../templates/default/helloasso_form.html.twig:58
-msgid "Secured payment"
-msgstr "Zagotovljeno plačilo"
+#: ../templates/default/helloasso_success.html.twig:17
+msgid "A receipt will be sent to you by email once it has been validated"
+msgstr "Potrdilo vam bo poslano po e-pošti, ko bo potrjeno"
 
-#: ../templates/default/helloasso_form.html.twig:67
-#, php-format
+#: ../templates/default/helloasso_success.html.twig:22
+msgid "Amount paid"
+msgstr "Plačan znesek"
+
+#: ../templates/default/helloasso_success.html.twig:25
 msgid ""
-"We have chosen HelloAsso to process your payment. HelloAsso guarantees that "
-"100% of your payment will be donated to our organization. You can support "
-"the assistance they provide to organizations by leaving a voluntary "
-"contribution to HelloAsso at the time of your payment."
+"This amount does not include the voluntary contribution you could have made "
+"to HelloAsso during payment"
 msgstr ""
-"Za obdelavo vašega plačila smo izbrali HelloAsso. HelloAsso zagotavlja, da "
-"bo 100 % vašega plačila donirano naši organizaciji. Pomoč, ki jo nudijo "
-"organizacijam, lahko podprete tako, da HelloAsso ob plačilu pustite "
-"prostovoljni prispevek."
+"Ta znesek ne vključuje prostovoljnega prispevka, ki bi ga lahko plačali "
+"HelloAsso med plačilom"
 
-#: ../templates/default/helloasso_form.html.twig:73
-msgid "No payment reasons are available."
-msgstr "Razlogi za plačilo niso na voljo."
+#: ../templates/default/helloasso_success.html.twig:29
+msgid "Payment date"
+msgstr "Datum plačila"
+
+#: ../templates/default/helloasso_success.html.twig:33
+msgid "Payment method"
+msgstr "Način plačila"
 
 #~ msgid "You will receive an email from HelloAsso with the following details"
 #~ msgstr ""
