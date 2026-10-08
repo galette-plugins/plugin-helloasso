@@ -1,0 +1,331 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: translations@galette.eu\n"
+"POT-Creation-Date: 2026-10-08 12:13+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:60
+msgid "HelloAsso payment"
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:69
+msgid ""
+"<strong>Payment could not work</strong>: An error occurred (that has been "
+"logged) while loading Helloasso settings from the database.<br/>Please "
+"report the issue to the staff."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:70
+msgid "Our apologies for the annoyance."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:77
+msgid ""
+"Helloasso details have not been defined. Please ask an administrator to add "
+"them in the plugin's settings."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:105
+#: ../templates/default/helloasso_form.html.twig:96
+msgid "You have to select an option."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:120
+#: ../templates/default/helloasso_form.html.twig:102
+msgid "Please enter an amount."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:132
+#: ../templates/default/helloasso_form.html.twig:105
+msgid ""
+"The amount you've entered is lower than the minimum amount for the selected "
+"option. Please choose another option or change the amount."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:156
+msgid "An error occurred redirecting to the checkout form."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:231
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:55
+msgid "Helloasso History"
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:313
+msgid "Helloasso Settings"
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:372
+msgid "Helloasso settings have been saved."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:378
+msgid "An error occurred saving helloasso settings."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:582
+msgid "HelloAsso payment done"
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:610
+msgid ""
+"You are back here after clicking a return link from a HelloAsso page. You "
+"can proceed with a new payment if you wish."
+msgstr ""
+
+#: ../lib/GaletteHelloasso/Controllers/HelloassoController.php:625
+msgid "Helloasso payment failure"
+msgstr ""
+
+#: ../lib/GaletteHelloasso/HelloassoHistory.php:179
+msgid "None"
+msgstr ""
+
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:47
+msgid "Helloasso"
+msgstr ""
+
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:82
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:110
+#: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:128
+msgid "Payment form"
+msgstr ""
+
+#: ../templates/default/helloasso_error.html.twig:13
+msgid "Your Helloasso payment has failed for technical reasons."
+msgstr ""
+
+#: ../templates/default/helloasso_error.html.twig:17
+#: ../templates/default/helloasso_history.html.twig:29
+#: ../templates/default/helloasso_history.html.twig:107
+#: ../templates/default/helloasso_history.html.twig:165
+msgid "Payment nb."
+msgstr ""
+
+#: ../templates/default/helloasso_error.html.twig:20
+msgid "Error"
+msgstr ""
+
+#: ../templates/default/helloasso_form.html.twig:15
+#: ../templates/default/helloasso_success.html.twig:37
+msgid "Payment reason"
+msgstr ""
+
+#: ../templates/default/helloasso_form.html.twig:17
+#: ../templates/default/helloasso_history.html.twig:119
+msgid "Select a payment reason"
+msgstr ""
+
+#: ../templates/default/helloasso_form.html.twig:53
+msgid "Pay with HelloAsso"
+msgstr ""
+
+#: ../templates/default/helloasso_form.html.twig:58
+msgid "Secured payment"
+msgstr ""
+
+#: ../templates/default/helloasso_form.html.twig:67
+msgid ""
+"We have chosen HelloAsso to process your payment. HelloAsso guarantees that "
+"100% of your payment will be donated to our organization. You can support "
+"the assistance they provide to organizations by leaving a voluntary "
+"contribution to HelloAsso at the time of your payment."
+msgstr ""
+
+#: ../templates/default/helloasso_form.html.twig:73
+msgid "No payment reasons are available."
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:29
+#: ../templates/default/helloasso_history.html.twig:111
+#: ../templates/default/helloasso_history.html.twig:168
+msgid "Payer name"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:29
+#: ../templates/default/helloasso_history.html.twig:117
+#: ../templates/default/helloasso_history.html.twig:180
+msgid "Reason"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:29
+#: ../templates/default/helloasso_history.html.twig:129
+#: ../templates/default/helloasso_history.html.twig:186
+msgid "Method"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:29
+#: ../templates/default/helloasso_history.html.twig:189
+msgid "State"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:131
+msgid "Select a payment method"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:194
+msgid "Payment properly processed"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:201
+msgid ""
+"An error occurred and the corresponding contribution has not been created"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:208
+msgid "Duplicate entry"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:217
+#, php-format
+msgid "Download HelloAsso payment confirmation of payment nb. %1$s"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:223
+#, php-format
+msgid "View full request of payment nb. %1$s"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:229
+msgid "No results"
+msgstr ""
+
+#: ../templates/default/helloasso_history.html.twig:239
+#, php-format
+msgid "Full request of payment nb. %1$s"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:16
+msgid "Cannot load the settings"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:19
+msgid "An error occurred while loading the settings from the database."
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:20
+msgid "Please, check if the plugin's database has been properly initialized."
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:26
+msgid "Parameters"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:27
+msgid "Connection status"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:32
+msgid "Callback URL to configure in HelloAsso"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:39
+msgid "Enable test mode"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:45
+msgid "Your organizationSlug"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:52
+msgid "Your clientId"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:57
+msgid "Your clientSecret"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:70
+msgid "Accept SEPA transfers"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:81
+msgid "Amounts can be defined in the contributions types settings."
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:96
+msgid ""
+"Zero amounts, even if they are not disabled, are not proposed as a payment "
+"reason on the form. You can disable this reason, or set a positive value in "
+"the contributions types settings."
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:114
+msgid "Connected to HelloAsso"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:116
+msgid "Not connected to HelloAsso"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:121
+msgid "Test mode enabled"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:130
+msgid "Name"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:137
+msgid "Description"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:144
+msgid "Type"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:150
+msgid "Category"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:157
+msgid "RNA Number"
+msgstr ""
+
+#: ../templates/default/helloasso_preferences.html.twig:166
+msgid ""
+"HelloAsso helps organizations collect payments online and offers its "
+"services free of charge. It covers all transaction fees so you can receive "
+"all the money your audiences contribute, free of charge. The voluntary "
+"contributions they leave are their sole source of income."
+msgstr ""
+
+#: ../templates/default/helloasso_success.html.twig:15
+msgid "Your payment has succeeded"
+msgstr ""
+
+#: ../templates/default/helloasso_success.html.twig:17
+msgid "A receipt will be sent to you by email once it has been validated"
+msgstr ""
+
+#: ../templates/default/helloasso_success.html.twig:22
+msgid "Amount paid"
+msgstr ""
+
+#: ../templates/default/helloasso_success.html.twig:25
+msgid ""
+"This amount does not include the voluntary contribution you could have made "
+"to HelloAsso during payment"
+msgstr ""
+
+#: ../templates/default/helloasso_success.html.twig:29
+msgid "Payment date"
+msgstr ""
+
+#: ../templates/default/helloasso_success.html.twig:33
+msgid "Payment method"
+msgstr ""
