@@ -3,24 +3,26 @@ title: Galette HelloAsso
 description: Plugin to handle membership fees and donations payments with HelloAsso
 ---
 
+> **Note** — HelloAsso primarily serves **French** associations and non-profit organizations.
+
 This plugin provides:
 
-* an online payment form,
+* a payment form,
 * a payment history,
-* automatic creation of contributions once payments are validated.
+* automatic creation of contributions in Galette once payments are validated.
 
-![Payment form as seen by a user *not logged in* to their account](images/form-public.jpg)
+![Payment form visible by users *not logged* into their account](images/form-public.jpg)
 
 > **Note** — This plugin requires your Galette instance to be publicly reachable and served with a valid SSL certificate.
 
 ## Installation
 
-First, download the plugin:
+First of all, download the plugin:
 
-[![Download the latest HelloAsso plugin release!](https://img.shields.io/badge/1.0.0-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=1.0.0&color=ffb619)](https://github.com/galette-plugins/plugin-helloasso/releases/tag/1.0.0) [![Get the HelloAsso plugin nightly!](https://img.shields.io/badge/Nightly-HelloAsso-ffb619?style=for-the-badge&logo=php&logoColor=white&label=Nightly&color=ffb619
-)](https://galette.eu/download/plugins/galette-plugin-helloasso-dev.tar.bz2)
+* [Get latest HelloAsso plugin!](https://github.com/galette-plugins/plugin-helloasso/releases/latest)
+* [Get HelloAsso plugin nightly build!](https://github.com/galette-plugins/plugin-helloasso/releases/tag/nightly)
 
-Extract the downloaded archive into the Galette `plugins` directory. For example, on Linux (replacing *{url}* and *{version}* with the matching values):
+Extract the downloaded archive into Galette `plugins` directory. For example, on Linux (replacing *{url}* and *{version}* with the corresponding values):
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -30,23 +32,23 @@ $ tar xjvf galette-plugin-helloasso-{version}.tar.bz2
 
 ## Database initialization
 
-This plugin needs several tables in the database. See [Galette's plugins management interface](https://doc.galette.eu/en/master/plugins/#plugins-management-interface).
+In order to work, this plugin requires several tables in the database. See the [Galette plugins management interface](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-And that's it, the *HelloAsso* plugin is installed. :)
+And that's it; the *HelloAsso* plugin is installed. :)
 
-## Using the plugin
+## Plugin usage
 
-Once the plugin is installed, a *Helloasso* group is added to the Galette menu when a user is logged in. It lets administrators and staff members set the plugin preferences and browse the payment history.
+Once the plugin is installed, a *Helloasso* group is added to the Galette menu when a user is logged-in, allowing administrators and staff members to define the settings of the plugin and view the payments history.
 
-![Plugin menu](images/menu.jpg)
+![Plugin's menu](images/menu.jpg)
 
 The payment form is available from Galette's public pages.
 
-Only users *logged in* to their account can pay contributions *with membership extension* (membership fees).
+Only *logged-in* users can pay contributions *with membership extension* (or membership fees).
 
-![Payment form as seen by a user logged in to their account](images/form.jpg)
+![Payment form visible by logged-in users](images/form.jpg)
 
-Visitors (users *not logged in* to their account) can only pay contributions *without membership extension* (donations). In that case, no contribution is created in Galette: the payment only appears in the plugin's payment history.
+Visitors (users *not logged* into their account) can only pay contributions *without membership extension* (or donations). In this case, no contribution is automatically created in Galette, the payment only appears in the plugin's payment history with the value "None" in the "Member" column.
 
 ![Payment history](images/history.jpg)
 
@@ -57,16 +59,24 @@ Visitors (users *not logged in* to their account) can only pay contributions *wi
 ### Settings
 
 * **Callback URL to set in HelloAsso**: enter this URL in the *"Mon URL de callback"* field, in the "Intégrations et API" section of your association's HelloAsso account.
-* **Enable test mode**: to use test mode, first create a test account on [helloasso-sandbox.com](https://www.helloasso-sandbox.com). You can then check how the plugin works without making real online payments. **WARNING** *in this mode, never use real credit card numbers, only test cards (see the test cards list from [Stripe](https://docs.stripe.com/testing?numbers-or-method-or-token=card-numbers#visa) or from [Worldline](https://docs.sips.worldline-solutions.com/fr/cartes-de-test.html)).*
+* **Enable test mode**: to use the test mode, first create a test account on [helloasso-sandbox.com](https://www.helloasso-sandbox.com). You can then check how the plugin works without making real online payments.
+
+  > **Warning** — In this mode, never use real credit card numbers, but only test cards (see the list of test cards from the [Stripe documentation](https://docs.stripe.com/testing#cards) or from the [Worldline documentation](https://docs.sips.worldline-solutions.com/fr/cartes-de-test.html)).
+
 * **Your organizationSlug**: you will find it in your browser's address bar while logged in to your association's HelloAsso account. It is the first part of your account URL path. For example, in the URL `https://admin.helloasso.com/{organizationSlug}/accueil` it is *{organizationSlug}*.
 * **Your clientId**: you will find it in the *"Mon clientID"* field, in the "Intégrations et API" section of your association's HelloAsso account.
 * **Your clientSecret**: you will find it in the *"Mon clientSecret"* field, in the "Intégrations et API" section of your association's HelloAsso account.
 
 ![The "Intégrations et API" section of the HelloAsso account](images/helloasso-account.jpg)
 
-* **Contribution types**: in this table, you can disable the [contribution types configured in Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) that you do not want to offer as a payment purpose on the online payment form.
+* **Accept SEPA transfers** : by default, only payments with a credit card are proposed on HelloAsso's payment form. Enable this option if you also want to propose on the form SEPA transfers payments.
+* **Contribution types**: in this table, you can disable the [contribution types configured in Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) that you do not want to be proposed as a payment reason on the payment form.
 
-  *Contribution types with a zero amount, or no amount set, are never offered as payment purposes on the form, even if they are not marked as inactive in the table.*
+  *Contribution types with a zero amount, or whose amount is not configured, will not be offered as payment reasons on the form, even if they are not marked as inactive in the table.*
+
+  > **Note** — A description, displayed below each payment reason proposed on the payment form, can be defined from the [configuration of the contributions types](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types) of Galette.
+
+> **Note** — It is possible to decide who can access the payment form in Galette's settings. Choose the desired option in the [public pages visibility parameters](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
 
 ### Connection status
 
