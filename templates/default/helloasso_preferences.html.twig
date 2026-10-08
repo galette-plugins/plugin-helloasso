@@ -24,7 +24,7 @@
         {% else %}
             <div class="ui stackable pointing inverted menu tabbed">
                 <a href="{{ url_for('helloasso_preferences') }}?tab=helloasso" class="item{{ tab == 'helloasso' ? ' active' }}" data-tab="helloasso">{{ _T("Parameters", "helloasso") }}</a>
-                <a href="{{ url_for('helloasso_preferences') }}?tab=status" class="item{{ tab == 'status' ? ' active' }}" data-tab="status">{{ _T("Connexion status", "helloasso") }}</a>
+                <a href="{{ url_for('helloasso_preferences') }}?tab=status" class="item{{ tab == 'status' ? ' active' }}" data-tab="status">{{ _T("Connection status", "helloasso") }}</a>
             </div>
             <div class="ui{{ tab == 'helloasso' ? ' active' }} tab segment" data-tab="helloasso">
                 {%if login.isAdmin() %}
