@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: translations@galette.eu\n"
 "POT-Creation-Date: 2026-10-08 12:13+0200\n"
-"PO-Revision-Date: 2026-10-08 21:02+0000\n"
+"PO-Revision-Date: 2026-10-10 11:51+0000\n"
 "Last-Translator: Marko Puljic <markopuljic.uo@gmail.com>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/galette/plugins-"
 "helloasso/hr/>\n"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: ../lib/GaletteHelloasso/HelloassoHistory.php:179
 msgid "None"
-msgstr ""
+msgstr "Nema"
 
 #: ../lib/GaletteHelloasso/PluginGaletteHelloasso.php:47
 msgid "Helloasso"
@@ -225,7 +225,7 @@ msgstr ""
 
 #: ../templates/default/helloasso_preferences.html.twig:26
 msgid "Parameters"
-msgstr ""
+msgstr "Parametri"
 
 #: ../templates/default/helloasso_preferences.html.twig:27
 msgid "Connection status"
@@ -280,15 +280,15 @@ msgstr ""
 
 #: ../templates/default/helloasso_preferences.html.twig:130
 msgid "Name"
-msgstr ""
+msgstr "Naziv"
 
 #: ../templates/default/helloasso_preferences.html.twig:137
 msgid "Description"
-msgstr ""
+msgstr "Opis"
 
 #: ../templates/default/helloasso_preferences.html.twig:144
 msgid "Type"
-msgstr ""
+msgstr "Vrsta"
 
 #: ../templates/default/helloasso_preferences.html.twig:150
 msgid "Category"
