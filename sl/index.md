@@ -3,32 +3,32 @@ title: Galette HelloAsso
 description: Vtičnik za upravljanje plačil članarin in donacij prek storitve HelloAsso
 ---
 
-> **Note** — HelloAsso primarily serves **French** associations and non-profit
-> organizations.
+> **Note** — HelloAsso služi predvsem **francoskim** združenjem in neprofitnim
+> organizacijam.
 
 Ta vtičnik omogoča:
 
-* a payment form,
+* obrazec za plačilo,
 * zgodovina plačil,
-* automatic creation of contributions in Galette once payments are validated.
+* samodejno ustvarjanje prispevkov v Galette, ko so plačila potrjena.
 
-![Payment form visible by users *not logged* into their
-account](images/form-public.jpg)
+![Plačilni obrazec, ki ga vidijo uporabniki *niso prijavljeni* v svoj
+račun](images/form-public.jpg)
 
 > **Note** — Ta vtičnik zahteva, da je vaša namestitev sistema Galette javno
 > dostopna in deluje z veljavnim potrdilom SSL.
 
 ## Namestitev
 
-First of all, download the plugin:
+Najprej prenesite vtičnik:
 
-* [Get latest HelloAsso
-  plugin!](https://github.com/galette-plugins/plugin-helloasso/releases/latest)
-* [Get HelloAsso plugin nightly
-  build!](https://github.com/galette-plugins/plugin-helloasso/releases/tag/nightly)
+* [Pridobite najnovejši vtičnik
+  HelloAsso!](https://github.com/galette-plugins/plugin-helloasso/releases/latest)
+* [Pridobite nočno gradnjo vtičnika
+  HelloAsso!](https://github.com/galette-plugins/plugin-helloasso/releases/tag/nightly)
 
-Extract the downloaded archive into Galette `plugins` directory. For example, on
-Linux (replacing *{url}* and *{version}* with the corresponding values):
+Ekstrahirajte preneseni arhiv v imenik Galette `plugins`. Na primer v sistemu
+Linux (zamenjava *{url}* in *{version}* z ustreznima vrednostma):
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -38,31 +38,31 @@ $ tar xjvf galette-plugin-helloasso-{version}.tar.bz2
 
 ## Inicializacija podatkovne baze
 
-In order to work, this plugin requires several tables in the database. See the
-[Galette plugins management
-interface](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
+Za delovanje ta vtičnik potrebuje več tabel v bazi podatkov. Oglejte si [vmesnik
+za upravljanje vtičnikov
+Galette](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-And that's it; the *HelloAsso* plugin is installed. :)
+In to je to; vtičnik *HelloAsso* je nameščen. :)
 
-## Plugin usage
+## Uporaba vtičnika
 
-Once the plugin is installed, a *Helloasso* group is added to the Galette menu
-when a user is logged-in, allowing administrators and staff members to define
-the settings of the plugin and view the payments history.
+Ko je vtičnik nameščen, je skupina *Helloasso* dodana v meni Galette, ko je
+uporabnik prijavljen, kar administratorjem in članom osebja omogoča, da določijo
+nastavitve vtičnika in si ogledajo zgodovino plačil.
 
-![Plugin's menu](images/menu.jpg)
+![Meni vtičnika](images/menu.jpg)
 
 Obrazec za plačilo je na voljo na javnih straneh Galette.
 
-Only *logged-in* users can pay contributions *with membership extension* (or
-membership fees).
+Samo *prijavljeni* uporabniki lahko plačujejo prispevke *s podaljšanjem
+članstva* (oz. članarino).
 
-![Payment form visible by logged-in users](images/form.jpg)
+![Plačilni obrazec viden prijavljenim uporabnikom](images/form.jpg)
 
-Visitors (users *not logged* into their account) can only pay contributions
-*without membership extension* (or donations). In this case, no contribution is
-automatically created in Galette, the payment only appears in the plugin's
-payment history with the value "None" in the "Member" column.
+Obiskovalci (uporabniki *niso prijavljeni* v svoj račun) lahko plačujejo samo
+prispevke *brez podaljšanja članstva* (ali donacije). V tem primeru se prispevek
+v Galette ne ustvari samodejno, plačilo se prikaže samo v zgodovini plačil
+vtičnika z vrednostjo »Brez« v stolpcu »Član«.
 
 ![Zgodovina plačil](images/history.jpg)
 
@@ -75,13 +75,13 @@ payment history with the value "None" in the "Member" column.
 * **Povratni URL za nastavitev v HelloAsso**: ta URL vnesite v polje *Mon URL de
   callback* v razdelku »Intégrations et API« v računu vašega društva na
   platformi HelloAsso.
-* **Enable test mode**: to use the test mode, first create a test account on
-  [helloasso-sandbox.com](https://www.helloasso-sandbox.com). You can then check
-  how the plugin works without making real online payments.
+* **Omogoči testni način**: če želite uporabiti testni način, najprej ustvarite
+  testni račun na [helloasso-sandbox.com](https://www.helloasso-sandbox.com).
+  Nato lahko preverite, kako vtičnik deluje brez resničnih spletnih plačil.
 
-  > **Warning** — In this mode, never use real credit card numbers, but only
-  > test cards (see the list of test cards from the [Stripe
-  > documentation](https://docs.stripe.com/testing#cards) or from the [Worldline
+  > **Warning** — V tem načinu nikoli ne uporabljajte pravih številk kreditnih
+  > kartic, ampak samo testne kartice (glejte seznam testnih kartic iz [Stripe
+  > documentation](https://docs.stripe.com/testing#cards) ali iz [Worldline
   > documentation](https://docs.sips.worldline-solutions.com/fr/cartes-de-test.html)).
 
 * **Vaš organizationSlug**: najdete ga v naslovni vrstici brskalnika, ko ste
@@ -96,27 +96,27 @@ payment history with the value "None" in the "Member" column.
 
 ![Razdelek »Intégrations et API« računa HelloAsso](images/helloasso-account.jpg)
 
-* **Accept SEPA transfers** : by default, only payments with a credit card are
-  proposed on HelloAsso's payment form. Enable this option if you also want to
-  propose on the form SEPA transfers payments.
-* **Contribution types**: in this table, you can disable the [contribution types
-  configured in
-  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  that you do not want to be proposed as a payment reason on the payment form.
+* **Sprejmi nakazila SEPA**: privzeto so na plačilnem obrazcu HelloAsso
+  predlagana samo plačila s kreditno kartico. Omogočite to možnost, če želite na
+  obrazcu SEPA nakazila predlagati tudi plačila.
+* **Vrste prispevkov**: v tej tabeli lahko onemogočite [vrste prispevkov,
+  konfigurirane v
+  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types),
+  za katere ne želite, da so predlagane kot razlog za plačilo na obrazcu za
+  plačilo.
 
-  *Contribution types with a zero amount, or whose amount is not configured,
-  will not be offered as payment reasons on the form, even if they are not
-  marked as inactive in the table.*
+  *Vrste prispevkov z ničelnim zneskom ali katerih znesek ni konfiguriran, ne
+  bodo ponujeni kot razlogi za plačilo na obrazcu, tudi če v tabeli niso
+  označeni kot neaktivni.*
 
-  > **Note** — A description, displayed below each payment reason proposed on
-  > the payment form, can be defined from the [configuration of the
-  > contributions
-  > types](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  > of Galette.
+  > **Note** — Opis, prikazan pod vsakim plačilnim razlogom, predlaganim na
+  > plačilnem obrazcu, je mogoče definirati v [konfiguraciji vrst
+  > prispevkov](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
+  > Galette.
 
-> **Note** — It is possible to decide who can access the payment form in
-> Galette's settings. Choose the desired option in the [public pages visibility
-> parameters](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
+> **Note** — V nastavitvah Galette je mogoče določiti, kdo lahko dostopa do
+> obrazca za plačilo. Izberite želeno možnost v [parametrih vidnosti javnih
+> strani](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
 
 ### Stanje povezave
 
