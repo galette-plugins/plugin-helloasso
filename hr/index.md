@@ -1,34 +1,34 @@
 ---
 title: Galette HelloAsso
-description: Plugin to handle membership fees and donations payments with HelloAsso
+description: Dodatak za plaćanje članarine i donacija putem HelloAssoa
 ---
 
-> **Note** — HelloAsso primarily serves **French** associations and non-profit
-> organizations.
+> **Napomena** — HelloAsso prvenstveno služi **francuskim** udrugama i
+> neprofitnim organizacijama.
 
-This plugin provides:
+Dodatak omogućuje:
 
-* a payment form,
-* a payment history,
-* automatic creation of contributions in Galette once payments are validated.
+* obrazac za plaćanje,
+* povijest plaćanja,
+* automatsko dodavanje uplata u Galette nakon potvrde plaćanja.
 
-![Payment form visible by users *not logged* into their
-account](images/form-public.jpg)
+![Obrazac za plaćanje vidljiv *neprijavljenim*
+korisnicima](images/form-public.jpg)
 
-> **Note** — This plugin requires your Galette instance to be publicly reachable
-> and served with a valid SSL certificate.
+> **Napomena** — Instalacija Galettea mora biti javno dostupna i imati valjan
+> SSL certifikat.
 
-## Installation
+## Instalacija
 
-First of all, download the plugin:
+Najprije preuzmite dodatak:
 
-* [Get latest HelloAsso
-  plugin!](https://github.com/galette-plugins/plugin-helloasso/releases/latest)
-* [Get HelloAsso plugin nightly
-  build!](https://github.com/galette-plugins/plugin-helloasso/releases/tag/nightly)
+* [Preuzmite najnoviji dodatak
+  HelloAsso!](https://github.com/galette-plugins/plugin-helloasso/releases/latest)
+* [Preuzmite noćnu razvojnu verziju dodatka
+  HelloAsso!](https://github.com/galette-plugins/plugin-helloasso/releases/tag/nightly)
 
-Extract the downloaded archive into Galette `plugins` directory. For example, on
-Linux (replacing *{url}* and *{version}* with the corresponding values):
+Raspakirajte preuzetu arhivu u Galetteovu mapu `plugins`. Primjerice, na Linuxu
+(zamijenite *{url}* i *{version}* odgovarajućim vrijednostima):
 
 ```
 $ cd /var/www/html/galette/plugins
@@ -36,92 +36,84 @@ $ wget {url}
 $ tar xjvf galette-plugin-helloasso-{version}.tar.bz2
 ```
 
-## Database initialization
+## Inicijalizacija baze podataka
 
-In order to work, this plugin requires several tables in the database. See the
-[Galette plugins management
-interface](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
+Dodatak zahtijeva nekoliko tablica u bazi. Pogledajte [sučelje za upravljanje
+dodacima
+Galettea](https://doc.galette.eu/en/master/plugins/index.html#plugins-managment).
 
-And that's it; the *HelloAsso* plugin is installed. :)
+Gotovo; dodatak *HelloAsso* je instaliran. :)
 
-## Plugin usage
+## Uporaba dodatka
 
-Once the plugin is installed, a *Helloasso* group is added to the Galette menu
-when a user is logged-in, allowing administrators and staff members to define
-the settings of the plugin and view the payments history.
+Nakon instalacije prijavljenom se korisniku u izborniku pojavljuje odjeljak
+*Helloasso*. Administratori i uprava mogu podesiti dodatak i pregledati povijest
+plaćanja.
 
-![Plugin's menu](images/menu.jpg)
+![Izbornik dodatka](images/menu.jpg)
 
-The payment form is available from Galette's public pages.
+Obrazac za plaćanje dostupan je na Galetteovim javnim stranicama.
 
-Only *logged-in* users can pay contributions *with membership extension* (or
-membership fees).
+Samo *prijavljeni* korisnici mogu izvršiti uplate *koje produljuju članstvo*,
+odnosno platiti članarinu.
 
-![Payment form visible by logged-in users](images/form.jpg)
+![Obrazac za plaćanje vidljiv prijavljenim korisnicima](images/form.jpg)
 
-Visitors (users *not logged* into their account) can only pay contributions
-*without membership extension* (or donations). In this case, no contribution is
-automatically created in Galette, the payment only appears in the plugin's
-payment history with the value "None" in the "Member" column.
+Posjetitelji (*neprijavljeni* korisnici) mogu izvršiti samo uplate *koje ne
+produljuju članstvo*, odnosno donacije. U tom se slučaju uplata ne dodaje
+automatski u Galette, nego se plaćanje prikazuje samo u povijesti dodatka s
+vrijednošću „Nema” u stupcu „Član”.
 
-![Payment history](images/history.jpg)
+![Povijest plaćanja](images/history.jpg)
 
-## Preferences
+## Postavke
 
-![Preferences](images/settings.jpg)
+![Postavke](images/settings.jpg)
 
-### Settings
+### Postavke
 
-* **Callback URL to set in HelloAsso**: enter this URL in the *"Mon URL de
-  callback"* field, in the "Intégrations et API" section of your association's
-  HelloAsso account.
-* **Enable test mode**: to use the test mode, first create a test account on
-  [helloasso-sandbox.com](https://www.helloasso-sandbox.com). You can then check
-  how the plugin works without making real online payments.
+* **Povratni URL za HelloAsso**: unesite ovu adresu u polje *„Mon URL de
+  callback”* u odjeljku „Intégrations et API” HelloAsso računa udruge.
+* **Uključi testni način**: najprije izradite testni račun na
+  [helloasso-sandbox.com](https://www.helloasso-sandbox.com). Zatim možete
+  provjeriti rad dodatka bez stvarnih mrežnih plaćanja.
 
-  > **Warning** — In this mode, never use real credit card numbers, but only
-  > test cards (see the list of test cards from the [Stripe
-  > documentation](https://docs.stripe.com/testing#cards) or from the [Worldline
-  > documentation](https://docs.sips.worldline-solutions.com/fr/cartes-de-test.html)).
+  > **Upozorenje** — U ovom načinu koristite isključivo testne kartice, nikada
+  > stvarne brojeve kartica. Popis testnih kartica nalazi se u [dokumentaciji
+  > Stripea](https://docs.stripe.com/testing#cards) ili [dokumentaciji
+  > Worldlinea](https://docs.sips.worldline-solutions.com/fr/cartes-de-test.html).
 
-* **Your organizationSlug**: you will find it in your browser's address bar
-  while logged in to your association's HelloAsso account. It is the first part
-  of your account URL path. For example, in the URL
-  `https://admin.helloasso.com/{organizationSlug}/accueil` it is
-  *{organizationSlug}*.
-* **Your clientId**: you will find it in the *"Mon clientID"* field, in the
-  "Intégrations et API" section of your association's HelloAsso account.
-* **Your clientSecret**: you will find it in the *"Mon clientSecret"* field, in
-  the "Intégrations et API" section of your association's HelloAsso account.
+* **Vaš organizationSlug**: nalazi se u adresnoj traci preglednika kad ste
+  prijavljeni u HelloAsso račun udruge. To je prvi dio putanje računa.
+  Primjerice, u adresi `https://admin.helloasso.com/{organizationSlug}/accueil`
+  to je *{organizationSlug}*.
+* **Vaš clientId**: nalazi se u polju *„Mon clientID”* u odjeljku „Intégrations
+  et API” HelloAsso računa udruge.
+* **Vaš clientSecret**: nalazi se u polju *„Mon clientSecret”* u odjeljku
+  „Intégrations et API” HelloAsso računa udruge.
 
-![The "Intégrations et API" section of the HelloAsso
-account](images/helloasso-account.jpg)
+![Odjeljak „Intégrations et API” HelloAsso računa](images/helloasso-account.jpg)
 
-* **Accept SEPA transfers** : by default, only payments with a credit card are
-  proposed on HelloAsso's payment form. Enable this option if you also want to
-  propose on the form SEPA transfers payments.
-* **Contribution types**: in this table, you can disable the [contribution types
-  configured in
-  Galette](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  that you do not want to be proposed as a payment reason on the payment form.
+* **Prihvati SEPA transfere**: zadano obrazac HelloAssoa nudi samo plaćanje
+  karticom. Uključite ovu opciju ako želite ponuditi i SEPA transfere.
+* **Vrste uplata**: u tablici možete isključiti [vrste uplata podešene u
+  Galetteu](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
+  koje ne želite ponuditi kao svrhu plaćanja u obrascu.
 
-  *Contribution types with a zero amount, or whose amount is not configured,
-  will not be offered as payment reasons on the form, even if they are not
-  marked as inactive in the table.*
+  *Vrste uplata s iznosom nula ili bez zadanog iznosa neće se ponuditi kao svrha
+  plaćanja, čak i ako nisu označene kao neaktivne u tablici.*
 
-  > **Note** — A description, displayed below each payment reason proposed on
-  > the payment form, can be defined from the [configuration of the
-  > contributions
-  > types](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
-  > of Galette.
+  > **Napomena** — Opis ispod svake svrhe plaćanja možete zadati u [postavkama
+  > vrsta
+  > uplata](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
+  > u Galetteu.
 
-> **Note** — It is possible to decide who can access the payment form in
-> Galette's settings. Choose the desired option in the [public pages visibility
-> parameters](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
+> **Napomena** — U Galetteovim postavkama možete odrediti tko pristupa obrascu
+> za plaćanje. Odaberite željenu opciju u [postavkama vidljivosti javnih
+> stranica](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
 
-### Connection status
+### Status veze
 
-This screen shows whether the plugin is correctly set up and connected to
-HelloAsso.
+Ova stranica prikazuje je li dodatak ispravno podešen i povezan s HelloAssoom.
 
-![HelloAsso connection status](images/status.jpg)
+![Status veze s HelloAssoom](images/status.jpg)
