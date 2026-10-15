@@ -3,7 +3,7 @@ title: Galette HelloAsso
 description: Vtičnik za upravljanje plačil članarin in donacij prek storitve HelloAsso
 ---
 
-> **Note** — HelloAsso služi predvsem **francoskim** združenjem in neprofitnim
+> **Opomba** — HelloAsso služi predvsem **francoskim** združenjem in neprofitnim
 > organizacijam.
 
 Ta vtičnik omogoča:
@@ -15,7 +15,7 @@ Ta vtičnik omogoča:
 ![Plačilni obrazec, ki ga vidijo uporabniki *niso prijavljeni* v svoj
 račun](images/form-public.jpg)
 
-> **Note** — Ta vtičnik zahteva, da je vaša namestitev sistema Galette javno
+> **Opomba** — Ta vtičnik zahteva, da je vaša namestitev sistema Galette javno
 > dostopna in deluje z veljavnim potrdilom SSL.
 
 ## Namestitev
@@ -79,7 +79,7 @@ vtičnika z vrednostjo »Brez« v stolpcu »Član«.
   testni račun na [helloasso-sandbox.com](https://www.helloasso-sandbox.com).
   Nato lahko preverite, kako vtičnik deluje brez resničnih spletnih plačil.
 
-  > **Warning** — V tem načinu nikoli ne uporabljajte pravih številk kreditnih
+  > **Opozorilo** — V tem načinu nikoli ne uporabljajte pravih številk kreditnih
   > kartic, ampak samo testne kartice (glejte seznam testnih kartic iz [Stripe
   > documentation](https://docs.stripe.com/testing#cards) ali iz [Worldline
   > documentation](https://docs.sips.worldline-solutions.com/fr/cartes-de-test.html)).
@@ -109,12 +109,12 @@ vtičnika z vrednostjo »Brez« v stolpcu »Član«.
   bodo ponujeni kot razlogi za plačilo na obrazcu, tudi če v tabeli niso
   označeni kot neaktivni.*
 
-  > **Note** — Opis, prikazan pod vsakim plačilnim razlogom, predlaganim na
+  > **Opomba** — Opis, prikazan pod vsakim plačilnim razlogom, predlaganim na
   > plačilnem obrazcu, je mogoče definirati v [konfiguraciji vrst
   > prispevkov](https://doc.galette.eu/en/master/usermanual/contributions.html#contributions-types)
   > Galette.
 
-> **Note** — V nastavitvah Galette je mogoče določiti, kdo lahko dostopa do
+> **Opomba** — V nastavitvah Galette je mogoče določiti, kdo lahko dostopa do
 > obrazca za plačilo. Izberite želeno možnost v [parametrih vidnosti javnih
 > strani](https://doc.galette.eu/en/master/usermanual/preferences.html#parameters).
 
