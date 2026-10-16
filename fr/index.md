@@ -85,7 +85,7 @@ la colonne "Adhérent".
   pourrez ensuite tester le fonctionnement du plugin sans effectuer de
   véritables paiements en ligne.
 
-  > **Warning** — Dans ce mode, n’utilisez jamais de véritables numéros de
+  > **Avertissement** — Dans ce mode, n’utilisez jamais de véritables numéros de
   > cartes bancaire, mais uniquement des cartes fictives (voir la liste de
   > cartes fictives dans la [documentation de
   > Stripe](https://docs.stripe.com/testing#cards) ou dans la [documentation de
