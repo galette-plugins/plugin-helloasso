@@ -317,7 +317,7 @@ class HelloassoController extends AbstractPluginController
             'tab'           => $tab,
             //one call to HelloAsso for the whole page
             'organization'  => $helloasso->getOrganization(),
-            'documentation' => 'https://galette-plugins.github.io/plugin-helloasso/documentation.html#pr%C3%A9f%C3%A9rences'
+            'documentation' => 'https://galette-plugins.github.io/plugin-helloasso/' . ($this->i18n->getAbbrev() !== 'en' ? $this->i18n->getAbbrev() : '')
         ];
 
         // display page
