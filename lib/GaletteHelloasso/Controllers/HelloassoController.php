@@ -13,7 +13,9 @@ namespace GaletteHelloasso\Controllers;
 use Analog\Analog;
 use DI\Attribute\Inject;
 use Galette\Controllers\AbstractPluginController;
+use Galette\Core\AuthThrottle;
 use Galette\Core\History;
+use Galette\Core\Login;
 use Galette\Entity\Adherent;
 use Galette\Entity\Contribution;
 use Galette\Entity\ContributionsTypes;
@@ -45,14 +47,22 @@ class HelloassoController extends AbstractPluginController
     #[Inject]
     protected Helloasso $helloasso;
 
+    private const string THROTTLE_SCOPE = 'helloasso-payment';
+
     /**
      * Main form
      */
-    public function form(Response $response): Response
+    public function form(Response $response, AuthThrottle $throttle, Login $login): Response
     {
         $helloasso = $this->helloasso;
 
         $current_url = $this->preferences->getURL();
+        $address = $helloasso->getUserIPAddress();
+
+        // When a member is logged there is nothing left to hold against its address
+        if ($login->isLogged() && $address !== '') {
+            $throttle->clearEvent(self::THROTTLE_SCOPE, $address);
+        }
 
         $params = [
             'helloasso'     => $helloasso,
@@ -90,11 +100,37 @@ class HelloassoController extends AbstractPluginController
     /**
      * Checkout form
      */
-    public function formCheckout(Request $request, Response $response): Response
+    public function formCheckout(Request $request, Response $response, AuthThrottle $throttle, Login $login): Response
     {
         $helloasso_request = $request->getParsedBody();
         $helloasso = $this->helloasso;
         $adherent = new Adherent($this->zdb);
+
+        $address = $helloasso->getUserIPAddress();
+
+        // Throttle public form submissions
+        if (!$login->isLogged() && $address !== '') {
+            // Asked before anything is done, so that a caller being refused costs
+            // nothing but a lookup
+            $delay = $throttle->getDelayForEvent(self::THROTTLE_SCOPE, $address);
+            if ($delay > 0) {
+                $this->flash->addMessage(
+                    'error_detected',
+                    str_replace(
+                        '%seconds',
+                        (string)$delay,
+                        _T("Too many requests. Please try again in %seconds seconds.", "helloasso")
+                    )
+                );
+                return $response
+                    ->withStatus(301)
+                    ->withHeader('Location', $this->routeparser->urlFor('helloasso_form'));
+            }
+
+            // The attempt is counted, not its outcome: what is limited is how many
+            // times the form can be submitted, whatever it answers
+            $throttle->recordEvent(self::THROTTLE_SCOPE, $address, 120, 3600);
+        }
 
         // Only reasons proposed to the current user can be paid
         $item_id = (int)($helloasso_request['item_id'] ?? 0);
