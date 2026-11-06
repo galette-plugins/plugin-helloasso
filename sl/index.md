@@ -1,5 +1,5 @@
 ---
-title: Galette HelloAsso
+title: Galette HalloAsso
 description: Vtičnik za upravljanje plačil članarin in donacij prek storitve HelloAsso
 ---
 
