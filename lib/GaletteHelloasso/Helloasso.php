@@ -33,10 +33,6 @@ class Helloasso
     public const string API_ROUTE = 'https://api.helloasso.com/';
     public const string TEST_API_ROUTE = 'https://api.helloasso-sandbox.com/';
 
-    private Db $zdb;
-    private Preferences $preferences;
-    private ?ClientInterface $client;
-
     /** @var array<int, array<string,mixed>> */
     private array $prices;
     private bool $test_mode;
@@ -70,11 +66,8 @@ class Helloasso
      * @param Preferences      $preferences Preferences
      * @param ?ClientInterface $client      HTTP client, a default one is built if null
      */
-    public function __construct(Db $zdb, Preferences $preferences, ?ClientInterface $client = null)
+    public function __construct(private readonly Db $zdb, private readonly Preferences $preferences, private ?ClientInterface $client = null)
     {
-        $this->zdb = $zdb;
-        $this->preferences = $preferences;
-        $this->client = $client;
         $this->loaded = false;
         $this->prices = [];
         $this->inactives = [];
@@ -99,10 +92,10 @@ class Helloasso
             foreach ($results as $row) {
                 switch ($row->nom_pref) {
                     case 'helloasso_test_mode':
-                        $this->test_mode = $row->val_pref === '1' ? true : false;
+                        $this->test_mode = $row->val_pref === '1';
                         break;
                     case 'helloasso_sepa_option':
-                        $this->sepa_option = $row->val_pref === '1' ? true : false;
+                        $this->sepa_option = $row->val_pref === '1';
                         break;
                     case 'helloasso_organization_slug':
                         $this->organization_slug = $row->val_pref;
@@ -119,7 +112,7 @@ class Helloasso
                     default:
                         //we've got a preference not intended
                         Analog::log(
-                            '[' . get_class($this) . '] unknown preference `'
+                            '[' . static::class . '] unknown preference `'
                             . $row->nom_pref . '` in the database.',
                             Analog::WARNING
                         );
@@ -137,7 +130,7 @@ class Helloasso
             $this->loadContributionsTypes();
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot load helloasso settings |'
+                '[' . static::class . '] Cannot load helloasso settings |'
                 . $e->getMessage(),
                 Analog::ERROR
             );
@@ -158,7 +151,7 @@ class Helloasso
             $this->amounts_loaded = true;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot load amounts from core contributions types'
+                '[' . static::class . '] Cannot load amounts from core contributions types'
                 . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -264,7 +257,7 @@ class Helloasso
             $this->zdb->execute($update);
 
             Analog::log(
-                '[' . get_class($this)
+                '[' . static::class
                 . '] Helloasso settings were sucessfully stored',
                 Analog::DEBUG
             );
@@ -272,7 +265,7 @@ class Helloasso
             return true;
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot store helloasso settings'
+                '[' . static::class . '] Cannot store helloasso settings'
                 . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -324,7 +317,7 @@ class Helloasso
             } while ($e = $e->getPrevious());
 
             Analog::log(
-                'Unable to store Helloasso tokens | ' . print_r($messages, true),
+                'Unable to store Helloasso tokens | ' . print_r($messages, return: true),
                 Analog::WARNING
             );
             return false;
@@ -381,10 +374,10 @@ class Helloasso
             $request = $client->request('POST', $this->getApiRoute() . 'v5/organizations/' . $this->getOrganizationSlug() . '/checkout-intents', $headers);
             $contents = $request->getBody()->getContents();
 
-            return json_decode($contents, true);
+            return json_decode($contents, associative: true);
         } catch (\Exception $e) {
             Analog::log(
-                '[' . get_class($this) . '] Cannot create Helloasso checkout'
+                '[' . static::class . '] Cannot create Helloasso checkout'
                 . '` | ' . $e->getMessage(),
                 Analog::ERROR
             );
@@ -488,9 +481,9 @@ class Helloasso
                 'form_params' => $parameters
             ];
             $now = new \Datetime();
-            $request = $client->request('POST', $this->getApiRoute(true) . 'token', $post_parameters);
+            $request = $client->request('POST', $this->getApiRoute(auth: true) . 'token', $post_parameters);
             $contents = $request->getBody()->getContents();
-            $json = json_decode($contents, true);
+            $json = json_decode($contents, associative: true);
 
             $this->tokens['access_token'] = $json['access_token'];
             $this->tokens['access_token_expiry'] = $now->add(\DateInterval::createFromDateString($json['expires_in'] . 'second'))->format('Y-m-d H:i:s');
@@ -522,7 +515,7 @@ class Helloasso
             $route = self::TEST_API_ROUTE;
         }
         if ($auth) {
-            $route = $route . 'oauth2/';
+            $route .= 'oauth2/';
         }
         return $route;
     }
@@ -545,7 +538,7 @@ class Helloasso
             ];
             $request = $client->request('GET', $this->getApiRoute() . 'v5/organizations/' . $this->getOrganizationSlug(), $headers);
             $contents = $request->getBody()->getContents();
-            return json_decode($contents, true);
+            return json_decode($contents, associative: true);
         } catch (\Throwable $e) {
             Analog::log(
                 'Exception when calling OrganisationApi->organizationsOrganizationSlugGet: ' . $e->getMessage(),

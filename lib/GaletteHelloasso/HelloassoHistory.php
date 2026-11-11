@@ -56,7 +56,7 @@ class HelloassoHistory extends History
     public function __construct(Db $zdb, Login $login, Preferences $preferences, ?HelloassoHistoryList $filters = null)
     {
         $this->with_lists = false;
-        parent::__construct($zdb, $login, $preferences, $filters);
+        parent::__construct(zdb: $zdb, login: $login, preferences: $preferences, filters: $filters);
     }
 
     /**
@@ -153,7 +153,7 @@ class HelloassoHistory extends History
                     }
 
                     $o['member_fullname'] = $this->getMemberFullName((int)$o['member_id']);
-                    $o['raw_request'] = print_r($oa, true);
+                    $o['raw_request'] = print_r($oa, return: true);
                     $o['request'] = $oa;
 
                     $new[] = $o;

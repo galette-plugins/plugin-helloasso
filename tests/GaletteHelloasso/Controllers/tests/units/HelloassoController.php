@@ -241,7 +241,13 @@ class HelloassoController extends GaletteRoutingTestCase
      */
     private function getReturnPage(array $query): ResponseInterface
     {
-        $request = $this->createRequest('helloasso_success', [], 'GET', 'text/html', $query);
+        $request = $this->createRequest(
+            route_name: 'helloasso_success',
+            route_args: [],
+            method: 'GET',
+            content_type: 'text/html',
+            query_params: $query
+        );
         return $this->app->handle($request);
     }
 
@@ -354,7 +360,7 @@ class HelloassoController extends GaletteRoutingTestCase
         $this->assertSame(['1234'], $this->session->helloasso_checkouts);
 
         $this->assertCount(2, $this->api_calls);
-        $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), true);
+        $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), associative: true);
         $this->assertSame(1250, $checkout['totalAmount']);
         $this->assertSame(['member_id' => $member->id, 'item_id' => 5, 'item_name' => 'donation in money'], $checkout['metadata']);
 
@@ -424,7 +430,7 @@ class HelloassoController extends GaletteRoutingTestCase
 
         $this->assertSame(301, $this->postCheckout(['item_id' => '5', 'amount' => '19.99'])->getStatusCode());
         $this->expectNoLogEntry();
-        $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), true);
+        $checkout = json_decode((string)$this->api_calls[1]['request']->getBody(), associative: true);
         $this->assertSame(1999, $checkout['totalAmount']);
         $this->assertSame(1999, $checkout['initialAmount']);
     }
@@ -469,7 +475,12 @@ class HelloassoController extends GaletteRoutingTestCase
         //HelloAsso production address
         $_SERVER['REMOTE_ADDR'] = '51.138.206.200';
         $sfactory = new \Slim\Psr7\Factory\StreamFactory();
-        $request = $this->createRequest('helloasso_webhook', [], 'POST', 'application/json')
+        $request = $this->createRequest(
+            route_name: 'helloasso_webhook',
+            route_args: [],
+            method: 'POST',
+            content_type: 'application/json'
+        )
             ->withBody($sfactory->createStream(json_encode($notification, JSON_THROW_ON_ERROR)));
         return $this->app->handle($request);
     }
@@ -534,7 +545,12 @@ class HelloassoController extends GaletteRoutingTestCase
         //from another address
         $_SERVER['REMOTE_ADDR'] = '192.0.2.1';
         $sfactory = new \Slim\Psr7\Factory\StreamFactory();
-        $request = $this->createRequest('helloasso_webhook', [], 'POST', 'application/json')
+        $request = $this->createRequest(
+            route_name: 'helloasso_webhook',
+            route_args: [],
+            method: 'POST',
+            content_type: 'application/json'
+        )
             ->withBody($sfactory->createStream(json_encode($this->getPaymentNotification($member->id, 5, 1250))));
         $this->assertSame(403, $this->app->handle($request)->getStatusCode());
         $this->expectLogEntry(\Analog\Analog::ERROR, 'Unauthorized Helloasso notification');
