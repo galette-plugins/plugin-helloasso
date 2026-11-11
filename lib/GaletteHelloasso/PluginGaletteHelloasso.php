@@ -166,6 +166,6 @@ class PluginGaletteHelloasso extends GalettePlugin implements MenuProviderInterf
     {
         $metadata = Factory::createSourceFromAdapter($this->zdb->db);
         $columns = $metadata->getColumnNames(PREFIX_DB . HELLOASSO_PREFIX . HelloassoHistory::TABLE);
-        return in_array('payer_name', $columns, true) ? null : 1.0;
+        return in_array('payer_name', $columns, strict: true) ? null : 1.0;
     }
 }

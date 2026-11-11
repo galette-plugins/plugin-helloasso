@@ -146,7 +146,7 @@ class HelloassoController extends AbstractPluginController
             $metadata['item_id'] = $item_id;
             $metadata['item_name'] = $helloasso_amounts[$item_id]['name'];
 
-            $contains_donation = $contribution_type->isExtension() ? false : true;
+            $contains_donation = !$contribution_type->isExtension();
 
             $checkout = $helloasso->checkout($metadata, (float)$amount * 100, $contains_donation);
 
@@ -339,14 +339,14 @@ class HelloassoController extends AbstractPluginController
 
         if ($this->login->isAdmin()) {
             if (array_key_exists('helloasso_test_mode', $post)) {
-                $helloasso->setTestMode(true);
+                $helloasso->setTestMode(enabled: true);
             } else {
-                $helloasso->setTestMode(false);
+                $helloasso->setTestMode(enabled: false);
             }
             if (array_key_exists('helloasso_sepa_option', $post)) {
-                $helloasso->setSepaOption(true);
+                $helloasso->setSepaOption(enabled: true);
             } else {
-                $helloasso->setSepaOption(false);
+                $helloasso->setSepaOption(enabled: false);
             }
             if (isset($post['helloasso_organization_slug'])) {
                 $helloasso->setOrganizationSlug($post['helloasso_organization_slug']);
@@ -396,7 +396,7 @@ class HelloassoController extends AbstractPluginController
     public function webhook(Request $request, Response $response): Response
     {
         $body = $request->getBody();
-        $post = json_decode($body->getContents(), true);
+        $post = json_decode($body->getContents(), associative: true);
         $helloasso = $this->helloasso;
 
         // Verify notification authenticity
@@ -414,7 +414,7 @@ class HelloassoController extends AbstractPluginController
         }
 
         Analog::log(
-            "Helloasso webhook request: " . var_export($post, true),
+            "Helloasso webhook request: " . var_export($post, return: true),
             Analog::DEBUG
         );
 
@@ -540,7 +540,7 @@ class HelloassoController extends AbstractPluginController
             throw new HttpNotFoundException($request);
         }
 
-        if (!in_array((string)$checkout_id, $this->session->helloasso_checkouts ?? [], true)) {
+        if (!in_array((string)$checkout_id, $this->session->helloasso_checkouts ?? [], strict: true)) {
             Analog::log(
                 'HelloAsso checkout #' . $checkout_id . ' has not been started from this session, its details are not displayed.',
                 Analog::WARNING
@@ -569,7 +569,7 @@ class HelloassoController extends AbstractPluginController
                 . $checkout_id,
                 $headers
             );
-            $checkout = json_decode($api_response->getBody()->getContents(), true);
+            $checkout = json_decode($api_response->getBody()->getContents(), associative: true);
 
             $details = [
                 'amount' => $checkout['order']['amount']['total'] / 100,
